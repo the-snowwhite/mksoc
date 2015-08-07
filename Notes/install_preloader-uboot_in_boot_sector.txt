@@ -1,3 +1,6 @@
+# when "FAT_BOOT_PARTITION" is not set (= 0)
+# u-boot.img needs to be in boot partition (sector 4) and not on fat partition
+
 lsblk
 # notice sd-card ( /dev/sdn )
 sudo fdisk -l /dev/sdn
