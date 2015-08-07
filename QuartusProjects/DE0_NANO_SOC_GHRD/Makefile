@@ -588,7 +588,7 @@ boot.script: Makefile
 	@$(ECHO) "Generating $@"
 	@$(ECHO) "fatload mmc 0:1 \$$fpgadata $(QUARTUS_RBF);" >>$@
 	@$(ECHO) "fpga load 0 \$$fpgadata \$$filesize;" >>$@
-	@$(ECHO) "set fdtimage $(DEVICE_TREE_BLOB);" >>$@
+	@$(ECHO) "setenv fdtimage $(DEVICE_TREE_BLOB);" >>$@
 	@$(ECHO) "run bridge_enable_handoff;" >>$@
 	@$(ECHO) "run mmcload;" >>$@
 	@$(ECHO) "run mmcboot;" >>$@
