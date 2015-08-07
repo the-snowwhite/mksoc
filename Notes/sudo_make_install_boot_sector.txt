@@ -1,0 +1,18 @@
+lsblk
+# notice sd-card ( /dev/sdn )
+sudo fdisk -l /dev/sdn
+# notice A2 partition ( /dev/sdn3 )
+
+# sd card in /dev/sdn (unmounted)
+
+# cd mksoc/QuartusProjects/DE0_NANO_SOC_GHRD (makefile folder) 
+
+# preloader:
+sudo ~/altera/15.0/embedded/host_tools/altera/diskutils/alt-boot-disk-util -p software/preloader/preloader-mkpimage.bin -a write /dev/sdn
+--- or ---
+sudo dd if=software/preloader/preloader-mkpimage.bin of=/dev/sdn3 bs=64k seek=0
+
+# u-boot:
+sudo ~altera/15.0/embedded/host_tools/altera/diskutils/alt-boot-disk-util -b software/preloader/uboot-socfpga/u-boot.img -a write /dev/sdn
+--- or ---
+sudo dd if=software/preloader/uboot-socfpga/u-boot.img of=/dev/sdd3 bs=64k seek=4
