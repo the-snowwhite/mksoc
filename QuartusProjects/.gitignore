@@ -64,6 +64,9 @@
 *.qdf
 *.bz2
 *.gz
+*.csv
+*.script
+*.sopcinfo
 # ignore Quartus II generated folders
 db/
 incremental_db/
