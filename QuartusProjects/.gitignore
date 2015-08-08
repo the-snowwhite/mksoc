@@ -65,6 +65,7 @@
 *.bz2
 *.gz
 *.csv
+*.dts
 *.script
 *.sopcinfo
 # ignore Quartus II generated folders
