@@ -71,3 +71,8 @@ simulation/
 timing/
 testbench/
 *_sim/
+hps_isw_handoff/
+output_files/
+soc_system/
+software/
+stamp/
