@@ -1,0 +1,30 @@
+# insert sdcard
+# cd to makefile folder
+
+lsblk
+
+# notice sd-card name: (sdn)
+
+sudo fdisk -l /dev/sdn
+# notice A2 partition ( /dev/sdn3 )
+
+# preloader:
+sudo dd if=software/preloader/preloader-mkpimage.bin of=/dev/sdn3 bs=64k seek=0
+
+# u-boot (in bootsector ) (Default when "FAT_BOOT_PARTITION" is not set )
+sudo dd if=software/preloader/uboot-socfpga/u-boot.img of=/dev/sdd3 bs=64k seek=4
+
+# Fat files (devicetree(*.dtb), fpga config file(*.rbf),boot script(u-boot.scr))
+
+sudo fdisk -l /dev/sdn
+# notice FAT32 partition ( /dev/sdn1 )
+
+sudo makdir -p /mnt/boot
+
+sudo mount -o uid=1000,gid=1000 /dev/sdn1 /mnt/boot
+sudo tar -zxf sd_fat.tar.gz -C /mnt/boot
+sync
+sudo umount /mnt/boot
+
+# move sd-card into dev-board and power up #
+# com settings 115200 8n1                  #
