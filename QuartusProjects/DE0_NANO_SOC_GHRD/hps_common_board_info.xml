@@ -24,6 +24,8 @@ these aliases allows seamless support of multiple emacs
 
 <DTAppend name="status" type="string" parentlabel="hps_0_wd_timer1" val="disabled" />
 
+<DTAppend name="compatible" type="string" parentlabel="hps_0_rstmgr" val="syscon" action="add"/>
+
 <DTAppend name="pmu0" type="node" parentlabel="sopc0" newlabel="pmu"/>
 <DTAppend name="#address-cells" type="number" parentlabel="pmu" val="1"/>
 <DTAppend name="#size-cells" type="number" parentlabel="pmu" val="1"/>
