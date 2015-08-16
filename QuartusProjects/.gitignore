@@ -82,3 +82,5 @@ output_files/
 soc_system/
 software/
 stamp/
+# ignore qsys generated folder
+.qsys_edit/
