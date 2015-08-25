@@ -272,6 +272,9 @@ QUARTUS_RBF := $(patsubst %.sof,%.rbf,$(QUARTUS_SOF))
 #
 # CVSoC DevBoard SW1 MSEL should be set to up,down,up,down,up,up
 #
+# SoCKit: SW6 MSEL[4:0] should be set to 0 1 0 1 0
+#		FPP x32, Fast, compressed bitstream
+#
 
 ifeq ($(HAVE_QUARTUS),1)
 $(QUARTUS_RBF): $(QUARTUS_STAMP)
@@ -607,6 +610,9 @@ $(SD_FAT_TGZ): $(SD_FAT_TGZ_DEPS)
 	@$(RM) $@
 	@$(MKDIR) $(@D)
 	$(TAR) -czf $@ $^
+
+HELP_TARGETS += sd-fat
+sd-fat.HELP := Create a tarball with the uboot script, dtb and rbf files
 
 .PHONY: sd-fat
 sd-fat: $(SD_FAT_TGZ)
