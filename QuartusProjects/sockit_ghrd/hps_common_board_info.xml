@@ -26,6 +26,8 @@ these aliases allows seamless support of multiple emacs
 </DTAppend>
 
 <DTAppend name="status" type="string" parentlabel="hps_0_wd_timer1" val="disabled" />
+<DTAppend name="compatible" type="string" parentlabel="hps_0_rstmgr" val="syscon" action="add"/>
+
 <DTAppend name="phy-mode" type="string" parentlabel="hps_0_gmac1" val="rgmii"/>
 
 <DTAppend name="snps,phy-addr" type="hex" parentlabel="hps_0_gmac1" val="0xffffffff"/>
@@ -209,16 +211,20 @@ these aliases allows seamless support of multiple emacs
 <DTAppend name="compatible" type="string" parentlabel="fpgabridge0" val="altr,socfpga-hps2fpga-bridge"/>
 <DTAppend name="label" type="string" parentlabel="fpgabridge0" val="hps2fpga"/>
 <DTAppend name="clocks" type="phandle" parentlabel="fpgabridge0" val="l4_main_clk"/>
+<DTAppend name="init-val" type="number" parentlabel="fpgabridge0" val="1"/>
 
 <DTAppend name="fpgabridge@1" type="node" parentlabel="sopc0" newlabel="fpgabridge1"/>
 <DTAppend name="compatible" type="string" parentlabel="fpgabridge1" val="altr,socfpga-lwhps2fpga-bridge"/>
 <DTAppend name="label" type="string" parentlabel="fpgabridge1" val="lwhps2fpga"/>
 <DTAppend name="clocks" type="phandle" parentlabel="fpgabridge1" val="l4_main_clk"/>
+<DTAppend name="init-val" type="number" parentlabel="fpgabridge1" val="1"/>
 
 <DTAppend name="fpgabridge@2" type="node" parentlabel="sopc0" newlabel="fpgabridge2"/>
 <DTAppend name="compatible" type="string" parentlabel="fpgabridge2" val="altr,socfpga-fpga2hps-bridge"/>
 <DTAppend name="label" type="string" parentlabel="fpgabridge2" val="fpga2hps"/>
 <DTAppend name="clocks" type="phandle" parentlabel="fpgabridge2" val="l4_main_clk"/>
+<DTAppend name="init-val" type="number" parentlabel="fpgabridge2" val="1"/>
+
 <DTAppend name="usbphy@0" type="node" parentlabel="sopc0" newlabel="usbphy0" />
 <DTAppend name="#phy-cells" type="number" val="0" parentlabel="usbphy0" />
 <DTAppend name="compatible" type="string" val="usb-nop-xceiv" parentlabel="usbphy0" />
