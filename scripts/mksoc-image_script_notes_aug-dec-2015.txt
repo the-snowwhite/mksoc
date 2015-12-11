@@ -1,0 +1,536 @@
+#------------------------------------------------------------------------------------------------------------
+#u-boot-2015.txt
+#------------------------------------------------------------------------------------------------------------
+
+export ARCH=arm
+export PATH=/home/mib/altera/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/:$PATH
+export CROSS_COMPILE=arm-linux-gnueabihf-
+
+make mrproper
+make socfpga_de0_nano_soc_defconfig
+make u-boot-with-spl-dtb.sfp -j16
+lsblk
+sudo dd if=u-boot-with-spl-dtb.sfp  of=/dev/sdk3 bs=64k seek=0
+sync
+
+# ---- for net boot:
+=> setenv ethaddr 12:07:a5:21:48:00
+=> saveenv
+
+#------------------------------------------------------------------------------------------------------------
+#boot-scr-gen.txt
+#------------------------------------------------------------------------------------------------------------
+
+mkimage  -A arm -O linux -T script -C none -a 0 -e 0 -n "Workshop 2 Script" -d boot.script u-boot.scr
+
+
+export ARCH=arm
+export PATH=/home/mib/altera/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/:$PATH
+export CROSS_COMPILE=arm-linux-gnueabihf-
+
+PRELOADER.BINARY := $(PRELOADER_SRC_DIR)/spl/u-boot-spl.bin
+PRELOADER.MKPIMAGE_BINARY := preloader-mkpimage.bin
+UBOOT.BINARY := $(PRELOADER_SRC_DIR)/u-boot.bin
+
+
+mkpimage --header-version 0 -o $@ $< $< $< $<
+mkpimage --header-version 0 -o preloader-mkpimage.bin spl/u-boot-spl.bin spl/u-boot-spl.bin spl/u-boot-spl.bin spl/u-boot-spl.bin
+
+#------------------------------------------------------------------------------------------------------------
+#mksoc-mibnas2.txt
+#------------------------------------------------------------------------------------------------------------
+
+# dd-wrt - Additional DNSMasq Options:
+#dhcp-boot=zImage,mibnas1,192.168.11.200
+dhcp-boot=zImage,mibnas3,192.168.10.200
+
+# -----------------------------------
+
+# mksoc mibnas2
+# eth0: device MAC address 62:35:77:de:f5:7d
+# eth0: device MAC address 12:07:a5:21:48:c5
+
+
+# --- Target prerequisites:
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install nfs-common
+
+sudo mkdir -p /mnt/nfsfs
+sudo mount -t nfs mibnas2:soc_rootfs /mnt/nfsfs
+sudo umount /mnt/nfsfs
+# ---> on host
+
+mib@Debian-8:~$ sudo dd bs=1M count=3700 if=/dev/sdk of=~/mkcvsoc_Debian-Jessie-3.10.37-ltsi-rt37-multiboot-nfs_rev001.img
+3700+0 records in
+3700+0 records out
+3879731200 bytes (3.9 GB) copied, 42.2819 s, 91.8 MB/s
+
+# ----------- compress rootfs --------------------------:
+sudo losetup --show -f ~/mkcvsoc_Debian-Jessie-3.10.37-ltsi-rt37-multiboot-nfs_rev001.img
+# input password ...
+sudo partprobe /dev/loop0
+sudo mount /dev/loop0p2 /mnt/rootfs
+
+#sudo mount /dev/sdk2 /mnt/rootfs
+cd /mnt/rootfs
+sudo sh -c 'tar -c ./ | pbzip2 -vc -9 > /home/mib/Documents/Altera/root-fs/deb8mk-rootfs.tar.bz2'
+#sudo tar cpjfv /opt/qt-beaglebone-black/rootfs-tar.tar.bz2 ./
+sudo chown $USER /home/mib/Documents/Altera/root-fs/deb8mk-rootfs.tar.bz2
+
+cd ~/
+sudo umount  /mnt/rootfs
+#-------------------             ------------------------#
+# uncompress rootfs to nfs folder -------------
+sudo mkdir -p /mnt/nfsfs
+sudo mount -t nfs mibnas2:soc_rootfs /mnt/nfsfs
+
+mkdir /mnt/nfsfs/deb8mk
+--- or clean folder:
+sudo rm -rf /mnt/nfsfs/deb8mk/*
+
+sudo tar --strip-components=1 --use=lbzip2 -xf /home/mib/Documents/Altera/root-fs/deb8mk-rootfs.tar.bz2 -C /mnt/nfsfs/deb8mk
+
+#- edit nfs rootfs files ----------------------------------------------#
+sudo bash -c 'cat > /mnt/nfsfs/deb8mk/etc/network/interfaces << "EOF"
+auto lo
+iface lo inet loopback
+EOF'
+
+# mib@Debian-8:~$ cat /mnt/nfsfs/deb8mk/etc/network/interfaces
+# auto lo
+# iface lo inet loopback
+
+sudo bash -c 'cat > /mnt/nfsfs/deb8mk/etc/resolv.conf << "EOF"
+nameserver 192.168.11.1
+EOF'
+
+# cat /mnt/nfsfs/deb8mk/etc/resolv.conf 
+# nameserver 192.168.11.1
+
+# Edit the root filesystem table to mount temporary files in  RAM. Reduces traffic:
+
+sudo bash -c 'cat > /mnt/nfsfs/deb8mk/etc/fstab << "EOF"
+# /etc/fstab: static file system information.
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+proc            /proc           proc    defaults        0       0
+/dev/nfs        /               nfs     defaults        1       1
+none            /tmp            tmpfs   defaults        0       0
+none            /var/lock       tmpfs   defaults        0       0
+none            /var/tmp        tmpfs   defaults        0       0
+EOF'
+
+#----- old file ---------
+# /etc/fstab: static file system information.
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# /dev/root      /               ext3    noatime,errors=remount-ro 0 1
+# tmpfs          /tmp            tmpfs   defaults          0       0
+#-------- ----------------------
+#--- new content -------------------
+# cat /mnt/nfsfs/deb8mk/etc/fstab
+# /etc/fstab: static file system information.
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# proc            /proc           proc    defaults        0       0
+# /dev/nfs        /               nfs     defaults        1       1
+# none            /tmp            tmpfs   defaults        0       0
+# none            /var/lock       tmpfs   defaults        0       0
+# none            /var/tmp        tmpfs   defaults        0       0
+
+sudo umount /mnt/nfsfs
+sudo losetup -D
+
+# -- setup boot on target ------------------------------:
+setenv ethaddr 12:07:a5:21:48:c5
+saveenv
+reset
+
+#--------------------  nfs boot script    -------------------------:
+dhcp
+
+setenv tftp_dir mksoc
+setenv nfs_rfs /soc_rootfs/deb8mk
+
+setenv bootargs ip=dhcp
+setenv bootargs ${bootargs} console=ttyS0,115200
+
+setenv bootargs ${bootargs} root=/dev/nfs rw nfsroot=${serverip}:${nfs_rfs}
+
+setenv bitstream_image output_files/DE0_NANO_SOC_GHRD.rbf
+setenv bitstream_tftp 'tftp ${fpgadata} ${tftp_dir}/${bitstream_image}'
+setenv bitstream_load 'fpga load 0 ${fpgadata} ${filesize}'
+
+setenv devicetree_image DE0_NANO_SOC_GHRD.dtb
+setenv devicetree_tftp 'tftp ${fdtaddr} ${tftp_dir}/${devicetree_image}'
+
+setenv boot_now 'bootz ${loadaddr} - ${fdtaddr}'
+
+run bitstream_tftp bitstream_load devicetree_tftp bridge_enable_handoff boot_now
+
+
+setenv fdtimage mksoc/DE0_NANO_SOC_GHRD.dtb
+tftp $fdtaddr $fdtimage
+
+#------------------------------------------------------------------------------------------------------------
+#add-header-to-spl.txt
+#------------------------------------------------------------------------------------------------------------
+
+mkimage  -A arm -O linux -T script -C none -a 0 -e 0 -n "Workshop 2 Script" -d boot.script u-boot.scr
+
+
+export ARCH=arm
+export PATH=/home/mib/altera/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/bin/:$PATH
+export CROSS_COMPILE=arm-linux-gnueabihf-
+
+PRELOADER.BINARY := $(PRELOADER_SRC_DIR)/spl/u-boot-spl.bin
+PRELOADER.MKPIMAGE_BINARY := preloader-mkpimage.bin
+UBOOT.BINARY := $(PRELOADER_SRC_DIR)/u-boot.bin
+
+
+mkpimage --header-version 0 -o $@ $< $< $< $<
+mkpimage --header-version 0 -o preloader-mkpimage.bin spl/u-boot-spl.bin spl/u-boot-spl.bin spl/u-boot-spl.bin spl/u-boot-spl.bin
+
+make u-boot-with-spl-dtb.sfp
+
+
+lsblk
+# notice sd-card ( /dev/sdk )
+sudo fdisk -l /dev/sdk
+# notice A2 partition
+#sudo dd if=preloader-mkpimage.bin of=/dev/sdk3 bs=64k seek=0
+#sudo dd if=u-boot-with-spl-dtb.sfp  of=/dev/sdk3 bs=64k seek=0
+sudo dd if=u-boot-with-spl-dtb.sfp  of=/dev/sdl3 bs=64k seek=0
+
+
+# mib@Debian-8:~/altera/u-boot-socfpga-2015.10-rc3$ sudo dd if=preloader-mkpimage.bin of=/dev/sdk3 bs=64k seek=0
+# 4+0 records in
+# 4+0 records out
+# 262144 bytes (262 kB) copied, 0.0236222 s, 11.1 MB/s
+
+------ Install u-boot to sd-card -------------
+
+sudo dd if=u-boot.img of=/dev/sdk3 bs=64k seek=4
+
+# mib@Debian-8:~/altera/u-boot-socfpga-2015.10-rc3$ sudo dd if=u-boot.img of=/dev/sdk3 bs=64k seek=4
+# 4+1 records in
+# 4+1 records out
+# 320660 bytes (321 kB) copied, 0.0331329 s, 9.7 MB/s
+
+
+cd uboot-socfpga
+--- or ---
+cd '/home/mib/altera/Projects/DE0_NANO_SOC_GHRD/software/spl_bsp/uboot-socfpga' 
+
+
+
+sudo mount /dev/sdk1 /mnt/boot
+
+sudo cp u-boot.bin /mnt/boot
+
+sync
+sudo umount /mnt/boot
+
+#------------------------------------------------------------------------------------------------------------
+#2015-preloader-def-env-ethaddrset.txt
+#------------------------------------------------------------------------------------------------------------
+
+U-Boot SPL 2015.10-rc3 (Sep 10 2015 - 12:25:20)
+drivers/ddr/altera/sequencer.c: Preparing to start memory calibration
+drivers/ddr/altera/sequencer.c: CALIBRATION PASSED
+drivers/ddr/altera/sequencer.c: Calibration complete
+
+
+U-Boot 2015.10-rc3 (Sep 10 2015 - 12:25:20 +0200)
+
+CPU:   Altera SoCFPGA Platform
+FPGA:  Altera Cyclone V, SE/A4 or SX/C4, version 0x0
+BOOT:  SD/MMC Internal Transceiver (3.0V)
+       Watchdog enabled
+I2C:   ready
+DRAM:  1 GiB
+MMC:   SOCFPGA DWMMC: 0
+In:    serial
+Out:   serial
+Err:   serial
+Model: Terasic DE0-Nano(Atlas)
+Net:   eth0: ethernet@ff702000
+Hit any key to stop autoboot:  0 
+=> dhcp
+Speed: 1000, full duplex
+BOOTP broadcast 1
+BOOTP broadcast 2
+BOOTP broadcast 3
+BOOTP broadcast 4
+DHCP client bound to address 192.168.1.146 (2702 ms)
+Using ethernet@ff702000 device
+TFTP from server 192.168.10.200; our IP address is 192.168.1.146; sending through gateway 11
+Filename 'zImage'.
+Load address: 0x0
+Loading: #################################################################
+         #################################################################
+         #################################################################
+         #####################################################
+         2.3 MiB/s
+done
+Bytes transferred = 3631624 (376a08 hex)
+=> printenv
+baudrate=115200
+bootargs=console=ttyS0,115200
+bootcmd=run mmcload; run mmcboot
+bootdelay=3
+bootfile=zImage
+bootimage=zImage
+bootmode=sd
+dnsip=192.168.1.1
+ethact=ethernet@ff702000
+ethaddr=12:07:a5:21:48:00
+fdt_addr=100
+fdtimage=socfpga.dtb
+fileaddr=0
+filesize=376a08
+fpgatype=cv_se_a4
+fsloadcmd=ext2load
+gatewayip=192.168.1.1
+hostname=socfpga_de0_nano_soc
+ipaddr=192.168.1.146
+loadaddr= 0x01000000
+mmcboot=setenv bootargs console=ttyS0,115200 root=${mmcroot} rw rootwait;bootz ${loadaddr} }
+mmcload=mmc rescan;load mmc 0:1 ${loadaddr} ${bootimage};load mmc 0:1 ${fdt_addr} ${fdtimag}
+mmcroot=/dev/mmcblk0p2
+netmask=255.255.255.0
+ramboot=setenv bootargs console=ttyS0,115200;bootm ${loadaddr} - ${fdt_addr}
+serverip=192.168.10.200
+stderr=serial
+stdin=serial
+stdout=serial
+ver=U-Boot 2015.10-rc3 (Sep 10 2015 - 12:25:20 +0200)
+
+Environment size: 898/4092 bytes
+
+#------------------------------------------------------------------------------------------------------------
+#tftp-nfs-boot.txt
+#------------------------------------------------------------------------------------------------------------
+
+
+# --- Target prerequisites:
+sudo apt-get install nfs-common
+
+
+# - orig mmc boot script --------:
+fatload mmc 0:1 $fpgadata output_files/DE1_SOC_Linux_FB.rbf;
+fpga load 0 $fpgadata $filesize;
+setenv fdtimage soc_system.dtb;
+run bridge_enable_handoff;
+run mmcload;
+run mmcboot;
+
+# -----------------------------------
+
+setenv bootfile zImage
+setenv autoload no
+dhcp 192.168.11.200:HolosynthIV_DE1SoC-Q15.0_15-inch-lcd/zImage
+
+
+setenv ipaddr 192.168.11.199
+setenv autoload no
+setenv serverip 192.168.11.200
+
+
+# u-boot-:
+
+# ce:6b:a2:74:7f:ae
+
+# --> Net:   mii0
+# --> Warning: failed to set MAC address
+
+# to remove type (modify first) setenv ethaddr 00:1e:ac:XX:XX:XX --> saveenv
+# source: http://www.armadeus.com/wiki/index.php?title=Ethernet_MAC_address
+
+# --> cvsoc:
+setenv ethaddr ce:6b:a2:74:7f:ae
+saveenv
+
+# --> sdsoc:
+setenv ethaddr 12:07:a5:21:48:00
+saveenv
+
+# ---------- Sockit Debian Jessie install script example
+
+setenv autoload no
+dhcp
+# loadaddr=0x8000   (zImage)
+# fdtaddr=0x00000100 ( devicetree *.dtb)
+# fpgadata=0x2000000 ( also ramdiskaddr)
+# bootfile=/tftpboot/boot.scr.uimg
+
+setenv kernel_addr_r ${loadaddr}
+setenv fdt_addr_r ${fdtaddr}
+setenv ramdisk_addr_r ${fpgadata}
+
+tftpboot ${kernel_addr_r} /mksoc/zImage
+
+tftpboot ${fdt_addr_r} /tftpboot/debian-installer/armhf/dtbs/socfpga_cyclone5_sockit.dtb
+
+tftpboot ${ramdisk_addr_r} ${bootfile}
+
+setenv bootargs console=ttyS0,115200 rootwait panic=10
+
+bootz ${kernel_addr_r} ${ramdisk_addr_r}:${filesize} ${fdt_addr_r}
+
+# Note: When booting standard linux images, it is important to load the initial ramdisk image after the kernel and the dtb as U-Boot sets the filesize variable to the size of the last file loaded and the bootz command requires the size of the ramdisk image to work correctly. In case of booting a platform-specific kernel, i.e. a kernel without device-tree, simply omit the ${fdt_addr_r} parameter.
+
+
+
+# ---------------------------------------------
+
+# ---------------------------------------------
+
+
+
+
+
+
+
+setenv ipaddr 129.168.11.199
+setenv serverip 192.168.11.200
+
+#--------------------  tftp boot script ----------------------------------------------:
+
+tftp $fpgadata HolosynthIV_DE1SoC-Q15.0_15-inch-lcd/DE1_SOC_Linux_FB.rbf
+fpga load 0 $fpgadata $filesize
+setenv fdtimage soc_system.dtb
+run bridge_enable_handoff
+tftp $loadaddr $bootimage
+tftp $fdtaddr $fdtimage
+
+setenv bootargs console=ttyS0,115200 root=${mmcroot} rw rootwait;
+
+bootz $loadaddr - $fdtaddr
+
+
+# ---------------------------------------------
+
+# ---------------------------------------------
+
+setenv bootargs ip=dhcp
+setenv bootargs ${bootargs} console=ttyS0,115200
+
+setenv bootargs console=ttyS0,115200 
+
+
+
+
+#--------------------  nfs boot script    -------------------------:
+setenv autoload no
+dhcp
+
+setenv tftp_dir mksoc
+setenv nfs_rfs /soc_rootfs/deb8cv
+
+setenv bootargs ip=dhcp
+setenv bootargs ${bootargs} console=ttyS0,115200
+
+setenv nfs_ip 192.168.10.200
+setenv bootargs ${bootargs} root=/dev/nfs rw nfsroot=${nfs_ip}:${nfs_rfs}
+
+setenv bitstream_image output_files/DE0_NANO_SOC_GHRD.rbf
+setenv bitstream_addr 0x2000000
+setenv bitstream_tftp 'tftp ${bitstream_addr} ${tftp_dir}/${bitstream_image}'
+setenv bitstream_load 'fpga load 0 ${bitstream_addr} ${filesize}'
+
+setenv devicetree_image DE0_NANO_SOC_GHRD.dtb
+setenv devicetree_addr 0x00000100
+setenv devicetree_tftp 'tftp ${devicetree_addr} ${tftp_dir}/${devicetree_image}'
+
+setenv kernel_image zImage
+setenv kernel_addr 0x8000
+setenv kernel_tftp 'tftp ${kernel_addr} ${tftp_dir}/${kernel_image}'
+
+setenv boot_now 'bootz ${kernel_addr} - ${devicetree_addr}'
+
+#run bitstream_tftp bitstream_load kernel_tftp devicetree_tftp bridge_enable_handoff boot_now
+run bitstream_tftp bitstream_load kernel_tftp devicetree_tftp boot_now
+
+# ---------- Sockit nfs boot script example
+
+>> setenv nfsboot "setenv bootargs console=ttyS0,57600 ip=dhcp
+>> root=/dev/nfs nfsroot=192.168.1.102:/nfsroot rw rootwait;bootm
+>> ${loadaddr} - ${fdtaddr}"
+>>
+>> to do it. Of course 192.168.0.102 is the ip address of my laptop where
+>> I set up NFS.
+>>
+>> If you want to save this setting, use:
+>>
+>> saveenv
+
+>>         run mmcload             (For kernel and DTB from SD card0
+>>         run nfsboot             (Boot with root FS on NFS)
+
+#--------------------   NFS root            -------------------------
+# compress rootfs:
+sudo losetup --show -f ~/cvsoc_Debian-Jessie-3.10.37-ltsi-rt37-Synth-qvcptest_nfs.img
+# input password ...
+sudo partprobe /dev/loop0
+sudo mount /dev/loop0p2 /mnt/rootfs
+
+#sudo mount /dev/sdk2 /mnt/rootfs
+cd /mnt/rootfs
+sudo sh -c 'tar -c ./ | pbzip2 -vc -9 > /home/mib/Documents/Altera/root-fs/deb8cv-rootfs.tar.bz2'
+#sudo tar cpjfv /opt/qt-beaglebone-black/rootfs-tar.tar.bz2 ./
+sudo chown $USER /home/mib/Documents/Altera/root-fs/deb8cv-rootfs.tar.bz2
+
+cd ~/
+sudo umount  /mnt/rootfs
+
+sudo mount -t nfs mibnas1:soc_rootfs /mnt/rootfs
+
+mkdir /mnt/rootfs/deb8cv
+--- or clean folder:
+sudo rm -rf /mnt/rootfs/deb8cv/*
+
+sudo tar --strip-components=1 --use=lbzip2 -xf /home/mib/Documents/Altera/root-fs/deb8cv-rootfs.tar.bz2 -C /mnt/rootfs/deb8cv
+
+mib@Debian-8:~$ sudo nano /mnt/rootfs/deb8cv/etc/network/interfaces
+mib@Debian-8:~$ cat /mnt/rootfs/deb8cv/etc/network/interfaces
+auto lo
+iface lo inet loopback
+
+sudo nano /mnt/rootfs/deb8cv/etc/resolv.conf 
+mib@Debian-8:~$ sudo nano /mnt/rootfs/deb8cv/etc/resolv.conf 
+mib@Debian-8:~$ cat /mnt/rootfs/deb8cv/etc/resolv.conf 
+domain holotronic
+search holotronic
+nameserver 192.168.11.1
+
+# Edit the root filesystem table to mount temporary files in  RAM. Reduces traffic:
+
+sudo nano /mnt/rootfs/deb8cv/etc/fstab
+#----- old file ---------
+# /etc/fstab: static file system information.
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+/dev/root      /               ext3    noatime,errors=remount-ro 0 1
+tmpfs          /tmp            tmpfs   defaults          0       0
+#-------- ----------------------
+#--- new content -------------------
+
+# /etc/fstab: static file system information.
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+proc            /proc           proc    defaults        0       0
+/dev/nfs        /               nfs     defaults        1       1
+none            /tmp            tmpfs   defaults        0       0
+none            /var/run        tmpfs   defaults        0       0
+none            /var/lock       tmpfs   defaults        0       0
+none            /var/tmp        tmpfs   defaults        0       0
+
+sudo umount /mnt/rootfs
+
+
+
+
+
+        sudo tar --use=lbzip2 -xf ${CURRENT_DIR}/rootfs.tar.bz2 ${ROOTFS_DIR}
