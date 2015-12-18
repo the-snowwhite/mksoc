@@ -109,7 +109,8 @@ sudo apt-get install -y python-zmq libjansson-dev libwebsockets-dev python-pyftp
 #sudo apt-get install python-zmq
 sudo apt-get update
 wget http://ftp.dk.debian.org/debian/pool/main/c/czmq/libczmq-dev_3.0.2-2_armhf.deb
-sudo dpkg -i libczmq-dev_3.0.2-2_armhf.deb
+wget http://ftp.dk.debian.org/debian/pool/main/c/czmq/libczmq3_3.0.2-2_armhf.deb
+sudo dpkg -i libczmq3_3.0.2-2_armhf.deb libczmq-dev_3.0.2-2_armhf.deb
 #sudo dpkg -i libczmq2_2.2.0-0.5.deb  libczmq-dev_2.2.0-0.5.deb
 sudo apt-get -f install
 
