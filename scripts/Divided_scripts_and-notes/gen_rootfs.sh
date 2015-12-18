@@ -25,7 +25,7 @@ function install_dep {
 }
 
 function run_bootstrap {
-sudo qemu-debootstrap --arch=armhf --variant=buildd  --keyring /usr/share/keyrings/debian-archive-keyring.gpg --include=apt-utils,ssh,sudo,ntpdate,openssl,vim,nano,cryptsetup,lvm2,locales,build-essential,gcc,g++,gdb,make,subversion,git,curl,zip,unzip,pbzip2,pigz,dialog,openssh-server,ntpdate,less,cpufrequtils,isc-dhcp-client,ntp,console-setup,ca-certificates,xserver-xorg,xserver-xorg-video-dummy,debian-archive-keyring,debian-keyring,debian-ports-archive-keyring,netbase,iproute2,iputils-ping,iputils-arping,iputils-tracepath,haveged $distro $ROOTFS_DIR http://ftp.debian.org/debian/
+sudo qemu-debootstrap --arch=armhf --variant=buildd  --keyring /usr/share/keyrings/debian-archive-keyring.gpg --include=adduser,resolvconf,apt-utils,ssh,sudo,ntpdate,openssl,vim,nano,cryptsetup,lvm2,locales,login,build-essential,gcc,g++,gdb,make,subversion,git,curl,zip,unzip,pbzip2,pigz,dialog,openssh-server,ntpdate,less,cpufrequtils,isc-dhcp-client,ntp,console-setup,ca-certificates,xserver-xorg,xserver-xorg-video-dummy,debian-archive-keyring,debian-keyring,debian-ports-archive-keyring,netbase,iproute2,iputils-ping,iputils-arping,iputils-tracepath,haveged $distro $ROOTFS_DIR http://ftp.debian.org/debian/
 }
 
 function setup_configfiles {
@@ -596,11 +596,6 @@ function run_chroot {
 #export LANG=C
 
 echo "NOTE: ""Will now mount chroot bindings in  "$ROOTFS_DIR"/{dev,proc,dev/pts,sys,tmp}"
-
-#sudo mount -t proc /proc $ROOTFS_DIR/proc
-#sudo mount -o bind /dev $ROOTFS_DIR/dev
-#sudo mount -o bind /dev/pts $ROOTFS_DIR/dev/pts
-#sudo mount -o bind /sys $ROOTFS_DIR/sys
 
 sudo mount -o bind /dev $ROOTFS_DIR/dev
 sudo mount -o bind /proc $ROOTFS_DIR/proc

@@ -58,6 +58,18 @@ function build_kernel {
 $SCRIPT_ROOT_DIR/build_kernel.sh $CURRENT_DIR
 }
 
+function build_rhn_kernel {
+cd $CURRENT_DIR
+git clone https://github.com/RobertCNelson/armv7-multiplatform
+cd armv7-multiplatform/
+
+git checkout origin/v4.4.x -b tmp
+./build_kernel.sh
+cd ..
+
+}
+
+
 function build_chroot_into_image {
 $SCRIPT_ROOT_DIR/gen_rootfs.sh $CURRENT_DIR /mnt
 }
@@ -66,7 +78,7 @@ function build_chroot_into_folder {
 $SCRIPT_ROOT_DIR/gen_rootfs.sh $CURRENT_DIR
 }
 
-function fetch_rootfs {
+function fetch_rhn_rootfs {
 cd $CURRENT_DIR
 wget -c $ROOTFS_URL
 md5sum $ROOTFS_FILE > md5sum.txt
@@ -74,6 +86,50 @@ md5sum $ROOTFS_FILE > md5sum.txt
 tar xf $ROOTFS_FILE
 mv  $ROOTFS_NAME $ROOTFS_DIR
 }
+
+function gen_initial_sh {
+sudo sh -c 'cat <<EOT > '$ROOTFS_DIR'/home/initial.sh
+#!/bin/bash
+
+sudo mount -t proc proc /proc
+
+DEFGROUPS="sudo,kmem,adm,dialout,machinekit,video,plugdev"
+export LANG=C
+
+
+sudo apt-get -y update
+#sudo apt-get -y upgrade
+sudo apt-get -y install xorg
+
+sudo locale-gen
+
+echo "NOTE: " "Will add user machinekit pw: machinekit"
+sudo /usr/sbin/useradd -s /bin/bash -d /home/machinekit -m machinekit
+sudo bash -c "echo "machinekit:machinekit" | chpasswd"
+sudo adduser machinekit sudo
+sudo chsh -s /bin/bash machinekit
+
+echo "NOTE: ""User Added"
+
+echo "NOTE: ""Will now add user to groups"
+sudo usermod -a -G $DEFGROUPS machinekit
+sync
+
+echo "NOTE: ""Will now run apt update, upgrade"
+sudo apt-get -y update
+#sudo apt-get -y upgrade
+sudo umount /proc
+exit
+EOT'
+
+sudo chmod +x $ROOTFS_DIR/home/initial.sh
+}
+
+function run_initial_sh {
+echo machinekit | sudo bash -c 'chroot $ROOTFS_DIR /bin/bash -c /home/initial.sh -s /bin/bash machinekit'
+sudo chroot $ROOTFS_DIR rm /usr/sbin/policy-rc.d
+}
+
 
 function create_image {
 $SCRIPT_ROOT_DIR/create_img.sh $CURRENT_DIR
@@ -130,6 +186,8 @@ sudo dd bs=512 if=$UBOOT_SPLFILE of=$IMG_FILE seek=2048 conv=notrunc
 sync
 }
 
+
+
 #------------------.............. run functions section ..................-----------#
 echo "#---------------------------------------------------------------------------------- "
 echo "#-------             Image building process start                          -------- "
@@ -138,10 +196,17 @@ echo "#-------------------------------------------------------------------------
 build_uboot
 build_kernel
 
-#build_chroot_into_image
-#build_chroot_into_folder
+##build_rhn_kernel
 
-fetch_rootfs
+##build_chroot_into_image
+build_chroot_into_folder
+
+##fetch_rhn_rootfs
+
+gen_initial_sh
+run_initial_sh
+
+
 create_image
 install_files
 install_uboot
