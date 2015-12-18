@@ -99,16 +99,19 @@ sudo apt-get install -y libudev-dev libmodbus-dev libboost-python-dev libusb-1.0
 #sudo sh -c \
 #    "echo 'deb http://deb.dovetail-automata.com jessie main' > \
 #    /etc/apt/sources.list.d/machinekit.list"
-#sudo apt-get update
+sudo apt-get update
 #sudo apt-get install dovetail-automata-keyring
-#sudo apt-get update
 
-sudo apt-get install -y libczmq-dev python-zmq libjansson-dev libwebsockets-dev libxenomai-dev python-pyftpdlib libzmq3-dev
+sudo apt-get install -y python-zmq libjansson-dev libwebsockets-dev python-pyftpdlib libzmq3-dev
 #cd ${HOME}
 #sudo dpkg -i libwebsockets3_1.3-1.deb libwebsockets-dev_1.3-1.deb
 #sudo apt-get install -f
 
+
 #sudo apt-get install python-zmq
+sudo apt-get update
+wget http://ftp.dk.debian.org/debian/pool/main/c/czmq/libczmq-dev_3.0.2-2_armhf.deb
+sudo dpkg -i libczmq-dev_3.0.2-2_armhf.deb
 #sudo dpkg -i libczmq2_2.2.0-0.5.deb  libczmq-dev_2.2.0-0.5.deb
 #sudo apt-get install -f
 
