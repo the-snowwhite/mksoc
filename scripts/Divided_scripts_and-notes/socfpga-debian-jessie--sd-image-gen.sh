@@ -41,12 +41,21 @@ NCORES=`nproc`
 BOOT_MNT=/mnt/boot
 ROOTFS_MNT=/mnt/rootfs
 
+ROOTFS_URL='https://rcn-ee.com/rootfs/eewiki/minfs/debian-8.2-minimal-armhf-2015-09-07.tar.xz'
+ROOTFS_NAME='debian-8.2-minimal-armhf-2015-09-07'
+ROOTFS_FILE=$ROOTFS_NAME'.tar.xz'
+
+
 #-----------------------------------------------------------------------------------
 # build files
 #-----------------------------------------------------------------------------------
 
-function create_image {
-$SCRIPT_ROOT_DIR/create_img.sh $CURRENT_DIR
+function build_uboot {
+$SCRIPT_ROOT_DIR/build_uboot.sh $CURRENT_DIR
+}
+
+function build_kernel {
+$SCRIPT_ROOT_DIR/build_kernel.sh $CURRENT_DIR
 }
 
 function build_chroot_into_image {
@@ -57,16 +66,21 @@ function build_chroot_into_folder {
 $SCRIPT_ROOT_DIR/gen_rootfs.sh $CURRENT_DIR
 }
 
-function build_uboot {
-$SCRIPT_ROOT_DIR/build_uboot.sh $CURRENT_DIR
+function fetch_rootfs {
+cd $CURRENT_DIR
+wget -c $ROOTFS_URL
+md5sum $ROOTFS_FILE > md5sum.txt
+# TODO compare md5sums (406cd5193f4ba6c2694e053961103d1a  debian-8.2-minimal-armhf-2015-09-07.tar.xz)
+tar xf $ROOTFS_FILE
+mv  $ROOTFS_NAME $ROOTFS_DIR
 }
 
-function build_kernel {
-$SCRIPT_ROOT_DIR/build_kernel.sh $CURRENT_DIR
+function create_image {
+$SCRIPT_ROOT_DIR/create_img.sh $CURRENT_DIR
 }
 
 #-----------------------------------------------------------------------------------
-# install func
+# install files function
 #-----------------------------------------------------------------------------------
 function install_files {
 echo "#-------------------------------------------------------------------------------#"
@@ -86,6 +100,7 @@ sudo mount -o uid=1000,gid=1000 ${DRIVE}p1 $BOOT_MNT
 echo "copying boot sector files"
 sudo cp $KERNEL_DIR/linux/arch/arm/boot/zImage $BOOT_MNT
 sudo cp $KERNEL_DIR/linux/arch/arm/boot/dts/socfpga_cyclone5.dts $BOOT_MNT/socfpga.dts
+#sudo cp $KERNEL_DIR/linux/arch/arm/boot/dts/socfpga_cyclone5_de0_sockit.dts $BOOT_MNT/socfpga.dts
 sudo cp $KERNEL_DIR/linux/arch/arm/boot/dts/socfpga_cyclone5.dtb $BOOT_MNT/socfpga.dtb
 sudo umount $BOOT_MNT
 
@@ -93,9 +108,9 @@ sudo umount $BOOT_MNT
 sudo mkdir -p $ROOTFS_MNT
 sudo mount ${DRIVE}p2 $ROOTFS_MNT
 
-# chroot -------#
-#cd $ROOTFS_DIR
-#sudo tar cf - . | (sudo tar xvf - -C $ROOTFS_MNT)
+# Rootfs -------#
+cd $ROOTFS_DIR
+sudo tar cf - . | (sudo tar xvf - -C $ROOTFS_MNT)
 
 # kernel modules -------#
 cd $KERNEL_DIR/linux
@@ -120,13 +135,16 @@ echo "#-------------------------------------------------------------------------
 echo "#-------             Image building process start                          -------- "
 echo "#---------------------------------------------------------------------------------- "
 
-create_image
+build_uboot
+build_kernel
+
 #build_chroot_into_image
 #build_chroot_into_folder
-#build_uboot
-#build_kernel
-#install_files
-#install_uboot
+
+fetch_rootfs
+create_image
+install_files
+install_uboot
 
 echo "#---------------------------------------------------------------------------------- "
 echo "#-------             Image building process complete                       -------- "

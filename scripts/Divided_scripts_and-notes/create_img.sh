@@ -78,8 +78,8 @@ if [ ! -z "$WORK_DIR" ]; then
         echo "Deleting old imagefile"
         rm -f $ROOTFS_IMG
     fi
-create_rootfs_img 
-#create_sdcard_img
+#create_rootfs_img 
+create_sdcard_img
 
 echo "#---------------------------------------------------------------------------------- "
 echo "#-------------  create_img.sh Part Finished Success  ------------------------------ "

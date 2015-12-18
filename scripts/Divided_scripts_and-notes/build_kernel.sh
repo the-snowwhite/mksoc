@@ -7,16 +7,19 @@ CURRENT_DIR=`pwd`
 WORK_DIR=$1
 
 KERNEL_URL='https://github.com/altera-opensource/linux-socfpga.git'
-KERNEL_VERSION=socfpga-3.10-ltsi-rt
+#KERNEL_URL='https://github.com/RobertCNelson/armv7-multiplatform'
+KERNEL_CHKOUT='linux-rt linux/socfpga-3.10-ltsi-rt'
+#KERNEL_CHKOUT='origin/v4.4.x'
+
 KERNEL_CONF='socfpga_defconfig'
 
 distro=jessie
 
-CC_DIR="${CURRENT_DIR}/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux"
+CC_DIR="${WORK_DIR}/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux"
 CC="${CC_DIR}/bin/arm-linux-gnueabihf-"
 
 
-IMG_FILE=${CURRENT_DIR}/mksoc_sdcard.img
+IMG_FILE=${WORK_DIR}/mksoc_sdcard.img
 DRIVE=/dev/loop0
 
 KERNEL_DIR=${WORK_DIR}/arm-linux-gnueabifh-kernel
@@ -29,7 +32,6 @@ sudo apt-get install bc u-boot-tools
 }
 
 function fetch_kernel {
-export CROSS_COMPILE=$CC
 
 mkdir -p $KERNEL_DIR
 cd $KERNEL_DIR
@@ -37,13 +39,13 @@ git clone $KERNEL_URL linux
 cd linux 
 git remote add linux $KERNEL_URL
 
-
 # git remote show linux
 git fetch linux
-git checkout -b linux-rt linux/$KERNEL_VERSION
+git checkout -b $KERNEL_CHKOUT
 }
 
 function build_kernel {
+export CROSS_COMPILE=$CC
 cd $KERNEL_DIR/linux
 #clean
 make mrproper
