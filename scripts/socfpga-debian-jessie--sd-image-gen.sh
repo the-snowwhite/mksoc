@@ -596,10 +596,12 @@ EOT'
 
 echo "Will mount rootfs/{sys,proc,dev/pts,dev}"
 
-sudo mount -t proc /proc $targetdir/proc
 sudo mount -o bind /dev $targetdir/dev
+sudo mount -o bind /proc $targetdir/proc
 sudo mount -o bind /dev/pts $targetdir/dev/pts
 sudo mount -o bind /sys $targetdir/sys
+sudo mount -t tmpfs tmpfs  $targetdi/tmp
+
 #sudo chroot rootfs /bin/bash exit
 
 sudo chroot $targetdir sudo apt-get -y update
@@ -611,10 +613,7 @@ sudo chroot $targetdir sudo locale-gen
 echo "Will add user machinekit pw: machinekit"
 sudo chroot $targetdir sudo /usr/sbin/useradd -s /bin/bash -d /home/machinekit -m machinekit
 sudo chroot $targetdir sudo bash -c 'echo 'machinekit:machinekit' | chpasswd'
-#sudo chroot $targetdir sudo /usr/sbin/useradd -s /bin/bash -d /home/mib -m mib
-#sudo chroot $targetdir sudo bash -c 'echo 'mib:password' | chpasswd'
 sudo chroot $targetdir sudo adduser machinekit sudo
-#echo 'userid:newpasswd' | chpasswd
 sudo chroot $targetdir sudo chsh -s /bin/bash machinekit
 
 echo "User Added"
@@ -622,9 +621,14 @@ echo "User Added"
 echo "Will now add user to groups"
 sudo chroot $targetdir sudo usermod -a -G "kmem,adm,dialout,machinekit,video,plugdev" machinekit
 sync
+sudo chroot $targetdir sudo apt-get -y update
+sudo chroot $targetdir sudo apt-get -y upgrade
+
+sync
+
 echo "Will unmount rootfs/{sys,proc,dev/pts,dev}"
-sudo umount rootfs/{sys,proc,dev/pts,dev}
-sudo umount rootfs
+sudo umount rootfs/{sys,proc,dev/pts,dev,tmp}
+#sudo umount rootfs
 
 echo "#---------------------------------------------------------------------------------- "
 echo "#----------debian-jessie-armhf-rootfs-gen.sh Part Finished ----------------------- "
