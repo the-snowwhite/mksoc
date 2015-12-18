@@ -73,8 +73,6 @@ sudo apt-get install git-core git-gui dpkg-dev
 
 # ----------- end configurable options --------
 
-# fail the script on any error
-set -e 
 
 # refuse to clone into an existing directory.
 if [ -d "$SCRATCH" ]; then
@@ -115,6 +113,8 @@ sudo dpkg -i libczmq-dev_3.0.2-2_armhf.deb
 #sudo dpkg -i libczmq2_2.2.0-0.5.deb  libczmq-dev_2.2.0-0.5.deb
 sudo apt-get -f install
 
+# fail the script on any error
+set -e 
 
 # setup ccache:
 env CC="ccache gcc" CXX="ccache"
