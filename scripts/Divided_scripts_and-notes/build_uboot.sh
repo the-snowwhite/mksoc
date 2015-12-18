@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# Script to build u-boot + preloader for Altera Soc Platform (Only Nano / Atlas board initially)
+# usage: build_uboot.sh <builddir path>
 #------------------------------------------------------------------------------------------------------
 # Variables
 #------------------------------------------------------------------------------------------------------
@@ -81,7 +84,8 @@ if [ ! -z "$WORK_DIR" ]; then
     cd $UBOOT_DIR
     build_uboot
 else
-    echo no workdir parameter given
+    echo "no workdir parameter given"
+    echo "usage: build_uboot.sh <builddir path>"
 fi
 echo "#---------------------------------------------------------------------------------- "
 echo "#-------------build_uboot.sh Finished --------------------------------- "
