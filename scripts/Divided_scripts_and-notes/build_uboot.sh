@@ -19,7 +19,10 @@ CC_FILE="${CC_DIR}.tar.bz2"
 CC="${CC_DIR}/bin/arm-linux-gnueabihf-"
 
 #UBOOT_VERSION=''
-UBOOT_VERSION='v2015.10'
+#UBOOT_VERSION='v2015.10'
+UBOOT_VERSION='v2016.01-rc2'
+CHKOUT_OPTIONS=''
+#CHKOUT_OPTIONS='-b tmp'
 
 BOARD_CONFIG='socfpga_de0_nano_soc_defconfig'
 MAKE_CONFIG='u-boot-with-spl-dtb.sfp'
@@ -55,7 +58,7 @@ git clone git://git.denx.de/u-boot.git uboot
 cd uboot
 if [ ! -z "$UBOOT_VERSION" ]
 then
-    git checkout v2015.10
+    git checkout $UBOOT_VERSION $CHKOUT_OPTIONS
 fi
 cd ..
 }
