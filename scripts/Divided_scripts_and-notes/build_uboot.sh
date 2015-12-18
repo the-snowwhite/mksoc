@@ -68,7 +68,7 @@ export CROSS_COMPILE=$CC
 
 echo "compiling u-boot"
 make mrproper
-make $MAKE_CONFIG
+make $BOARD_CONFIG
 make $MAKE_CONFIG -j$NCORES
 }
 
