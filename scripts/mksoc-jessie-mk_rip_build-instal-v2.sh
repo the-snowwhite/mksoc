@@ -100,10 +100,13 @@ sudo apt-get -y install libudev-dev libmodbus-dev libboost-python-dev libusb-1.0
 sudo apt-get -y update
 #sudo apt-get -y install dovetail-automata-keyring
 
-sudo apt-get -y install python-zmq libjansson-dev libwebsockets-dev python-pyftpdlib libzmq3-dev
+sudo apt-get -y install python-zmq libjansson-dev python-pyftpdlib libzmq3-dev
 #cd ${HOME}
-#sudo dpkg -i libwebsockets3_1.3-1.deb libwebsockets-dev_1.3-1.deb
-#sudo apt-get -y install -f
+wget -O libwebsockets3_1.3-1.deb http://deb.dovetail-automata.com/pool/main/libw/libwebsockets/libwebsockets3_1.3-1~git95a8abb~1448232640git95a8abb~1jessie~1da_armhf.deb
+wget -O libwebsockets-dev_1.3-1.deb http://deb.dovetail-automata.com/pool/main/libw/libwebsockets/libwebsockets-dev_1.3-1~git95a8abb~1448232640git95a8abb~1jessie~1da_armhf.deb
+sudo dpkg -i libwebsockets3_1.3-1.deb libwebsockets-dev_1.3-1.deb
+
+#sudo apt-get -y -f install
 
 
 #sudo apt-get -y install python-zmq
