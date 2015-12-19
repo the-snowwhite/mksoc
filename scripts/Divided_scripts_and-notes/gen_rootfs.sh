@@ -10,7 +10,7 @@ MOUNT_DIR=$2
 SD_IMG=${WORK_DIR}/mksoc_sdcard.img
 ROOTFS_IMG=${WORK_DIR}/rootfs.img
 DRIVE=/dev/loop0
-ROOTFS_DIR=${CURRENT_DIR}/rootfs
+ROOTFS_DIR=${WORK_DIR}/rootfs
 
 distro=jessie
 
