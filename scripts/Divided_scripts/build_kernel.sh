@@ -59,9 +59,9 @@ make -j$NCORES ARCH=arm 2>&1 | tee ../linux-make_rt-log_.txt
 make -j$NCORES ARCH=arm modules 2>&1 | tee ../linux-modules_rt-log.txt
 }
 
-#sudo make ARCH=arm INSTALL_MOD_PATH=/mnt/rootfs modules_install
-
-#make ARCH=arm -j$NCORES LOADADDR=0x8000 all 2>&1 | tee ../linux-all-log.txt
+echo "#---------------------------------------------------------------------------------- "
+echo "#-------------------+++        build_kernel.sh Start        +++-------------------- "
+echo "#---------------------------------------------------------------------------------- "
 
 if [ ! -z "$WORK_DIR" ]; then
     if [ ! -d ${KERNEL_DIR} ]; then
@@ -73,7 +73,7 @@ if [ ! -z "$WORK_DIR" ]; then
 
 build_kernel
 echo "#---------------------------------------------------------------------------------- "
-echo "#--------            build_kernel.sh Finished Success           ------------------- "
+echo "#--------+++       build_kernel.sh Finished Successfull      +++------------------- "
 echo "#---------------------------------------------------------------------------------- "
 
 else

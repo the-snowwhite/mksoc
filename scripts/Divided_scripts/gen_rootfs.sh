@@ -586,62 +586,58 @@ EOT'
 
 }
 
-function run_chroot {
-#sudo echo "************************************" >&2
-#sudo echo "All rc.d operations denied by policy" >&2
-#sudo echo "************************************" >&2
-#sudo exit 101
+function gen_initial_sh {
+echo "------------------------------------------"
+echo "generating initial.sh chroot config script"
+echo "------------------------------------------"
+sudo sh -c 'cat <<EOT > '$ROOTFS_DIR'/home/initial.sh
+#!/bin/bash
 
-#distro=jessie
-#export LANG=C
+sudo mount -t proc proc /proc
 
-echo "NOTE: ""Will now mount chroot bindings in  "$ROOTFS_DIR"/{dev,proc,dev/pts,sys,tmp}"
+DEFGROUPS="sudo,kmem,adm,dialout,machinekit,video,plugdev"
+export LANG=C
 
-sudo mount -o bind /dev $ROOTFS_DIR/dev
-sudo mount -o bind /proc $ROOTFS_DIR/proc
-sudo mount -o bind /dev/pts $ROOTFS_DIR/dev/pts
-sudo mount -o bind /sys $ROOTFS_DIR/sys
-sudo mount -t tmpfs tmpfs  $ROOTFS_DIR/tmp
 
-#sudo LANG=C chroot rootfs /bin/bash exit
+sudo apt-get -y update
+#sudo apt-get -y upgrade
+sudo apt-get -y install xorg
 
-sudo LANG=C chroot $ROOTFS_DIR sudo apt-get -y update
-sudo LANG=C chroot $ROOTFS_DIR sudo apt-get -y upgrade
-sudo LANG=C chroot $ROOTFS_DIR sudo apt-get -y install xorg
-
-sudo LANG=C chroot $ROOTFS_DIR sudo locale-gen
+sudo locale-gen
 
 echo "NOTE: " "Will add user machinekit pw: machinekit"
-sudo LANG=C chroot $ROOTFS_DIR sudo /usr/sbin/useradd -s /bin/bash -d /home/machinekit -m machinekit
-sudo LANG=C chroot $ROOTFS_DIR sudo bash -c 'echo 'machinekit:machinekit' | chpasswd'
-#sudo LANG=C chroot $ROOTFS_DIR sudo /usr/sbin/useradd -s /bin/bash -d /home/mib -m mib
-#sudo LANG=C chroot $ROOTFS_DIR sudo bash -c 'echo 'mib:password' | chpasswd'
-sudo LANG=C chroot $ROOTFS_DIR sudo adduser machinekit sudo
-#echo 'userid:newpasswd' | chpasswd
-sudo LANG=C chroot $ROOTFS_DIR sudo chsh -s /bin/bash machinekit
+sudo /usr/sbin/useradd -s /bin/bash -d /home/machinekit -m machinekit
+sudo bash -c "echo "machinekit:machinekit" | chpasswd"
+sudo adduser machinekit sudo
+sudo chsh -s /bin/bash machinekit
 
 echo "NOTE: ""User Added"
 
 echo "NOTE: ""Will now add user to groups"
-sudo LANG=C chroot $ROOTFS_DIR sudo usermod -a -G $DEFGROUPS machinekit
+sudo usermod -a -G $DEFGROUPS machinekit
 sync
 
 echo "NOTE: ""Will now run apt update, upgrade"
-sudo LANG=C chroot $ROOTFS_DIR sudo apt-get -y update
-sudo LANG=C chroot $ROOTFS_DIR sudo apt-get -y upgrade
-sync
+sudo apt-get -y update
+#sudo apt-get -y upgrade
+sudo umount /proc
+exit
+EOT'
 
-echo "NOTE: ""Will unmount rootfs/{{tmp,sys,dev/pts,proc,dev}"
-echo "in 5 sec"
-sleep 5
+sudo chmod +x $ROOTFS_DIR/home/initial.sh
+}
 
-#sudo umount $ROOTFS_DIR/{sys,proc,dev/pts,dev}
-if ! umount $ROOTFS_DIR/{tmp,sys,dev/pts,proc,dev}; then
-    echo "NOTE: ""Failed to unmount!  Already unmounted?"
-else
-    echo "NOTE: ""rootfs dev bind unmount successfull"
-fi
-#sudo umount $ROOTFS_DIR/{tmp,sys,dev/pts,proc,dev}
+function run_initial_sh {
+echo "------------------------------------------"
+echo "running initial.sh config script in chroot"
+echo "------------------------------------------"
+sudo chroot $ROOTFS_DIR /bin/bash -c /home/initial.sh
+sudo chroot $ROOTFS_DIR rm /usr/sbin/policy-rc.d
+}
+
+function run_chroot {
+gen_initial_sh
+run_initial_sh
 }
 
 function run_func {
@@ -697,12 +693,12 @@ fi
 
 #----------------------- Run functions ----------------------------#
 echo "#---------------------------------------------------------------------------------- "
-echo "#--------+++   debian-jessie-armhf-rootfs-gen.sh Part Start   +++------------------ "
+echo "#--------------------+++       gen-rootfs.sh Start   +++--------------------------- "
 echo "#---------------------------------------------------------------------------------- "
 
 rootfs_img_install
 #sd_card_img_install
 
 echo "#---------------------------------------------------------------------------------- "
-echo "#---------- debian-jessie-armhf-rootfs-gen.sh Part Finished  ---------------------- "
+echo "#--------------------+++       gen-rootfs.sh End     +++--------------------------- "
 echo "#---------------------------------------------------------------------------------- "

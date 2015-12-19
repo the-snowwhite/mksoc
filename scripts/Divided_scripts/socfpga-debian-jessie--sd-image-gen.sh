@@ -21,7 +21,8 @@ distro=jessie
 #-------------------------------------------
 # u-boot, toolchain, imagegen vars
 #-------------------------------------------
-set -e
+set -e      #halt on all errors
+
 # cross toolchain
 CC_DIR="${CURRENT_DIR}/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux"
 CC_URL="https://releases.linaro.org/14.09/components/toolchain/binaries/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux.tar.bz2"
@@ -79,6 +80,11 @@ function build_chroot_into_folder {
 $SCRIPT_ROOT_DIR/gen_rootfs.sh $CURRENT_DIR
 }
 
+#-----------------------------------------------------------------------------------
+# local functions
+#-----------------------------------------------------------------------------------
+
+
 function fetch_rcn_rootfs {
 cd $CURRENT_DIR
 wget -c $ROOTFS_URL
@@ -89,6 +95,9 @@ mv  $ROOTFS_NAME $ROOTFS_DIR
 }
 
 function gen_initial_sh {
+echo "------------------------------------------"
+echo "generating initial.sh chroot config script"
+echo "------------------------------------------"
 sudo sh -c 'cat <<EOT > '$ROOTFS_DIR'/home/initial.sh
 #!/bin/bash
 
@@ -127,7 +136,10 @@ sudo chmod +x $ROOTFS_DIR/home/initial.sh
 }
 
 function run_initial_sh {
-sudo bash -c chroot $ROOTFS_DIR /bin/bash -c /home/initial.sh
+echo "------------------------------------------"
+echo "running initial.sh config script in chroot"
+echo "------------------------------------------"
+sudo chroot $ROOTFS_DIR /bin/bash -c /home/initial.sh
 sudo chroot $ROOTFS_DIR rm /usr/sbin/policy-rc.d
 }
 
@@ -136,9 +148,6 @@ function create_image {
 $SCRIPT_ROOT_DIR/create_img.sh $CURRENT_DIR
 }
 
-#-----------------------------------------------------------------------------------
-# install files function
-#-----------------------------------------------------------------------------------
 function install_files {
 echo "#-------------------------------------------------------------------------------#"
 echo "#-------------------------------------------------------------------------------#"
@@ -150,7 +159,7 @@ echo "#-------------------------------------------------------------------------
 
 sudo losetup --show -f $IMG_FILE
 
-# --------- install boot partition files (kernel, dts, dtb) ---------
+echo "# --------- installing boot partition files (kernel, dts, dtb) ---------"
 sudo mkdir -p $BOOT_MNT
 sudo mount -o uid=1000,gid=1000 ${DRIVE}p1 $BOOT_MNT
 
@@ -161,7 +170,7 @@ sudo cp $KERNEL_DIR/linux/arch/arm/boot/dts/socfpga_cyclone5.dts $BOOT_MNT/socfp
 sudo cp $KERNEL_DIR/linux/arch/arm/boot/dts/socfpga_cyclone5.dtb $BOOT_MNT/socfpga.dtb
 sudo umount $BOOT_MNT
 
-# --------- install rootfs partition files (chroot, kernel modules) ---------
+echo "# --------- installing rootfs partition files (chroot, kernel modules) ---------"
 sudo mkdir -p $ROOTFS_MNT
 sudo mount ${DRIVE}p2 $ROOTFS_MNT
 
@@ -191,7 +200,7 @@ sync
 
 #------------------.............. run functions section ..................-----------#
 echo "#---------------------------------------------------------------------------------- "
-echo "#-------             Image building process start                          -------- "
+echo "#-----------+++     Full Image building process start       +++-------------------- "
 echo "#---------------------------------------------------------------------------------- "
 
 build_uboot
