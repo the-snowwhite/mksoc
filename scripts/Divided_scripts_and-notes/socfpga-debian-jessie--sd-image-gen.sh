@@ -126,7 +126,7 @@ sudo chmod +x $ROOTFS_DIR/home/initial.sh
 }
 
 function run_initial_sh {
-echo machinekit | sudo bash -c 'chroot $ROOTFS_DIR /bin/bash -c /home/initial.sh -s /bin/bash machinekit'
+sudo bash -c chroot $ROOTFS_DIR /bin/bash -c /home/initial.sh
 sudo chroot $ROOTFS_DIR rm /usr/sbin/policy-rc.d
 }
 
