@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# running, unfinhed beta template
+# Working Invokes selected scripts in same folder that generates a working armhf Debian Jessie sd-card-image().img
+# for the Terasic De0 Nano / Altera Atlas Soc-Fpga dev board
 
 #TODO:   complete MK depedencies
 
