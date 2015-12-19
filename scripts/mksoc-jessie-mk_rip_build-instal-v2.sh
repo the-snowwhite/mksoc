@@ -69,7 +69,7 @@ set -x
 
 # prerequisits for cloning Machinekit
 # git
-sudo apt-get install git-core git-gui dpkg-dev
+sudo apt-get -y install git-core git-gui dpkg-dev
 
 # ----------- end configurable options --------
 
@@ -92,27 +92,27 @@ fi
 
 # prerequisits for building from a fresh debian distro
 # dependencies + more from https://github.com/mhaberler/asciidoc-sandbox/wiki/Machinekit-Build-for-Multiple-RT-Operating-Systems#installation
-sudo apt-get install -y libudev-dev libmodbus-dev libboost-python-dev libusb-1.0-0-dev autoconf pkg-config glib-2.0 gtk+-2.0 tcllib tcl-dev tk-dev bwidget libxaw7-dev libreadline6-dev python-tk libqt4-opengl libqt4-opengl-dev libtk-img python-opengl glade python-xlib python-gtkglext1 python-configobj python-vte libglade2-dev python-glade2 python-gtksourceview2 libncurses-dev libreadline-dev libboost-serialization-dev libboost-thread-dev libjansson-dev lsb-release git dpkg-dev rsyslog automake uuid-runtime ccache  avahi-daemon avahi-discover libnss-mdns bc cython netcat
+sudo apt-get -y install libudev-dev libmodbus-dev libboost-python-dev libusb-1.0-0-dev autoconf pkg-config glib-2.0 gtk+-2.0 tcllib tcl-dev tk-dev bwidget libxaw7-dev libreadline6-dev python-tk libqt4-opengl libqt4-opengl-dev libtk-img python-opengl glade python-xlib python-gtkglext1 python-configobj python-vte libglade2-dev python-glade2 python-gtksourceview2 libncurses-dev libreadline-dev libboost-serialization-dev libboost-thread-dev libjansson-dev lsb-release git dpkg-dev rsyslog automake uuid-runtime ccache  avahi-daemon avahi-discover libnss-mdns bc cython netcat
 
 #sudo sh -c \
 #    "echo 'deb http://deb.dovetail-automata.com jessie main' > \
 #    /etc/apt/sources.list.d/machinekit.list"
-sudo apt-get update
-#sudo apt-get install dovetail-automata-keyring
+sudo apt-get -y update
+#sudo apt-get -y install dovetail-automata-keyring
 
-sudo apt-get install -y python-zmq libjansson-dev libwebsockets-dev python-pyftpdlib libzmq3-dev
+sudo apt-get -y install python-zmq libjansson-dev libwebsockets-dev python-pyftpdlib libzmq3-dev
 #cd ${HOME}
 #sudo dpkg -i libwebsockets3_1.3-1.deb libwebsockets-dev_1.3-1.deb
-#sudo apt-get install -f
+#sudo apt-get -y install -f
 
 
-#sudo apt-get install python-zmq
-sudo apt-get update
+#sudo apt-get -y install python-zmq
+sudo apt-get -y update
 wget http://ftp.dk.debian.org/debian/pool/main/c/czmq/libczmq-dev_3.0.2-2_armhf.deb
 wget http://ftp.dk.debian.org/debian/pool/main/c/czmq/libczmq3_3.0.2-2_armhf.deb
 sudo dpkg -i libczmq3_3.0.2-2_armhf.deb libczmq-dev_3.0.2-2_armhf.deb
 #sudo dpkg -i libczmq2_2.2.0-0.5.deb  libczmq-dev_2.2.0-0.5.deb
-sudo apt-get -f install
+sudo apt-get -y -f install
 
 # fail the script on any error
 set -e 
@@ -132,7 +132,7 @@ sudo cp ./rtapi/shmdrv/limits.d-machinekit.conf /etc/security/limits.d/linuxcnc.
 sudo cp ./rtapi/shmdrv/shmdrv.rules /etc/udev/rules.d/50-LINUXCNC-shmdrv.rules
 
 echo installing dependencies 
-sudo apt-get install --no-install-recommends devscripts equivs
+sudo apt-get -y install --no-install-recommends devscripts equivs
 
 cd "$SCRATCH"
 echo now in directory: `pwd` 
