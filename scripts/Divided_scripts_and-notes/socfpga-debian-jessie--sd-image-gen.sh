@@ -58,7 +58,7 @@ function build_kernel {
 $SCRIPT_ROOT_DIR/build_kernel.sh $CURRENT_DIR
 }
 
-function build_rhn_kernel {
+function build_rcn_kernel {
 cd $CURRENT_DIR
 git clone https://github.com/RobertCNelson/armv7-multiplatform
 cd armv7-multiplatform/
@@ -78,7 +78,7 @@ function build_chroot_into_folder {
 $SCRIPT_ROOT_DIR/gen_rootfs.sh $CURRENT_DIR
 }
 
-function fetch_rhn_rootfs {
+function fetch_rcn_rootfs {
 cd $CURRENT_DIR
 wget -c $ROOTFS_URL
 md5sum $ROOTFS_FILE > md5sum.txt
@@ -196,12 +196,12 @@ echo "#-------------------------------------------------------------------------
 build_uboot
 build_kernel
 
-##build_rhn_kernel
+##build_rcn_kernel
 
 ##build_chroot_into_image
 build_chroot_into_folder
 
-##fetch_rhn_rootfs
+##fetch_rcn_rootfs
 
 gen_initial_sh
 run_initial_sh
