@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# running, unfinhed beta template
+# running(not updated --> see divided folder instead), unfinhed beta template
 
 #TODO:   complete MK depedencies
 
