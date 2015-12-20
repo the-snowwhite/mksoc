@@ -21,6 +21,7 @@ DEFGROUPS="sudo,kmem,adm,dialout,machinekit,video,plugdev"
 # build armhf Debian qemu-debootstrap chroot port
 #------------------------------------------------------------------------------------------------------
 function install_dep {
+#apt-get install qemu qemu-user-static binfmt-support debootstrap
     sudo apt-get install qemu binfmt-support qemu-user-static schroot debootstrap
 }
 
@@ -641,7 +642,7 @@ run_initial_sh
 }
 
 function run_func {
-    install_dep
+#    install_dep  #install qemu 2.5 from sid instead
     run_bootstrap
     setup_configfiles
 #    run_chroot
