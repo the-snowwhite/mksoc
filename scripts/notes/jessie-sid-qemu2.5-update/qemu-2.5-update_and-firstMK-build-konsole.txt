@@ -1,0 +1,386 @@
+#--- raw dump of bash console history   +   sketch file made during process of manually upgrading to official sid qemu 2.5 packages ---------------------#
+sudo rm -Rf rootfs
+ls
+/home/mib/Documents/Altera/Machinekit_notes/Dec-2015/current_mksoc-scripts/scripts/Divided_scripts/socfpga-debian-jessie--sd-image-gen.sh 
+sudo chroot /home/mib/mksoc2/rootfs /debootstrap/debootstrap --second-stage
+/home/mib/qemu-2.5/qemu-2.5.0/build 
+sudo make uninstall
+sudo make install uninstall
+sudo make install --uninstall
+sudo make uninstall
+nam dpkg
+man dpkg
+ls
+./sid-qemu.sh
+sudo dpkg -P qemu-*
+sudo dpkg -P qemu-utils
+sudo dpkg -P qemu
+sudo dpkg -P qemu-utils
+sudo dpkg -P qemu-user-static
+sudo dpkg -P debootstrap
+sudo dpkg -P schroot
+sudo dpkg -P qemu-user-binfmt
+sudo dpkg -P binfmt-support
+sudo dpkg -P qemu-system
+sudo dpkg -P schroot
+sudo apt-get autoremove
+sudo apt-get update
+sudo apt-get upgrade
+su -c "apt-get build-dep qemu"
+rm -Rf *
+../configure
+make -j16
+su -c "make install"
+rm -Rf *
+../configure --static
+rm -Rf *
+../configure --static --prefix=$HOME/qemu.install 
+make -j16
+sudo apt-get install binfmt-support
+dpkg-reconfigure locales
+sudo dpkg-reconfigure locales
+rm -Rf *
+../configure --static --target-list=arm-linux-user --prefix=$HOME/qemu.install 
+make
+rm -Rf *
+ls
+../configure --static --disable-system --target-list=arm-linux-user --prefix=$HOME/qemu.install 
+make
+sudo apt-get install libc6-dev libnfs-dev
+ls
+sudo rm -Rf rootfs
+chroot
+sudo chroot
+/home/mib/Documents/Altera/Machinekit_notes/Dec-2015/current_mksoc-scripts/scripts/Divided_scripts/socfpga-debian-jessie--sd-image-gen.sh 
+ls
+cd qemu-down
+ls
+sudo dpkg -i qemu-utils_2.5+dfsg-1_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/n/nettle/libnettle6_3.1.1-4_amd64.deb
+sudo dpkg -i libnettle6_3.1.1-4_amd64.deb
+sudo dpkg -i qemu-utils_2.5+dfsg-1_amd64.deb
+sudo dpkg -i debootstrap_1.0.75_all.deb
+sudo dpkg -i binfmt-support_2.1.5-1_amd64.deb
+sudo dpkg -i qemu-user-static_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-user-binfmt_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-system_2.5+dfsg-1_amd64.deb
+ls
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-system_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-system_2.5+dfsg-1_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-system-arm_2.5+dfsg-1_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-system-mips_2.5+dfsg-1_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-system-ppc_2.5+dfsg-1_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-system-sparc_2.5+dfsg-1_arm64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-system-misc_2.5+dfsg-1_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-system-x86_2.5+dfsg-1_arm64.deb
+sudo dpkg -i qemu-system-arm_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-system-mips_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-system-ppc_2.5+dfsg-1_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/libc/libcacard/libcacard0_2.5.0-2_amd64.deb
+sudo dpkg -i libcacard0_2.5.0-2_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libncurses5_6.0+20151024-2_amd64.deb
+sudo dpkg -i libncurses5_6.0+20151024-2_amd64.deb
+sudo apt-get purge libncurses4
+sudo apt-get purge libncurses5
+sudo dpkg -i libncurses5_6.0+20151024-2_amd64.deb
+sudo apt-get purge libncurses5-armhf
+sudo apt-get purge libncurses5:i386
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libncurses5_6.0+20151024-2_i386.deb
+sudo dpkg -i libncurses5_6.0+20151024-2_i386.deb
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libtinfo5_6.0+20151024-2_i386.deb
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libtinfo5_6.0+20151024-2_amd64.deb
+sudo apt-get purge libtinfo libtinfo:i386
+sudo dpkg -i libtinfo5_6.0+20151024-2_i386.deb libtinfo5_6.0+20151024-2_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libtinfo5_6.0+20151024-2_armhf.deb
+sudo apt-get purge libtinfo:armhf
+sudo apt-get purge libtinfo*
+sudo dpkg -i libtinfo5_6.0+20151024-2_i386.deb libtinfo5_6.0+20151024-2_amd64.deb libtinfo5_6.0+20151024-2_armhf.deb
+sudo apt-get purge libncurses5*
+sudo dpkg -i libncurses5_6.0+20151024-2_i386.deb libncurses5_6.0+20151024-2_amd64.deb
+sudo apt-get purge libxen*
+wget http://ftp.dk.debian.org/debian/pool/main/x/xen/libxen-4.6_4.6.0-1_amd64.deb
+sudo dpkg -i libxen-4.6_4.6.0-1_amd64.deb
+sudo dpkg -i qemu-system-arm_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-system-mips_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-system-ppc_2.5+dfsg-1_amd64.deb
+sudo dpkg -P qemu-system-ppc
+sudo dpkg -i qemu-system-sparc_2.5+dfsg-1_arm64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-system-sparc_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-system-sparc_2.5+dfsg-1_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/o/openbios/openbios-sparc_1.1+svn1340-1_all.deb
+sudo dpkg -i openbios-sparc_1.1+svn1340-1_all.deb
+sudo dpkg -i qemu-system-sparc_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-system-sparc_2.5+dfsg-1_amd64.debwget http://ftp.dk.debian.org/debian/pool/main/s/slof/qemu-slof_20150429+dfsg-1_all.deb
+wget http://ftp.dk.debian.org/debian/pool/main/s/slof/qemu-slof_20150429+dfsg-1_all.deb
+sudo dpkg -i qemu-slof_20150429+dfsg-1_all.deb
+wget http://ftp.dk.debian.org/debian/pool/main/o/openbios/openbios-ppc_1.1+svn1340-1_all.deb
+sudo dpkg -i openbios-ppc_1.1+svn1340-1_all.deb
+wget http://ftp.dk.debian.org/debian/pool/main/o/openhackware/openhackware_0.4.1+git-20140423.c559da7c-2_all.deb
+sudo dpkg -i openhackware_0.4.1+git-20140423.c559da7c-2_all.deb
+sudo dpkg -i qemu-system-ppc_2.5+dfsg-1_amd64.deb
+sudo dpkg -i openbios-sparc_1.1+svn1340-1_all.deb
+sudo dpkg -i qemu-system-sparc_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-system-misc_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-system-x86_2.5+dfsg-1_arm64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-system-x86_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-system-x86_2.5+dfsg-1_amd64.deb
+sudo apt-get purge libspice-server1*
+wget http://ftp.dk.debian.org/debian/pool/main/s/spice/libspice-server1_0.12.6-4_amd64.deb
+sudo dpkg -i libspice-server1_0.12.6-4_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/o/openssl/libssl1.0.0_1.0.2d-1_amd64.deb
+sudo dpkg -i libssl1.0.0_1.0.2d-1_amd64.deb
+sudo apt-get purge libssl1*
+wget http://ftp.dk.debian.org/debian/pool/main/o/openssl/libssl1.0.0_1.0.2d-1_i386.deb
+sudo dpkg -i libssl1.0.0_1.0.2d-1_amd64.deb libssl1.0.0_1.0.2d-1_i386.deb
+sudo dpkg -i qemu-system-x86_2.5+dfsg-1_amd64.deb
+sudo dpkg -i libspice-server1_0.12.6-4_amd64.deb
+sudo dpkg -i libssl1.0.0_1.0.2d-1_amd64.deb libssl1.0.0_1.0.2d-1_i386.deb
+sudo dpkg -i libspice-server1_0.12.6-4_amd64.deb
+sudo dpkg -P libssl1.0.0_1.0.2d-1_amd64.deb libssl1.0.0_1.0.2d-1_i386.deb
+sudo dpkg -P libssl1 libssl
+sudo dpkg -P libssl1
+sudo dpkg -P libssl1.0.0
+wget http://ftp.dk.debian.org/debian/pool/main/o/openssl/libssl1.0.2_1.0.2e-1_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/o/openssl/libssl1.0.2_1.0.2e-1_i386.deb
+sudo dpkg -i libssl1.0.2_1.0.2e-1_amd64.deb libssl1.0.2_1.0.2e-1_i386.deb
+sudo dpkg -i libspice-server1_0.12.6-4_amd64.deb
+sudo dpkg -i qemu-system-x86_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-utils_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-user-static_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-utils_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-system_2.5+dfsg-1_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu_2.5+dfsg-1_amd64.deb
+ls
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-user_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu/qemu-user_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-user_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu_2.5+dfsg-1_amd64.deb
+sudo apt-get -y -f install
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libncurses5-dev_6.0+20151024-2_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libncurses5-dev_6.0+20151024-2_i386.deb
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libncursesw5_6.0+20151024-2_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/s/spice/libspice-server-dev_0.12.6-4_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/o/openssl/libssl-dev_1.0.2e-1_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/o/openssl/libssl-dev_1.0.2e-1_i386.deb
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libtinfo-dev_6.0+20151024-2_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libtinfo-dev_6.0+20151024-2_armhf.deb
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libtinfo-dev_6.0+20151024-2_i386.deb
+sudo apt-get purge libncurses5-dev libncursesw5 libspice-server-dev libssl-dev libtinfo-dev 
+sudo dpkg -i libncurses5-dev_6.0+20151024-2_amd64.deb
+sudo dpkg -i libncurses5-dev_6.0+20151024-2_amd64.deb libncurses5-dev_6.0+20151024-2_i386.deb libncursesw5_6.0+20151024-2_amd64.deb
+sudo dpkg -i libtinfo-dev_6.0+20151024-2_amd64.deb libtinfo-dev_6.0+20151024-2_armhf.deb libtinfo-dev_6.0+20151024-2_i386.deb
+sudo dpkg -i libspice-server-dev_0.12.6-4_amd64.deb
+sudo dpkg -i libssl-dev_1.0.2e-1_amd64.deb libssl-dev_1.0.2e-1_i386.deb
+sudo apt-get -y -f install
+sudo apt-get autoremove
+jsudo apt-get update
+sudo apt-get update
+sudo apt-get upgrade
+ls
+/home/mib/Documents/Altera/Machinekit_notes/Dec-2015/current_mksoc-scripts/scripts/Divided_scripts/socfpga-debian-jessie--sd-image-gen.sh 
+ls
+'/home/mib/Documents/Altera/Machinekit_notes/Dec-2015/chroot/mksoc_chroot.sh'
+sudo tar -cvzf rootfs-qemu2.5.tar.gz ./rootfs/
+cd /home/mib/mksoc2 
+sudo chroot rootfs /bin/bash -l
+ls /var/chroot/etc/
+ls rootfs/etc/
+ls /var/chroot/etc/re*
+ls /var/chroot/etc/r*
+sudo ls -lah /var/chroot/etc/r*
+ls
+sudo rm -Rf rootfs
+df -h
+man mk-build-deps
+ls
+sudo rm -Rf rootfs
+ls
+sudo tar -zxf rootfs-qemu2.5.tar.gz 
+ls
+sudo chroot rootfs /bin/bash -l
+cd ~/
+~sudo mount -o bind /proc /home/mib/mksoc2/rootfs/proc
+sudo cp /etc/resolv.conf /home/mib/mksoc2/rootfs/etc/resolv.conf
+sudo mount -o bind /proc /home/mib/mksoc2/rootfs/proc
+sudo cp /etc/resolv.conf /home/mib/mksoc2/rootfs/etc/resolv.conf
+sudo cat /etc/resolv.conf 
+sudo cp /etc/resolv.conf /home/mib/mksoc2/rootfs/etc/resolv.conf
+sudo cp /etc/resolv.conf /home/mib/mksoc2/rootfs/etc/
+sudo rm -f /home/mib/mksoc2/rootfs/etc/resolv.conf
+sudo cp /etc/resolv.conf /home/mib/mksoc2/rootfs/etc/resolv.conf
+sudo umount /home/mib/mksoc2/rootfs/proc
+cd ../../
+ls
+sudo nano /usr/sbin/policy-rc.d
+sudo chroot rootfs /bin/bash -l
+cd ..
+sudo chroot rootfs /bin/bash -l
+sudo rm -f /usr/sbin/policy-rc.d
+sudo nano /home/mib/mksoc2/rootfs/usr/sbin/policy-rc.d
+sudo chmod 755 /home/mib/mksoc2/rootfs/usr/sbin/policy-rc.d
+cd /home/mib/mksoc2 
+sudo chroot rootfs /bin/bash -l
+sudo rm /home/mib/mksoc2/rootfs/usr/sbin/policy-rc.d
+sudo chroot rootfs /bin/bash -l
+ls
+exit
+
+
+#---------------------- insert from note file  -----------------------------------#
+#------------- qemu build ------------------ orig ---------#
+sudo apt-get install build-essential fakeroot
+sudo apt-get build-dep git
+apt-get source git && cd git-1.7.10.4
+DEB_CFLAGS_APPEND="-fno-stack-protector" DEB_CXXFLAGS_APPEND="-fno-stack-protector" DEB_BUILD_MAINT_OPTIONS=hardening=-stackprotector,-fortify DEB_BUILD_OPTIONS="noopt nostrip nocheck" fakeroot dpkg-buildpackage -j´getconf _NPROCESSORS_ONLN`
+sudo dpkg -i ../git_1.7.10.4-1+wheezy1_armhf.deb
+
+
+
+
+URL_LIST='http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu_2.5+dfsg-1_amd64.deb
+http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-user-binfmt_2.5+dfsg-1_amd64.deb'
+
+binfmt-support_2.1.5-1_amd64.deb
+qemu-user-binfmt_2.5+dfsg-1_amd64.deb 
+qemu_2.5+dfsg-1_amd64.deb 
+qemu-system_2.5+dfsg-1_amd64.deb
+
+qemu-user-static_2.5+dfsg-1_amd64.deb 
+qemu-utils_2.5+dfsg-1_amd64.deb 
+debootstrap_1.0.75_all.deb 
+schroot_1.6.10-2_amd64.deb
+
+
+not installed:
+qemu-utils_2.5+dfsg-1_amd64.deb
+qemu_2.5+dfsg-1_amd64.deb 
+schroot_1.6.10-2_amd64.deb
+qemu-user-binfmt_2.5+dfsg-1_amd64.deb
+
+sudo dpkg -P qemu
+sudo dpkg -P qemu-utils
+sudo dpkg -P qemu-user-static
+sudo dpkg -P debootstrap
+sudo dpkg -P schroot
+sudo dpkg -P binfmt-support
+sudo dpkg -P qemu-system
+
+#not installed
+sudo dpkg -P qemu-user-binfmt
+
+
+wget http://ftp.dk.debian.org/debian/pool/main/libc/libcacard/libcacard0_2.5.0-2_amd64.deb
+
+
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libtinfo5_6.0+20151024-2_i386.deb
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libtinfo5_6.0+20151024-2_amd64.deb
+
+
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libncurses5_6.0+20151024-2_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libncurses5_6.0+20151024-2_i386.deb
+
+
+
+
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libncurses5-dev_6.0+20151024-2_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libncurses5-dev_6.0+20151024-2_i386.deb
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libncursesw5_6.0+20151024-2_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/s/spice/libspice-server-dev_0.12.6-4_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/o/openssl/libssl-dev_1.0.2e-1_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/o/openssl/libssl-dev_1.0.2e-1_i386.deb
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libtinfo-dev_6.0+20151024-2_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libtinfo-dev_6.0+20151024-2_armhf.deb
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libtinfo-dev_6.0+20151024-2_i386.deb
+
+
+sudo dpkg -i libtinfo-dev_6.0+20151024-2_amd64.deb libtinfo-dev_6.0+20151024-2_armhf.deb libtinfo-dev_6.0+20151024-2_i386.deb
+sudo dpkg -i libncurses5-dev_6.0+20151024-2_amd64.deb libncurses5-dev_6.0+20151024-2_i386.deb libncursesw5_6.0+20151024-2_amd64.deb
+sudo dpkg -i 
+sudo dpkg -i
+sudo dpkg -i libspice-server-dev_0.12.6-4_amd64.deb
+sudo dpkg -i libssl-dev_1.0.2e-1_amd64.deb libssl-dev_1.0.2e-1_i386.deb
+sudo dpkg -i
+
+sudo dpkg -i
+sudo dpkg -i
+
+
+
+wget http://ftp.dk.debian.org/debian/pool/main/n/ncurses/libtinfo5_6.0+20151024-2_armhf.deb
+wget http://ftp.dk.debian.org/debian/pool/main/x/xen/libxen-4.6_4.6.0-1_amd64.deb
+
+
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-system-arm_2.5+dfsg-1_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-system-mips_2.5+dfsg-1_amd64.deb
+
+wget http://ftp.dk.debian.org/debian/pool/main/s/slof/qemu-slof_20150429+dfsg-1_all.deb
+wget http://ftp.dk.debian.org/debian/pool/main/o/openbios/openbios-ppc_1.1+svn1340-1_all.deb
+wget http://ftp.dk.debian.org/debian/pool/main/o/openhackware/openhackware_0.4.1+git-20140423.c559da7c-2_all.deb
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-system-ppc_2.5+dfsg-1_amd64.deb
+
+wget http://ftp.dk.debian.org/debian/pool/main/o/openbios/openbios-sparc_1.1+svn1340-1_all.deb
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-system-sparc_2.5+dfsg-1_amd64.deb
+
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-system-misc_2.5+dfsg-1_amd64.deb
+
+wget http://ftp.dk.debian.org/debian/pool/main/s/spice/libspice-server1_0.12.6-4_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/o/openssl/libssl1.0.2_1.0.2e-1_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/o/openssl/libssl1.0.2_1.0.2e-1_i386.deb
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-system-x86_2.5+dfsg-1_amd64.deb
+
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu-user_2.5+dfsg-1_amd64.deb
+wget http://ftp.dk.debian.org/debian/pool/main/q/qemu/qemu_2.5+dfsg-1_amd64.deb
+
+
+sudo apt-get purge libncurses5*
+sudo apt-get purge libtinfo*
+sudo apt-get purge libxen*
+
+
+sudo apt-get purge libncurses5-dev libncursesw5 libspice-server-dev libssl-dev libtinfo-dev 
+
+
+
+
+
+
+sudo dpkg -i libnettle6_3.1.1-4_amd64.deb
+sudo dpkg -i qemu-utils_2.5+dfsg-1_amd64.deb
+sudo dpkg -i debootstrap_1.0.75_all.deb
+sudo dpkg -i binfmt-support_2.1.5-1_amd64.deb
+sudo dpkg -i qemu-user-static_2.5+dfsg-1_amd64.deb
+#sudo dpkg -i qemu-user-binfmt_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-system_2.5+dfsg-1_amd64.deb
+
+sudo dpkg -i libcacard0_2.5.0-2_amd64.deb
+
+sudo dpkg -i libtinfo5_6.0+20151024-2_i386.deb libtinfo5_6.0+20151024-2_amd64.deb libtinfo5_6.0+20151024-2_armhf.deb
+sudo dpkg -i libncurses5_6.0+20151024-2_i386.deb libncurses5_6.0+20151024-2_amd64.deb
+
+sudo dpkg -i libxen-4.6_4.6.0-1_amd64.deb
+
+
+
+sudo dpkg -i qemu-system-arm_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-system-mips_2.5+dfsg-1_amd64.deb
+
+sudo dpkg -i qemu-slof_20150429+dfsg-1_all.deb
+sudo dpkg -i openbios-ppc_1.1+svn1340-1_all.deb
+sudo dpkg -i openhackware_0.4.1+git-20140423.c559da7c-2_all.deb
+sudo dpkg -i qemu-system-ppc_2.5+dfsg-1_amd64.deb
+
+sudo dpkg -i openbios-sparc_1.1+svn1340-1_all.deb
+sudo dpkg -i qemu-system-sparc_2.5+dfsg-1_amd64.deb
+
+sudo dpkg -i qemu-system-misc_2.5+dfsg-1_amd64.deb
+
+sudo dpkg -i libssl1.0.2_1.0.2e-1_amd64.deb libssl1.0.2_1.0.2e-1_i386.deb
+sudo dpkg -i libspice-server1_0.12.6-4_amd64.deb
+sudo dpkg -i qemu-system-x86_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu-user_2.5+dfsg-1_amd64.deb
+sudo dpkg -i qemu_2.5+dfsg-1_amd64.deb
+
+
+
+
