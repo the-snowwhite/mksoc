@@ -1,0 +1,997 @@
+mib@Debian-8:~$ ^C
+
+mib@Debian-8:~$ minicom
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Welcome to minicom 2.7
+
+OPTIONS: I18n 
+Compiled on Jan  1 2014, 09:30:18.
+Port /dev/ttyUSB0, 23:26:04
+
+Press CTRL-A Z for help on special keys
+
+
+U-Boot SPL 2016.01-rc2 (Dec 19 2015 - 17:35:43)
+drivers/ddr/altera/sequencer.c: Preparing to start memory calibration
+drivers/ddr/altera/sequencer.c: CALIBRATION PASSED
+drivers/ddr/altera/sequencer.c: Calibration complete
+Trying to boot from MMC
+
+
+U-Boot 2016.01-rc2 (Dec 19 2015 - 17:35:43 +0100)
+
+CPU:   Altera SoCFPGA Platform
+FPGA:  Altera Cyclone V, SE/A4 or SX/C4, version 0x0
+BOOT:  SD/MMC Internal Transceiver (3.0V)
+       Watchdog enabled
+I2C:   ready
+DRAM:  1 GiB
+MMC:   dwmmc0@ff704000: 0
+*** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Model: Terasic DE0-Nano(Atlas)
+Net:   
+Error: ethernet@ff702000 address not set.
+No ethernet found.
+Hit any key to stop autoboot:  0 
+reading zImage
+3534768 bytes read in 193 ms (17.5 MiB/s)
+reading socfpga.dtb
+19357 bytes read in 5 ms (3.7 MiB/s)
+Kernel image @ 0x1000000 [ 0x000000 - 0x35efb0 ]
+## Flattened Device Tree blob at 00000100
+   Booting using the fdt blob at 0x000100
+   Loading Device Tree to 03ff8000, end 03fffb9c ... OK
+
+Starting kernel ...
+
+Booting Linux on physical CPU 0x0
+Initializing cgroup subsys cpuset
+Linux version 3.10.37-ltsi-rt37-05835-g60a76aa (mib@Debian-8) (gcc version 4.9.2 20140904 (prerelease) (crosstool-NG linaro-1.5
+CPU: ARMv7 Processor [413fc090] revision 0 (ARMv7), cr=10c5387d
+CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+Machine: Altera SOCFPGA, model: Altera SOCFPGA Cyclone V
+Memory policy: ECC disabled, Data cache writealloc
+PERCPU: Embedded 9 pages/cpu @80f83000 s12608 r8192 d16064 u36864
+Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 260096
+Kernel command line: console=ttyS0,115200 root=/dev/mmcblk0p2 rw rootwait
+PID hash table entries: 4096 (order: 2, 16384 bytes)
+Dentry cache hash table entries: 131072 (order: 8, 1048576 bytes)
+Inode-cache hash table entries: 65536 (order: 6, 262144 bytes)
+Memory: 1024MB = 1024MB total
+Memory: 1031292k/1031292k available, 17284k reserved, 0K highmem
+Virtual kernel memory layout:
+    vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+    fixmap  : 0xfff00000 - 0xfffe0000   ( 896 kB)
+    vmalloc : 0xc0800000 - 0xff000000   (1000 MB)
+    lowmem  : 0x80000000 - 0xc0000000   (1024 MB)
+    modules : 0x7f000000 - 0x80000000   (  16 MB)
+      .text : 0x80008000 - 0x80693ea0   (6704 kB)
+      .init : 0x80694000 - 0x806e2140   ( 313 kB)
+      .data : 0x806e4000 - 0x80724fd0   ( 260 kB)
+       .bss : 0x80724fd0 - 0x8076f618   ( 298 kB)
+SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
+Preemptible hierarchical RCU implementation.
+NR_IRQS:16 nr_irqs:16 16
+sched_clock: 32 bits at 100MHz, resolution 10ns, wraps every 42949ms
+Console: colour dummy device 80x30
+Calibrating delay loop... 1836.64 BogoMIPS (lpj=9183232)
+pid_max: default: 32768 minimum: 301
+Mount-cache hash table entries: 512
+CPU: Testing write buffer coherency: ok
+ftrace: allocating 17751 entries in 53 pages
+CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
+Setting up static identity map for 0x804dc9b0 - 0x804dca08
+CPU1: Booted secondary processor
+CPU1: thread -1, cpu 1, socket 0, mpidr 80000001
+Brought up 2 CPUs
+SMP: Total of 2 processors activated (3679.84 BogoMIPS).
+CPU: All CPU(s) started in SVC mode.
+devtmpfs: initialized
+NET: Registered protocol family 16
+fpga bridge driver
+DMA: preallocated 256 KiB pool for atomic coherent allocations
+L310 cache controller enabled
+l2x0: 8 ways, CACHE_ID 0x410030c9, AUX_CTRL 0x32460000, Cache size: 524288 B
+syscon fffef000.l2-cache: regmap [mem 0xfffef000-0xfffeffff] registered
+syscon ffd05000.rstmgr: regmap [mem 0xffd05000-0xffd05fff] registered
+syscon ffc25000.sdrctl: regmap [mem 0xffc25000-0xffc25fff] registered
+syscon ff800000.l3regs: regmap [mem 0xff800000-0xff800fff] registered
+syscon ffd08000.sysmgr: regmap [mem 0xffd08000-0xffd0bfff] registered
+hw-breakpoint: found 5 (+1 reserved) breakpoint and 1 watchpoint registers.
+hw-breakpoint: maximum watchpoint size is 4 bytes.
+altera_hps2fpga_bridge fpgabridge.2: fpga bridge [hps2fpga] registered as device hps2fpga
+altera_hps2fpga_bridge fpgabridge.2: init-val not specified
+altera_hps2fpga_bridge fpgabridge.3: fpga bridge [lshps2fpga] registered as device lwhps2fpga
+altera_hps2fpga_bridge fpgabridge.3: init-val not specified
+altera_hps2fpga_bridge fpgabridge.4: fpga bridge [fpga2hps] registered as device fpga2hps
+altera_hps2fpga_bridge fpgabridge.4: init-val not specified
+bio: create slab <bio-0> at 0
+FPGA Mangager framework driver
+SCSI subsystem initialized
+usbcore: registered new interface driver usbfs
+usbcore: registered new interface driver hub
+usbcore: registered new device driver usb
+lcd_load_custom_fonts: i2c_master_send returns -121
+lcd_cmd_no_params: i2c_master_send returns -121
+lcd_cmd_one_param: i2c_master_send returns -121
+lcd_cmd_no_params: i2c_master_send returns -121
+lcd-comm 0-0028: LCD driver initialized
+pps_core: LinuxPPS API ver. 1 registered
+pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+PTP clock support registered
+Switching to clocksource timer0
+NET: Registered protocol family 2
+TCP established hash table entries: 8192 (order: 4, 65536 bytes)
+TCP bind hash table entries: 8192 (order: 5, 229376 bytes)
+TCP: Hash tables configured (established 8192 bind 8192)
+TCP: reno registered
+UDP hash table entries: 512 (order: 3, 32768 bytes)
+UDP-Lite hash table entries: 512 (order: 3, 32768 bytes)
+NET: Registered protocol family 1
+RPC: Registered named UNIX socket transport module.
+RPC: Registered udp transport module.
+RPC: Registered tcp transport module.
+RPC: Registered tcp NFSv4.1 backchannel transport module.
+hw perfevents: enabled with ARMv7 Cortex-A9 PMU driver, 7 counters available
+arm-pmu arm-pmu: PMU:CTI successfully enabled for 2 cores
+NFS: Registering the id_resolver key type
+Key type id_resolver registered
+Key type id_legacy registered
+NTFS driver 2.1.30 [Flags: R/W].
+jffs2: version 2.2. (NAND) �© 2001-2006 Red Hat, Inc.
+msgmni has been set to 2014
+io scheduler noop registered (default)
+Serial: 8250/16550 driver, 2 ports, IRQ sharing disabled
+ffc02000.serial0: ttyS0 at MMIO 0xffc02000 (irq = 194) is a 16550A
+console [ttyS0] enabled
+altera_fpga_manager ff706000.fpgamgr: fpga manager [Altera FPGA Manager] registered as minor 0
+brd: module loaded
+at24 0-0051: 4096 byte 24c32 EEPROM, writable, 32 bytes/write
+cadence-qspi ff705000.spi: DMA NOT enabled
+cadence-qspi ff705000.spi: master is unqueued, this is deprecated
+m25p80 spi2.0: speed_hz100000000 greater than maximum 1806640Hz
+m25p80: probe of spi2.0 failed with error -22
+cadence-qspi ff705000.spi: Cadence QSPI controller driver
+dw_spi_mmio fff00000.spi: master is unqueued, this is deprecated
+CAN device driver interface
+c_can_platform ffc00000.d_can: invalid resource
+c_can_platform ffc00000.d_can: control memory is not used for raminit
+c_can_platform ffc00000.d_can: c_can_platform device registered (regs=c08e6000, irq=163)
+stmmac - user ID: 0x10, Synopsys ID: 0x37
+ Ring mode enabled
+ DMA HW capability register supported
+ Enhanced/Alternate descriptors
+        Enabled extended descriptors
+ RX Checksum Offload Engine supported (type 2)
+ TX Checksum insertion supported
+ Enable RX Mitigation via HW Watchdog Timer
+libphy: stmmac: probed
+eth0: PHY ID 00221622 at 1 IRQ POLL (stmmac-1:01) active
+dwc2 ffb40000.usb: unable to find phy
+dwc2 ffb40000.usb: EPs:15
+dwc2 ffb40000.usb: dedicated fifos
+dwc2 ffb40000.usb: 2560 invalid for host_rx_fifo_size. Check HW configuration.
+dwc2 ffb40000.usb: DWC OTG Controller
+dwc2 ffb40000.usb: new USB bus registered, assigned bus number 1
+dwc2 ffb40000.usb: irq 160, io mem 0x00000000
+usb usb1: New USB device found, idVendor=1d6b, idProduct=0002
+usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+usb usb1: Product: DWC OTG Controller
+usb usb1: Manufacturer: Linux 3.10.37-ltsi-rt37-05835-g60a76aa dwc2_hsotg
+usb usb1: SerialNumber: ffb40000.usb
+hub 1-0:1.0: USB hub found
+hub 1-0:1.0: 1 port detected
+usbcore: registered new interface driver usb-storage
+mousedev: PS/2 mouse device common for all mice
+rtc-ds1307: probe of 0-0068 failed with error -5
+i2c /dev entries driver
+Synopsys Designware Multimedia Card Interface Driver
+dwmmc_socfpga ff704000.dwmmc0: Using internal DMA controller.
+dwmmc_socfpga ff704000.dwmmc0: Version ID is 240a
+dwmmc_socfpga ff704000.dwmmc0: DW MMC controller at irq 171, 32 bit host data width, 1024 deep fifo
+mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 400000Hz, actual 396825HZ div = 63)
+dwmmc_socfpga ff704000.dwmmc0: 1 slots initialized
+usbcore: registered new interface driver usbhid
+usbhid: USB HID core driver
+TCP: cubic registered
+NET: Registered protocol family 10
+sit: IPv6 over IPv4 tunneling driver
+NET: Registered protocol family 17
+NET: Registered protocol family 15
+can: controller area network core (rev 20120528 abi 9)
+NET: Registered protocol family 29
+can: raw protocol (rev 20120528)
+can: broadcast manager protocol (rev 20120528 t)
+can: netlink gateway (rev 20130117) max_hops=1
+8021q: 802.1Q VLAN Support v1.8
+Key type dns_resolver registered
+VFP support v0.3: implementor 41 architecture 3 part 30 variant 9 rev 4
+ThumbEE CPU extension supported.
+Registering SWP/SWPB emulation handler
+Waiting for root device /dev/mmcblk0p2...
+mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 50000000Hz, actual 50000000HZ div = 0)
+mmc0: new high speed SDHC card at address e624
+mmcblk0: mmc0:e624 SU16G 14.8 GiB 
+ mmcblk0: p1 p2 p3
+kjournald starting.  Commit interval 5 seconds
+EXT3-fs (mmcblk0p2): using internal journal
+EXT3-fs (mmcblk0p2): recovery complete
+EXT3-fs (mmcblk0p2): mounted filesystem with ordered data mode
+VFS: Mounted root (ext3 filesystem) on device 179:2.
+devtmpfs: mounted
+Freeing unused kernel memory: 312K (80694000 - 806e2000)
+systemd[1]: systemd 215 running in system mode. (+PAM +AUDIT +SELINUX +IMA +SYSVINIT +LIBCRYPTSETUP +GCRYPT +ACL +XZ -SECCOMP )
+systemd[1]: Detected architecture 'arm'.
+
+Welcome to Debian GNU/Linux 8 (jessie)!
+
+systemd[1]: Failed to insert module 'autofs4'
+systemd[1]: Set hostname to <mksoc>.
+systemd[1]: Cannot add dependency job for unit display-manager.service, ignoring: Unit display-manager.service failed to load:.
+systemd[1]: Starting Forward Password Requests to Wall Directory Watch.
+systemd[1]: Started Forward Password Requests to Wall Directory Watch.
+systemd[1]: Expecting device dev-ttyS0.device...
+         Expecting device dev-ttyS0.device...
+systemd[1]: Starting Remote File Systems (Pre).
+[  OK  ] Reached target Remote File Systems (Pre).
+systemd[1]: Reached target Remote File Systems (Pre).
+systemd[1]: Starting Dispatch Password Requests to Console Directory Watch.
+systemd[1]: Started Dispatch Password Requests to Console Directory Watch.
+systemd[1]: Starting Paths.
+[  OK  ] Reached target Paths.
+systemd[1]: Reached target Paths.
+systemd[1]: Set up automount Arbitrary Executable File Formats File System Automount Point.
+systemd[1]: Starting Swap.
+[  OK  ] Reached target Swap.
+systemd[1]: Reached target Swap.
+systemd[1]: Starting Root Slice.
+[  OK  ] Created slice Root Slice.
+systemd[1]: Created slice Root Slice.
+systemd[1]: Starting User and Session Slice.
+[  OK  ] Created slice User and Session Slice.
+systemd[1]: Created slice User and Session Slice.
+systemd[1]: Starting Delayed Shutdown Socket.
+[  OK  ] Listening on Delayed Shutdown Socket.
+systemd[1]: Listening on Delayed Shutdown Socket.
+systemd[1]: Starting /dev/initctl Compatibility Named Pipe.
+[  OK  ] Listening on /dev/initctl Compatibility Named Pipe.
+systemd[1]: Listening on /dev/initctl Compatibility Named Pipe.
+systemd[1]: Starting Journal Socket (/dev/log).
+[  OK  ] Listening on Journal Socket (/dev/log).
+systemd[1]: Listening on Journal Socket (/dev/log).
+systemd[1]: Starting LVM2 metadata daemon socket.
+[  OK  ] Listening on LVM2 metadata daemon socket.
+systemd[1]: Listening on LVM2 metadata daemon socket.
+systemd[1]: Starting Device-mapper event daemon FIFOs.
+[  OK  ] Listening on Device-mapper event daemon FIFOs.
+systemd[1]: Listening on Device-mapper event daemon FIFOs.
+systemd[1]: Starting udev Control Socket.
+[  OK  ] Listening on udev Control Socket.
+systemd[1]: Listening on udev Control Socket.
+systemd[1]: Starting udev Kernel Socket.
+[  OK  ] Listening on udev Kernel Socket.
+systemd[1]: Listening on udev Kernel Socket.
+systemd[1]: Starting Journal Socket.
+[  OK  ] Listening on Journal Socket.
+systemd[1]: Listening on Journal Socket.
+systemd[1]: Starting System Slice.
+[  OK  ] Created slice System Slice.
+systemd[1]: Created slice System Slice.
+systemd[1]: Started File System Check on Root Device.
+systemd[1]: Starting system-getty.slice.
+[  OK  ] Created slice system-getty.slice.
+systemd[1]: Created slice system-getty.slice.
+systemd[1]: Starting system-serial\x2dgetty.slice.
+[  OK  ] Created slice system-serial\x2dgetty.slice.
+systemd[1]: Created slice system-serial\x2dgetty.slice.
+systemd[1]: Starting Increase datagram queue length...
+         Starting Increase datagram queue length...
+systemd[1]: Starting Nameserver information manager...
+         Starting Nameserver information manager...
+systemd[1]: Starting Create list of required static device nodes for the current kernel...
+         Starting Create list of required static device nodes...rrent kernel...
+systemd[1]: Mounted POSIX Message Queue File System.
+systemd[1]: Starting udev Coldplug all Devices...
+         Starting udev Coldplug all Devices...
+systemd[1]: Mounting Debug File System...
+         Mounting Debug File System...
+systemd[1]: Starting Load Kernel Modules...
+         Starting Load Kernel Modules...
+systemd[1]: Mounted Huge Pages File System.
+systemd[1]: Started Set Up Additional Binary Formats.
+systemd[1]: Starting Slices.
+[  OK  ] Reached target Slices.
+systemd[1]: Reached target Slices.
+[  OK  ] Mounted Debug File System.
+systemd[1]: Mounted Debug File System.
+[  OK  ] Started Increase datagram queue length.
+systemd[1]: Started Increase datagram queue length.
+[  OK  ] Started Create list of required static device nodes ...current kernel.
+systemd[1]: Started Create list of required static device nodes for the current kernel.
+[  OK  ] Started Load Kernel Modules.
+systemd[1]: Started Load Kernel Modules.
+[  OK  ] Started Nameserver information manager.
+systemd[1]: Started Nameserver information manager.
+[  OK  ] Started udev Coldplug all Devices.
+systemd[1]: Started udev Coldplug all Devices.
+systemd[1]: Starting udev Wait for Complete Device Initialization...
+         Starting udev Wait for Complete Device Initialization...
+systemd[1]: Mounting Configuration File System...
+         Mounting Configuration File System...
+systemd[1]: Mounted FUSE Control File System.
+systemd[1]: Starting Apply Kernel Variables...
+         Starting Apply Kernel Variables...
+systemd[1]: Starting Create Static Device Nodes in /dev...
+         Starting Create Static Device Nodes in /dev...
+systemd[1]: Starting Syslog Socket.
+[  OK  ] Listening on Syslog Socket.
+systemd[1]: Listening on Syslog Socket.
+systemd[1]: Starting Journal Service...
+         Starting Journal Service...
+[  OK  ] Started Journal Service.
+systemd[1]: Started Journal Service.
+[  OK  ] Mounted Configuration File System.
+[  OK  ] Started Apply Kernel Variables.
+[  OK  ] Started Create Static Device Nodes in /dev.
+         Starting udev Kernel Device Manager...
+[  OK  systemd-udevd[170]: starting version 215
+] Started udev Kernel Device Manager.
+         Starting LSB: Set preliminary keymap...
+[  OK  ] Started udev Wait for Complete Device Initialization.
+         Starting Activation of LVM2 logical volumes...
+         Starting Copy rules generated while the root was ro...
+[  OK  ] Started Copy rules generated while the root was ro.
+[  OK  ] Started Activation of LVM2 logical volumes.
+[  OK  ] Reached target Encrypted Volumes.
+         Starting Activation of LVM2 logical volumes...
+[  OK  ] Found device /dev/ttyS0.
+[  OK  ] Created slice system-ifup.slice.
+[  OK  ] Started LSB: Set preliminary keymap.
+[  OK  ] Started Activation of LVM2 logical volumes.
+         Starting Monitoring of LVM2 mirrors, snapshots etc. ...ress polling...
+         Starting Remount Root and Kernel File Systems...
+[  OK  ] Started Remount Root and Kernel File Systems.
+[  OK  ] Started Monitoring of LVM2 mirrors, snapshots etc. u...ogress polling.
+         Starting Load/Save Random Seed...
+[  OK  ] Reached target Local File Systems (Pre).
+         Mounting /tmp...
+[  OK  ] Started Load/Save Random Seed.
+[  OK  ] Mounted /tmp.
+[  OK  ] Reached target Local File Systems.
+         Starting Create Volatile Files and Directories...
+[  OK  ] Reached target Remote File Systems.
+         Starting Trigger Flushing of Journal to Persistent Storage...
+         Starting LSB: Prepare console...
+         Starting LSB: Raise network interfaces....
+[  OK  ] Started Create Volatile Files and Directories.
+systemd-journald[164]: Received request to flush runtime journal from PID 1
+[  OK  ] Started Trigger Flushing of Journal to Persistent Storage.
+         Starting Update UTMP about System Boot/Shutdown...
+[  OK  ] Started Update UTMP about System Boot/Shutdown.
+[  OK  ] Started LSB: Prepare console.
+         Starting LSB: Set console font and keymap...
+eth0: device MAC address da:db:9e:fe:82:0d
+[  OK  ] Started LSB: Set console font and keymap.
+libphy: stmmac-1:01 - Link is Up - 1000/Full
+[  OK  ] Started LSB: Raise network interfaces..
+         Starting ifup for eth0...
+[  OK  ] Started ifup for eth0.
+[  OK  ] Reached target Network.
+[  OK  ] Reached target Network is Online.
+[  OK  ] Reached target System Initialization.
+[  OK  ] Listening on Avahi mDNS/DNS-SD Stack Activation Socket.
+[  OK  ] Listening on UUID daemon activation socket.
+[  OK  ] Listening on D-Bus System Message Bus Socket.
+[  OK  ] Reached target Sockets.
+[  OK  ] Reached target Timers.
+[  OK  ] Reached target Basic System.
+         Starting Entropy daemon using the HAVEGE algorithm...
+[  OK  ] Started Entropy daemon using the HAVEGE algorithm.
+         Starting OpenBSD Secure Shell server...
+[  OK  ] Started OpenBSD Secure Shell server.
+         Starting Regular background program processing daemon...
+[  OK  ] Started Regular background program processing daemon.
+         Starting Modem Manager...
+         Starting /etc/rc.local Compatibility...
+         Starting Login Service...
+         Starting LSB: Start NTP daemon...
+         Starting LSB: exim Mail Transport Agent...
+         Starting LSB: Load kernel modules needed to enable cpufreq scaling...
+         Starting Avahi mDNS/DNS-SD Stack...
+         Starting D-Bus System Message Bus...
+[  OK  ] Started D-Bus System Message Bus.
+[  OK  ] Started Avahi mDNS/DNS-SD Stack.
+         Starting LSB: SANE network scanner server...
+         Starting System Logging Service...
+         Starting Permit User Sessions...
+[  OK  ] Started /etc/rc.local Compatibility.
+[  OK  ] Started LSB: Start NTP daemon.
+[  OK  ] Started LSB: Load kernel modules needed to enable cpufreq scaling.
+[  OK  ] Started LSB: SANE network scanner server.
+[  OK  ] Started Permit User Sessions.
+[  OK  ] Started System Logging Service.
+[  OK  ] Started Login Service.
+         Starting Authenticate and Authorize Users to Run Privileged Tasks...
+         Starting LSB: set CPUFreq kernel parameters...
+         Starting Getty on tty1...
+[  OK  ] Started Getty on tty1.
+         Starting Serial Getty on ttyS0...
+[  OK  ] Started Serial Getty on ttyS0.
+[  OK  ] Reached target Login Prompts.
+[  OK  ] Started LSB: set CPUFreq kernel parameters.
+[  OK  ] Started Authenticate and Authorize Users to Run Privileged Tasks.
+[  OK  ] Started Modem Manager.
+[  OK  ] Started LSB: exim Mail Transport Agent.
+[  OK  ] Reached target Multi-User System.
+[  OK  ] Reached target Graphical Interface.
+         Starting Update UTMP about System Runlevel Changes...
+[  OK  ] Started Update UTMP about System Runlevel Changes.
+
+Debian GNU/Linux 8 mksoc ttyS0
+
+mksoc login: [  OK  ] Removed slice system-ifup.slice.
+         Stopping User Manager for UID 1000...
+         Stopping Authenticate and Authorize Users to Run Privileged Tasks...
+[  OK  ] Stopped target Graphical Interface.
+         Stopping Entropy daemon using the HAVEGE algorithm...
+[  OK  ] Stopped target Multi-User System.
+         Stopping OpenBSD Secure Shell server...
+         Stopping Regular background program processing daemon...
+         Stopping Modem Manager...
+[  OK  ] Stopped target Login Prompts.
+         Stopping Getty on tty1...
+         Stopping Serial Getty          Stopping LSB: set CPUFreq kernel parameters...
+         Stopping LSB: SANE network scanner server...
+         Stopping LSB: exim Mail Transport Agent...
+         Stopping Daemon for generating UUIDs...
+         Stopping D-Bus System Message Bus...
+         Stopping System Logging Service...
+[  OK  ] Stopped Entropy daemon using the HAVEGE algorithm.
+[  OK  ] Stopped OpenBSD Secure Shell server.
+[  OK  ] Stopped Regular background program processing daemon.
+[  OK  ] Stopped Modem Manager.
+[  OK  ] Stopped Avahi mDNS/DNS-SD Stack.
+[  OK  ] Stopped D-Bus System Message Bus.
+[  OK  ] Stopped System Logging Service.
+[  OK  ] Stopped Authenticate and Authorize Users to Run Privileged Tasks.
+[  OK  ] Stopped Getty on tty1.
+[  OK  ] Stopped Serial Getty on ttyS0.
+[  OK  ] Stopped User Manager for UID 1000.
+[  OK  ] Stopped Daemon for generating UUIDs.
+[  OK  ] Stopped LSB: Start NTP daemon.
+[  OK  ] Stopped LSB: set CPUFreq kernel parameters.
+[  OK  ] Stopped LSB: SANE network scanner server.
+[  OK  ] Stopped LSB: exim Mail Transport Agent.
+         Stopping LSB: Load kernel modules needed to enable cpufreq scaling...
+         Stopping Login Service...
+[  OK  ] Stopped target Network is Online.
+[  OK  ] Removed slice user-1000.slice.
+[  OK  ] Removed slice system-serial\x2dgetty.slice.
+[  OK  ] Removed slice system-getty.slice.
+         Stopping /etc/rc.local Compatibility...
+[  OK  ] Stopped /etc/rc.local Compatibility.
+         Stopping Permit User Sessions...
+[  OK  ] Stopped target Network.
+[  OK  ] Stopped Login Service.
+[  OK  ] Stopped LSB: Load kernel modules needed to enable cpufreq scaling.
+[  OK  ] Stopped Permit User Sessions.
+[  OK  ] Stopped target Remote File Systems.
+[  OK  ] Stopped target Remote File Systems (Pre).
+[  OK  ] Stopped target Basic System.
+[  OK  ] Stopped target Slices.
+[  OK  ] Stopped target Paths.
+[  OK  ] Stopped target Timers.
+[  OK  ] Stopped target Sockets.
+[  OK  ] Closed Avahi mDNS/DNS-SD Stack Activation Socket.
+[  OK  ] Closed UUID daemon activation socket.
+[  OK  ] Closed Syslog Socket.
+[  OK  ] Closed D-Bus System Message Bus Socket.
+[  OK  ] Stopped target System Initialization.
+         Stopping Apply Kernel Variables...
+[  OK  ] Stopped Apply Kernel Variables.
+         Stopping Load Kernel Modules...
+[  OK  ] Stopped Load Kernel Modules.
+[  OK  ] Stopped target Encrypted Volumes.
+         Stopping Update UTMP about System Boot/Shutdown...
+         Stopping LSB: Raise network interfaces....
+[  OK  ] Stopped target Swap.
+[  OK  ] Removed slice User and Session Slice.
+[  OK  ] Stopped Update UTMP about System Boot/Shutdown.
+         Stopping Create Volatile Files and Directories...
+[  OK  ] Stopped Create Volatile Files and Directories.
+[  OK  ] Stopped LSB: Raise network interfaces..
+         Stopping Load/Save Random Seed...
+[  OK  ] Stopped target Local File Systems.
+         Unmounting /run/user/1000...
+         Unmounting /tmp...
+         Stopping Monitoring of LVM2 mirrors, snapshots etc. ...ress polling...
+[  OK  ] Stopped Load/Save Random Seed.
+[  OK  ] Unmounted /run/user/1000.
+[  OK  ] Unmounted /tmp.
+[  OK  ] Stopped Monitoring of LVM2 mirrors, snapshots etc. u...ogress polling.
+[  OK  ] Reached target Unmount All Filesystems.
+[  OK  ] Stopped target Local File Systems (Pre).
+         Stopping Create Static Device Nodes in /dev...
+[  OK  ] Stopped Create Static Device Nodes in /dev.
+         Stopping Remount Root and Kernel File Systems...
+[  OK  ] Stopped Remount Root and Kernel File Systems.
+[  OK  ] Reached target Shutdown.
+systemd-shutdown[1]: Sending SIGTERM to remaining processes...
+systemd-journald[164]: Received SIGTERM from PID 1 (systemd-shutdow).
+systemd-shutdown[1]: Sending SIGKILL to remaining processes...
+systemd-shutdown[1]: Unmounting file systems.
+systemd-shutdown[1]: Unmounting /sys/kernel/config.
+systemd-shutdown[1]: Unmounting /sys/kernel/debug.
+systemd-shutdown[1]: All filesystems unmounted.
+systemd-shutdown[1]: Deactivating swaps.
+systemd-shutdown[1]: All swaps deactivated.
+systemd-shutdown[1]: Detaching loop devices.
+systemd-shutdown[1]: All loop devices detached.
+systemd-shutdown[1]: Detaching DM devices.
+systemd-shutdown[1]: All DM devices detached.
+systemd-shutdown[1]: Powering off.
+System halted.
+
+U-Boot SPL 2016.01-rc2 (Dec 19 2015 - 17:35:43)
+drivers/ddr/altera/sequencer.c: Preparing to start memory calibration
+drivers/ddr/altera/sequencer.c: CALIBRATION PASSED
+drivers/ddr/altera/sequencer.c: Calibration complete
+Trying to boot from MMC
+
+
+U-Boot 2016.01-rc2 (Dec 19 2015 - 17:35:43 +0100)
+
+CPU:   Altera SoCFPGA Platform
+FPGA:  Altera Cyclone V, SE/A4 or SX/C4, version 0x0
+BOOT:  SD/MMC Internal Transceiver (3.0V)
+       Watchdog enabled
+I2C:   ready
+DRAM:  1 GiB
+MMC:   dwmmc0@ff704000: 0
+*** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Model: Terasic DE0-Nano(Atlas)
+Net:   
+Error: ethernet@ff702000 address not set.
+No ethernet found.
+Hit any key to stop autoboot:  0 
+reading zImage
+3534768 bytes read in 186 ms (18.1 MiB/s)
+reading socfpga.dtb
+19357 bytes read in 6 ms (3.1 MiB/s)
+Kernel image @ 0x1000000 [ 0x000000 - 0x35efb0 ]
+## Flattened Device Tree blob at 00000100
+   Booting using the fdt blob at 0x000100
+   Loading Device Tree to 03ff8000, end 03fffb9c ... OK
+
+Starting kernel ...
+
+Booting Linux on physical CPU 0x0
+Initializing cgroup subsys cpuset
+Linux version 3.10.37-ltsi-rt37-05835-g60a76aa (mib@Debian-8) (gcc version 4.9.2 20140904 (prerelease) (crosstool-NG linaro-1.5
+CPU: ARMv7 Processor [413fc090] revision 0 (ARMv7), cr=10c5387d
+CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+Machine: Altera SOCFPGA, model: Altera SOCFPGA Cyclone V
+Memory policy: ECC disabled, Data cache writealloc
+PERCPU: Embedded 9 pages/cpu @80f83000 s12608 r8192 d16064 u36864
+Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 260096
+Kernel command line: console=ttyS0,115200 root=/dev/mmcblk0p2 rw rootwait
+PID hash table entries: 4096 (order: 2, 16384 bytes)
+Dentry cache hash table entries: 131072 (order: 8, 1048576 bytes)
+Inode-cache hash table entries: 65536 (order: 6, 262144 bytes)
+Memory: 1024MB = 1024MB total
+Memory: 1031292k/1031292k available, 17284k reserved, 0K highmem
+Virtual kernel memory layout:
+    vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+    fixmap  : 0xfff00000 - 0xfffe0000   ( 896 kB)
+    vmalloc : 0xc0800000 - 0xff000000   (1000 MB)
+    lowmem  : 0x80000000 - 0xc0000000   (1024 MB)
+    modules : 0x7f000000 - 0x80000000   (  16 MB)
+      .text : 0x80008000 - 0x80693ea0   (6704 kB)
+      .init : 0x80694000 - 0x806e2140   ( 313 kB)
+      .data : 0x806e4000 - 0x80724fd0   ( 260 kB)
+       .bss : 0x80724fd0 - 0x8076f618   ( 298 kB)
+SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
+Preemptible hierarchical RCU implementation.
+NR_IRQS:16 nr_irqs:16 16
+sched_clock: 32 bits at 100MHz, resolution 10ns, wraps every 42949ms
+Console: colour dummy device 80x30
+Calibrating delay loop... 1836.64 BogoMIPS (lpj=9183232)
+pid_max: default: 32768 minimum: 301
+Mount-cache hash table entries: 512
+CPU: Testing write buffer coherency: ok
+ftrace: allocating 17751 entries in 53 pages
+CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
+Setting up static identity map for 0x804dc9b0 - 0x804dca08
+CPU1: Booted secondary processor
+CPU1: thread -1, cpu 1, socket 0, mpidr 80000001
+Brought up 2 CPUs
+SMP: Total of 2 processors activated (3679.84 BogoMIPS).
+CPU: All CPU(s) started in SVC mode.
+devtmpfs: initialized
+NET: Registered protocol family 16
+fpga bridge driver
+DMA: preallocated 256 KiB pool for atomic coherent allocations
+L310 cache controller enabled
+l2x0: 8 ways, CACHE_ID 0x410030c9, AUX_CTRL 0x32460000, Cache size: 524288 B
+syscon fffef000.l2-cache: regmap [mem 0xfffef000-0xfffeffff] registered
+syscon ffd05000.rstmgr: regmap [mem 0xffd05000-0xffd05fff] registered
+syscon ffc25000.sdrctl: regmap [mem 0xffc25000-0xffc25fff] registered
+syscon ff800000.l3regs: regmap [mem 0xff800000-0xff800fff] registered
+syscon ffd08000.sysmgr: regmap [mem 0xffd08000-0xffd0bfff] registered
+hw-breakpoint: found 5 (+1 reserved) breakpoint and 1 watchpoint registers.
+hw-breakpoint: maximum watchpoint size is 4 bytes.
+altera_hps2fpga_bridge fpgabridge.2: fpga bridge [hps2fpga] registered as device hps2fpga
+altera_hps2fpga_bridge fpgabridge.2: init-val not specified
+altera_hps2fpga_bridge fpgabridge.3: fpga bridge [lshps2fpga] registered as device lwhps2fpga
+altera_hps2fpga_bridge fpgabridge.3: init-val not specified
+altera_hps2fpga_bridge fpgabridge.4: fpga bridge [fpga2hps] registered as device fpga2hps
+altera_hps2fpga_bridge fpgabridge.4: init-val not specified
+bio: create slab <bio-0> at 0
+FPGA Mangager framework driver
+SCSI subsystem initialized
+usbcore: registered new interface driver usbfs
+usbcore: registered new interface driver hub
+usbcore: registered new device driver usb
+lcd_load_custom_fonts: i2c_master_send returns -121
+lcd_cmd_no_params: i2c_master_send returns -121
+lcd_cmd_one_param: i2c_master_send returns -121
+lcd_cmd_no_params: i2c_master_send returns -121
+lcd-comm 0-0028: LCD driver initialized
+pps_core: LinuxPPS API ver. 1 registered
+pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+PTP clock support registered
+Switching to clocksource timer0
+NET: Registered protocol family 2
+TCP established hash table entries: 8192 (order: 4, 65536 bytes)
+TCP bind hash table entries: 8192 (order: 5, 229376 bytes)
+TCP: Hash tables configured (established 8192 bind 8192)
+TCP: reno registered
+UDP hash table entries: 512 (order: 3, 32768 bytes)
+UDP-Lite hash table entries: 512 (order: 3, 32768 bytes)
+NET: Registered protocol family 1
+RPC: Registered named UNIX socket transport module.
+RPC: Registered udp transport module.
+RPC: Registered tcp transport module.
+RPC: Registered tcp NFSv4.1 backchannel transport module.
+hw perfevents: enabled with ARMv7 Cortex-A9 PMU driver, 7 counters available
+arm-pmu arm-pmu: PMU:CTI successfully enabled for 2 cores
+NFS: Registering the id_resolver key type
+Key type id_resolver registered
+Key type id_legacy registered
+NTFS driver 2.1.30 [Flags: R/W].
+jffs2: version 2.2. (NAND) �© 2001-2006 Red Hat, Inc.
+msgmni has been set to 2014
+io scheduler noop registered (default)
+Serial: 8250/16550 driver, 2 ports, IRQ sharing disabled
+ffc02000.serial0: ttyS0 at MMIO 0xffc02000 (irq = 194) is a 16550A
+console [ttyS0] enabled
+altera_fpga_manager ff706000.fpgamgr: fpga manager [Altera FPGA Manager] registered as minor 0
+brd: module loaded
+at24 0-0051: 4096 byte 24c32 EEPROM, writable, 32 bytes/write
+cadence-qspi ff705000.spi: DMA NOT enabled
+cadence-qspi ff705000.spi: master is unqueued, this is deprecated
+m25p80 spi2.0: speed_hz100000000 greater than maximum 1806640Hz
+m25p80: probe of spi2.0 failed with error -22
+cadence-qspi ff705000.spi: Cadence QSPI controller driver
+dw_spi_mmio fff00000.spi: master is unqueued, this is deprecated
+CAN device driver interface
+c_can_platform ffc00000.d_can: invalid resource
+c_can_platform ffc00000.d_can: control memory is not used for raminit
+c_can_platform ffc00000.d_can: c_can_platform device registered (regs=c08e6000, irq=163)
+stmmac - user ID: 0x10, Synopsys ID: 0x37
+ Ring mode enabled
+ DMA HW capability register supported
+ Enhanced/Alternate descriptors
+        Enabled extended descriptors
+ RX Checksum Offload Engine supported (type 2)
+ TX Checksum insertion supported
+ Enable RX Mitigation via HW Watchdog Timer
+libphy: stmmac: probed
+eth0: PHY ID 00221622 at 1 IRQ POLL (stmmac-1:01) active
+dwc2 ffb40000.usb: unable to find phy
+dwc2 ffb40000.usb: EPs:15
+dwc2 ffb40000.usb: dedicated fifos
+dwc2 ffb40000.usb: 2560 invalid for host_rx_fifo_size. Check HW configuration.
+dwc2 ffb40000.usb: DWC OTG Controller
+dwc2 ffb40000.usb: new USB bus registered, assigned bus number 1
+dwc2 ffb40000.usb: irq 160, io mem 0x00000000
+usb usb1: New USB device found, idVendor=1d6b, idProduct=0002
+usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+usb usb1: Product: DWC OTG Controller
+usb usb1: Manufacturer: Linux 3.10.37-ltsi-rt37-05835-g60a76aa dwc2_hsotg
+usb usb1: SerialNumber: ffb40000.usb
+hub 1-0:1.0: USB hub found
+hub 1-0:1.0: 1 port detected
+usbcore: registered new interface driver usb-storage
+mousedev: PS/2 mouse device common for all mice
+rtc-ds1307: probe of 0-0068 failed with error -5
+i2c /dev entries driver
+Synopsys Designware Multimedia Card Interface Driver
+dwmmc_socfpga ff704000.dwmmc0: Using internal DMA controller.
+dwmmc_socfpga ff704000.dwmmc0: Version ID is 240a
+dwmmc_socfpga ff704000.dwmmc0: DW MMC controller at irq 171, 32 bit host data width, 1024 deep fifo
+mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 400000Hz, actual 396825HZ div = 63)
+dwmmc_socfpga ff704000.dwmmc0: 1 slots initialized
+usbcore: registered new interface driver usbhid
+usbhid: USB HID core driver
+TCP: cubic registered
+NET: Registered protocol family 10
+sit: IPv6 over IPv4 tunneling driver
+NET: Registered protocol family 17
+NET: Registered protocol family 15
+can: controller area network core (rev 20120528 abi 9)
+NET: Registered protocol family 29
+can: raw protocol (rev 20120528)
+can: broadcast manager protocol (rev 20120528 t)
+can: netlink gateway (rev 20130117) max_hops=1
+8021q: 802.1Q VLAN Support v1.8
+Key type dns_resolver registered
+VFP support v0.3: implementor 41 architecture 3 part 30 variant 9 rev 4
+ThumbEE CPU extension supported.
+Registering SWP/SWPB emulation handler
+Waiting for root device /dev/mmcblk0p2...
+mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 50000000Hz, actual 50000000HZ div = 0)
+mmc0: new high speed SDHC card at address e624
+mmcblk0: mmc0:e624 SU16G 14.8 GiB 
+ mmcblk0: p1 p2 p3
+kjournald starting.  Commit interval 5 seconds
+EXT3-fs (mmcblk0p2): using internal journal
+EXT3-fs (mmcblk0p2): mounted filesystem with ordered data mode
+VFS: Mounted root (ext3 filesystem) on device 179:2.
+devtmpfs: mounted
+Freeing unused kernel memory: 312K (80694000 - 806e2000)
+systemd[1]: systemd 215 running in system mode. (+PAM +AUDIT +SELINUX +IMA +SYSVINIT +LIBCRYPTSETUP +GCRYPT +ACL +XZ -SECCOMP )
+systemd[1]: Detected architecture 'arm'.
+
+Welcome to Debian GNU/Linux 8 (jessie)!
+
+systemd[1]: Failed to insert module 'autofs4'
+systemd[1]: Set hostname to <mksoc>.
+systemd[1]: Cannot add dependency job for unit display-manager.service, ignoring: Unit display-manager.service failed to load:.
+systemd[1]: Starting Forward Password Requests to Wall Directory Watch.
+systemd[1]: Started Forward Password Requests to Wall Directory Watch.
+systemd[1]: Expecting device dev-ttyS0.device...
+         Expecting device dev-ttyS0.device...
+systemd[1]: Starting Remote File Systems (Pre).
+[  OK  ] Reached target Remote File Systems (Pre).
+systemd[1]: Reached target Remote File Systems (Pre).
+systemd[1]: Starting Dispatch Password Requests to Console Directory Watch.
+systemd[1]: Started Dispatch Password Requests to Console Directory Watch.
+systemd[1]: Starting Paths.
+[  OK  ] Reached target Paths.
+systemd[1]: Reached target Paths.
+systemd[1]: Set up automount Arbitrary Executable File Formats File System Automount Point.
+systemd[1]: Starting Swap.
+[  OK  ] Reached target Swap.
+systemd[1]: Reached target Swap.
+systemd[1]: Starting Root Slice.
+[  OK  ] Created slice Root Slice.
+systemd[1]: Created slice Root Slice.
+systemd[1]: Starting User and Session Slice.
+[  OK  ] Created slice User and Session Slice.
+systemd[1]: Created slice User and Session Slice.
+systemd[1]: Starting Delayed Shutdown Socket.
+[  OK  ] Listening on Delayed Shutdown Socket.
+systemd[1]: Listening on Delayed Shutdown Socket.
+systemd[1]: Starting /dev/initctl Compatibility Named Pipe.
+[  OK  ] Listening on /dev/initctl Compatibility Named Pipe.
+systemd[1]: Listening on /dev/initctl Compatibility Named Pipe.
+systemd[1]: Starting Journal Socket (/dev/log).
+[  OK  ] Listening on Journal Socket (/dev/log).
+systemd[1]: Listening on Journal Socket (/dev/log).
+systemd[1]: Starting LVM2 metadata daemon socket.
+[  OK  ] Listening on LVM2 metadata daemon socket.
+systemd[1]: Listening on LVM2 metadata daemon socket.
+systemd[1]: Starting Device-mapper event daemon FIFOs.
+[  OK  ] Listening on Device-mapper event daemon FIFOs.
+systemd[1]: Listening on Device-mapper event daemon FIFOs.
+systemd[1]: Starting udev Control Socket.
+[  OK  ] Listening on udev Control Socket.
+systemd[1]: Listening on udev Control Socket.
+systemd[1]: Starting udev Kernel Socket.
+[  OK  ] Listening on udev Kernel Socket.
+systemd[1]: Listening on udev Kernel Socket.
+systemd[1]: Starting Journal Socket.
+[  OK  ] Listening on Journal Socket.
+systemd[1]: Listening on Journal Socket.
+systemd[1]: Starting System Slice.
+[  OK  ] Created slice System Slice.
+systemd[1]: Created slice System Slice.
+systemd[1]: Started File System Check on Root Device.
+systemd[1]: Starting system-getty.slice.
+[  OK  ] Created slice system-getty.slice.
+systemd[1]: Created slice system-getty.slice.
+systemd[1]: Starting system-serial\x2dgetty.slice.
+[  OK  ] Created slice system-serial\x2dgetty.slice.
+systemd[1]: Created slice system-serial\x2dgetty.slice.
+systemd[1]: Starting Increase datagram queue length...
+         Starting Increase datagram queue length...
+systemd[1]: Starting Nameserver information manager...
+         Starting Nameserver information manager...
+systemd[1]: Starting Create list of required static device nodes for the current kernel...
+         Starting Create list of required static device nodes...rrent kernel...
+systemd[1]: Mounted POSIX Message Queue File System.
+systemd[1]: Starting udev Coldplug all Devices...
+         Starting udev Coldplug all Devices...
+systemd[1]: Mounting Debug File System...
+         Mounting Debug File System...
+systemd[1]: Starting Load Kernel Modules...
+         Starting Load Kernel Modules...
+systemd[1]: Mounted Huge Pages File System.
+systemd[1]: Started Set Up Additional Binary Formats.
+systemd[1]: Starting Slices.
+[  OK  ] Reached target Slices.
+systemd[1]: Reached target Slices.
+[  OK  ] Mounted Debug File System.
+systemd[1]: Mounted Debug File System.
+[  OK  ] Started Increase datagram queue length.
+systemd[1]: Started Increase datagram queue length.
+[  OK  ] Started Create list of required static device nodes ...current kernel.
+systemd[1]: Started Create list of required static device nodes for the current kernel.
+[  OK  ] Started Load Kernel Modules.
+systemd[1]: Started Load Kernel Modules.
+[  OK  ] Started Nameserver information manager.
+systemd[1]: Started Nameserver information manager.
+[  OK  ] Started udev Coldplug all Devices.
+systemd[1]: Started udev Coldplug all Devices.
+systemd[1]: Starting udev Wait for Complete Device Initialization...
+         Starting udev Wait for Complete Device Initialization...
+systemd[1]: Mounting Configuration File System...
+         Mounting Configuration File System...
+systemd[1]: Mounted FUSE Control File System.
+systemd[1]: Starting Apply Kernel Variables...
+         Starting Apply Kernel Variables...
+systemd[1]: Starting Create Static Device Nodes in /dev...
+         Starting Create Static Device Nodes in /dev...
+systemd[1]: Starting Syslog Socket.
+[  OK  ] Listening on Syslog Socket.
+systemd[1]: Listening on Syslog Socket.
+systemd[1]: Starting Journal Service...
+         Starting Journal Service...
+[  OK  ] Started Journal Service.
+systemd[1]: Started Journal Service.
+[  OK  ] Mounted Configuration File System.
+[  OK  ] Started Apply Kernel Variables.
+[  OK  ] Started Create Static Device Nodes in /dev.
+         Starting udev Kernel Device Manager...
+[  OK  systemd-udevd[170]: starting version 215
+] Started udev Kernel Device Manager.
+         Starting LSB: Set preliminary keymap...
+[  OK  ] Started LSB: Set preliminary keymap.
+[  OK  ] Found device /dev/ttyS0.
+         Starting Remount Root and Kernel File Systems...
+[  OK  ] Created slice system-ifup.slice.
+[  OK  ] Started Remount Root and Kernel File Systems.
+[  OK  ] Started udev Wait for Complete Device Initialization.
+         Starting Activation of LVM2 logical volumes...
+         Starting Copy rules generated while the root was ro...
+         Starting Load/Save Random Seed...
+[  OK  ] Reached target Local File Systems (Pre).
+         Mounting /tmp...
+[  OK  ] Started Copy rules generated while the root was ro.
+[  OK  ] Started Activation of LVM2 logical volumes.
+[  OK  ] Started Load/Save Random Seed.
+[  OK  ] Mounted /tmp.
+[  OK  ] Reached target Encrypted Volumes.
+         Starting Activation of LVM2 logical volumes...
+[  OK  ] Started Activation of LVM2 logical volumes.
+         Starting Monitoring of LVM2 mirrors, snapshots etc. ...ress polling...
+[  OK  ] Started Monitoring of LVM2 mirrors, snapshots etc. u...ogress polling.
+[  OK  ] Reached target Local File Systems.
+         Starting Create Volatile Files and Directories...
+         Starting LSB: Raise network interfaces....
+[  OK  ] Reached target Remote File Systems.
+         Starting Trigger Flushing of Journal to Persistent Storage...
+         Starting LSB: Prepare console...
+[  OK  ] Started Create Volatile Files and Directories.
+systemd-journald[164]: Received request to flush runtime journal from PID 1
+[  OK  ] Started Trigger Flushing of Journal to Persistent Storage.
+         Starting Update UTMP about System Boot/Shutdown...
+[  OK  ] Started Update UTMP about System Boot/Shutdown.
+[  OK  ] Started LSB: Prepare console.
+         Starting LSB: Set console font and keymap...
+eth0: device MAC address b6:65:63:d8:76:1a
+[  OK  ] Started LSB: Set console font and keymap.
+libphy: stmmac-1:01 - Link is Up - 1000/Full
+[  OK  ] Started LSB: Raise network interfaces..
+         Starting ifup for eth0...
+[  OK  ] Started ifup for eth0.
+[  OK  ] Reached target Network.
+[  OK  ] Reached target Network is Online.
+[  OK  ] Reached target System Initialization.
+[  OK  ] Listening on Avahi mDNS/DNS-SD Stack Activation Socket.
+[  OK  ] Listening on UUID daemon activation socket.
+[  OK  ] Listening on D-Bus System Message Bus Socket.
+[  OK  ] Reached target Sockets.
+[  OK  ] Reached target Timers.
+[  OK  ] Reached target Basic System.
+         Starting Entropy daemon using the HAVEGE algorithm...
+[  OK  ] Started Entropy daemon using the HAVEGE algorithm.
+         Starting OpenBSD Secure Shell server...
+[  OK  ] Started OpenBSD Secure Shell server.
+         Starting Regular background program processing daemon...
+[  OK  ] Started Regular background program processing daemon.
+         Starting Modem Manager...
+         Starting /etc/rc.local Compatibility...
+         Starting Login Service...
+         Starting LSB: Start NTP daemon...
+         Starting LSB: exim Mail Transport Agent...
+         Starting LSB: Load kernel modules needed to enable cpufreq scaling...
+         Starting Avahi mDNS/DNS-SD Stack...
+         Starting D-Bus System Message Bus...
+[  OK  ] Started D-Bus System Message Bus.
+[  OK  ] Started Avahi mDNS/DNS-SD Stack.
+         Starting LSB: SANE network scanner server...
+         Starting System Logging Service...
+         Starting Permit User Sessions...
+[  OK  ] Started /etc/rc.local Compatibility.
+[  OK  ] Started LSB: Start NTP daemon.
+[  OK  ] Started LSB: Load kernel modules needed to enable cpufreq scaling.
+[  OK  ] Started LSB: SANE network scanner server.
+[  OK  ] Started Permit User Sessions.
+[  OK  ] Started System Logging Service.
+         Starting Authenticate and Authorize Users to Run Privileged Tasks...
+         Starting LSB: set CPUFreq kernel parameters...
+         Starting Getty on tty1...
+[  OK  ] Started Getty on tty1.
+         Starting Serial Getty on ttyS0...
+[  OK  ] Started Serial Getty on ttyS0.
+[  OK  ] Reached target Login Prompts.
+[  OK  ] Started LSB: set CPUFreq kernel parameters.
+[  OK  ] Started Login Service.
+[  OK  ] Started Authenticate and Authorize Users to Run Privileged Tasks.
+[  OK  ] Started Modem Manager.
+[  OK  ] Started LSB: exim Mail Transport Agent.
+[  OK  ] Reached target Multi-User System.
+[  OK  ] Reached target Graphical Interface.
+         Starting Update UTMP about System Runlevel Changes...
+[  OK  ] Started Update UTMP about System Runlevel Changes.
+
+Debian GNU/Linux 8 mksoc ttyS0
+
+mksoc login: 
+CTRL-A Z for help | 115200 8N1 | NOR | Minicom 2.7 | VT102 | Offline | ttyUSB0                                                
