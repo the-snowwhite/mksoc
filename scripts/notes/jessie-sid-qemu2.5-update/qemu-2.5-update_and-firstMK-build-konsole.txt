@@ -338,7 +338,7 @@ sudo apt-get purge libtinfo*
 sudo apt-get purge libxen*
 
 
-sudo apt-get purge libncurses5-dev libncursesw5 libspice-server-dev libssl-dev libtinfo-dev 
+sudo apt-get purge libncurses5-dev libncurses5* libtinfo* libxen* libspice-server-dev libssl-dev libtinfo-dev 
 
 
 
