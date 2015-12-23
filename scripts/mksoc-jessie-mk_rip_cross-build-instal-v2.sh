@@ -5,7 +5,32 @@
 # future scripts should add the possibility to add a Xenomai kernel and/or
 # the QtQuickVCP development prerequisits
 # there are no build prerequisits installed
-# for more info see https://github.com/machinekit/machinekit/issues/229
+# 
+# the script repo list history goes back as follows:
+# 
+# https://github.com/the-snowwhite/scripts
+# mksoc-jessie-mk-install.sh
+
+# https://github.com/luminize/scripts
+# bareinstall.sh
+
+# https://github.com/mhaberler/scripts
+# testbranch.sh
+#
+#
+#for more info see:
+# https://github.com/machinekit/machinekit/issues/229
+# [Installing (development) Machinekit from pristine Debian image #229](https://github.com/machinekit/machinekit/issues/229#issue-36072102)
+#
+# #765
+# https://github.com/machinekit/machinekit/issues/765
+# [Info on Creating Vagrant VMs for Machinekit missing](https://github.com/machinekit/machinekit/issues/765)
+# <a href="https://github.com/machinekit/machinekit/issues/765" class="title-link"> Info on Creating Vagrant VMs for Machinekit missing <span class="issue-num">#765</span> </a>
+# <a href="https://github.com/machinekit/machinekit/issues/765" class="issue-link js-issue-link" data-id="110147438" data-error-text="Failed to load issue title" data-permission-text="Issue title is private" title="Info on Creating Vagrant VMs for Machinekit missing">#765</a>
+#
+# [machinekit not ready for Xenomai3, jessie, beagleboard X15 #598] (https://github.com/machinekit/machinekit/issues/598) 
+# https://github.com/machinekit/machinekit/issues/598#issuecomment-134667637
+
 
 # ? first download and install czmq from:
 # https://packages.debian.org/source/sid/czmq 
