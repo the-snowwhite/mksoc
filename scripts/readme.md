@@ -9,5 +9,6 @@ Files are created in the current terminal path the script is called from
 
 [Script for Installing / compiling full Machinekit armhf Debian Jessie rip build] (https://github.com/the-snowwhite/mksoc/blob/master/scripts/mksoc-jessie-mk_rip_build-instal-v2.sh)
 
-works on the dev board, tested and works now also in x84_64 chroot
+[Latest version](https://github.com/the-snowwhite/mksoc/blob/master/scripts/generic-jessie-mk_rip_fresh-build-instal-beta.sh)
+tested and works in x84_64 chroot
 
