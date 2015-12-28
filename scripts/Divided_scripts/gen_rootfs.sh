@@ -12,7 +12,7 @@ ROOTFS_IMG=${WORK_DIR}/rootfs.img
 DRIVE=/dev/loop0
 ROOTFS_DIR=${WORK_DIR}/rootfs
 
-distro=jessie
+DISTRO=jessie
 
 DEFGROUPS="sudo,kmem,adm,dialout,machinekit,video,plugdev"
 
@@ -22,11 +22,12 @@ DEFGROUPS="sudo,kmem,adm,dialout,machinekit,video,plugdev"
 #------------------------------------------------------------------------------------------------------
 function install_dep {
 #apt-get install qemu qemu-user-static binfmt-support debootstrap
-    sudo apt-get install qemu binfmt-support qemu-user-static schroot debootstrap
+    sudo apt-get install qemu binfmt-support qemu-user-static qemu-utils schroot debootstrap
+
 }
 
 function run_bootstrap {
-sudo qemu-debootstrap --arch=armhf --variant=buildd  --keyring /usr/share/keyrings/debian-archive-keyring.gpg --include=adduser,resolvconf,apt-utils,ssh,sudo,ntpdate,openssl,vim,nano,cryptsetup,lvm2,locales,login,build-essential,gcc,g++,gdb,make,subversion,git,curl,zip,unzip,pbzip2,pigz,dialog,openssh-server,ntpdate,less,cpufrequtils,isc-dhcp-client,ntp,console-setup,ca-certificates,xserver-xorg,xserver-xorg-video-dummy,debian-archive-keyring,debian-keyring,debian-ports-archive-keyring,netbase,iproute2,iputils-ping,iputils-arping,iputils-tracepath,wget,haveged $distro $ROOTFS_DIR http://ftp.debian.org/debian/
+sudo qemu-debootstrap --arch=armhf --variant=buildd  --keyring /usr/share/keyrings/debian-archive-keyring.gpg --include=adduser,resolvconf,apt-utils,ssh,sudo,ntpdate,openssl,vim,nano,cryptsetup,lvm2,locales,login,build-essential,gcc,g++,gdb,make,subversion,git,curl,zip,unzip,pbzip2,pigz,dialog,openssh-server,ntpdate,less,cpufrequtils,isc-dhcp-client,ntp,console-setup,ca-certificates,xserver-xorg,xserver-xorg-video-dummy,debian-archive-keyring,debian-keyring,debian-ports-archive-keyring,netbase,iproute2,iputils-ping,iputils-arping,iputils-tracepath,wget,haveged $DISTRO $ROOTFS_DIR http://ftp.debian.org/debian/
 }
 
 function setup_configfiles {
@@ -41,12 +42,12 @@ EOT'
 #}
 
 sudo sh -c 'cat <<EOT > '$ROOTFS_DIR'/etc/apt/sources.list
-deb http://ftp.dk.debian.org/debian '$distro'  main contrib non-free
-deb-src http://ftp.dk.debian.org/debian  '$distro' main contrib non-free
-deb http://ftp.dk.debian.org/debian '$distro'-updates main contrib non-free
-deb-src http://ftp.dk.debian.org/debian/ '$distro'-updates main contrib non-free
-deb http://security.debian.org/ '$distro'/updates main contrib non-free
-deb-src http://security.debian.org '$distro'/updates main contrib non-free
+deb http://ftp.dk.debian.org/debian/ '$DISTRO'  main contrib non-free
+deb-src http://ftp.dk.debian.org/debian/  '$DISTRO' main contrib non-free
+deb http://ftp.dk.debian.org/debian/ '$DISTRO'-updates main contrib non-free
+deb-src http://ftp.dk.debian.org/debian/ '$DISTRO'-updates main contrib non-free
+deb http://security.debian.org/ '$DISTRO'/updates main contrib non-free
+deb-src http://security.debian.org/ '$DISTRO'/updates main contrib non-free
 EOT'
 
 
@@ -215,7 +216,7 @@ sudo sh -c 'cat <<EOT > '$ROOTFS_DIR'/etc/locale.gen
 # en_CA.UTF-8 UTF-8
 # en_DK ISO-8859-1
 # en_DK.ISO-8859-15 ISO-8859-15
-en_DK.UTF-8 UTF-8
+# en_DK.UTF-8 UTF-8
 # en_GB ISO-8859-1
 # en_GB.ISO-8859-15 ISO-8859-15
 en_GB.UTF-8 UTF-8
@@ -615,7 +616,7 @@ sudo chsh -s /bin/bash machinekit
 echo "NOTE: ""User Added"
 
 echo "NOTE: ""Will now add user to groups"
-sudo usermod -a -G $DEFGROUPS machinekit
+sudo usermod -a -G '$DEFGROUPS' machinekit
 sync
 
 echo "NOTE: ""Will now run apt update, upgrade"
@@ -642,10 +643,11 @@ run_initial_sh
 }
 
 function run_func {
-#    install_dep  #install qemu 2.5 from sid instead
+##    install_dep  #install qemu 2.5 from sid instead --> migrated to stretch(testing)
+
     run_bootstrap
     setup_configfiles
-#    run_chroot
+    run_chroot
 }
 
 function sd_card_img_install {
