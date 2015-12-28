@@ -15,8 +15,9 @@ KERNEL_CONF='socfpga_defconfig'
 
 distro=jessie
 
-CC_DIR="${WORK_DIR}/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux"
-CC="${CC_DIR}/bin/arm-linux-gnueabihf-"
+#CC_DIR="${WORK_DIR}/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux"
+#CC="${CC_DIR}/bin/arm-linux-gnueabihf-"
+CC="arm-linux-gnueabihf-"
 
 
 IMG_FILE=${WORK_DIR}/mksoc_sdcard.img
@@ -28,35 +29,46 @@ NCORES=`nproc`
 
 function install_dep {
 # install deps for kernel build
-sudo apt-get install bc u-boot-tools
+sudo apt-get install bc u-boot-tools 
+# install linaro gcc 4.9 crosstoolchain dependency:
+sudo apt-get install lib32stdc++6
+
 }
 
 function fetch_kernel {
-
-mkdir -p $KERNEL_DIR
-cd $KERNEL_DIR
-git clone $KERNEL_URL linux
-cd linux 
-git remote add linux $KERNEL_URL
-
-# git remote show linux
-git fetch linux
-git checkout -b $KERNEL_CHKOUT
+    if [ -d ${KERNEL_DIR} ]; then
+        echo the kernel target directory $KERNEL_DIR already exists.
+        echo cleaning repo
+        cd $KERNEL_DIR 
+        git clean -d -f -x
+    else
+        mkdir -p $KERNEL_DIR
+        cd $KERNEL_DIR
+        git clone $KERNEL_URL linux
+        cd linux 
+        git remote add linux $KERNEL_URL
+    fi
+    git fetch linux
+    git checkout -b $KERNEL_CHKOUT
+    cd ..  
 }
 
 function build_kernel {
 export CROSS_COMPILE=$CC
 cd $KERNEL_DIR/linux
 #clean
-make mrproper
+make -j$NCORES mrproper
 # configure
 make ARCH=arm $KERNEL_CONF 2>&1 | tee ../linux-config_rt-log.txt
+#make $KERNEL_CONF 2>&1 | tee ../linux-config_rt-log.txt
 
 # zImage:
 make -j$NCORES ARCH=arm 2>&1 | tee ../linux-make_rt-log_.txt
+#make -j$NCORES 2>&1 | tee ../linux-make_rt-log_.txt
 
 # modules:
 make -j$NCORES ARCH=arm modules 2>&1 | tee ../linux-modules_rt-log.txt
+#make -j$NCORES modules 2>&1 | tee ../linux-modules_rt-log.txt
 }
 
 echo "#---------------------------------------------------------------------------------- "
