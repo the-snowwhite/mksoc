@@ -19,7 +19,8 @@ CC_DIR="${WORK_DIR}/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux"
 CC_URL="https://releases.linaro.org/14.09/components/toolchain/binaries/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux.tar.bz2"
 
 CC_FILE="${CC_DIR}.tar.bz2"
-CC="${CC_DIR}/bin/arm-linux-gnueabihf-"
+#CC="${CC_DIR}/bin/arm-linux-gnueabihf-"
+CC="arm-linux-gnueabihf-"
 
 #UBOOT_VERSION=''
 #UBOOT_VERSION='v2015.10'
@@ -34,31 +35,55 @@ UBOOT_SPLFILE=${UBOOT_DIR}/u-boot-with-spl-dtb.sfp
 
 NCORES=`nproc`
 
+extract_toolchain() {
+    if hash lbzip2 2>/dev/null; then
+        echo "lbzip2 found"
+        tar --use=lbzip2 -xf ${CC_FILE}
+    else
+        echo "lbzip2 not found using tar simglecore extract"
+        tar xf ${CC_FILE}
+    fi
+    # install dependency:
+    sudo apt-get install lib32stdc++6
+}
+
 
 function get_toolchain {
 # download linaro cross compiler toolchain
-# uses multicore extract (lbzip2)
 
-# extract linaro cross compiler toolchain
 if [ ! -d ${CC_DIR} ]; then
     if [ ! -f ${CC_FILE} ]; then
         echo "downloading toolchain"
     	wget -c ${CC_URL}
     fi
+# extract linaro cross compiler toolchain
+# uses multicore extract (lbzip2) if available
 
     echo "extracting toolchain" 
-#	tar xf ${CC_FILE}
-	tar --use=lbzip2 -xf ${CC_FILE}
+    extract_toolchain
+#	
+	
 fi
 }
 
 function fetch_uboot {
 # Fetch uboot
+# refuse to clone into an existing directory.
+if [ -d "$UBOOT_DIR" ]; then
+    echo the target directory $UBOOT_DIR already exists.
+    echo cleaning repo
+    cd $UBOOT_DIR 
+    git clean -d -f -x
+    cd ..    
+else
+    echo "installing deps"
+    apt install u-boot-tools device-tree-compiler
+#if [ ! -f ${UBOOT_DIR} ]; then
+    echo "cloning u-boot"
+    git clone git://git.denx.de/u-boot.git uboot
+fi
 
-echo "cloning u-boot"
-git clone git://git.denx.de/u-boot.git uboot
-
-cd uboot
+cd $UBOOT_DIR
 if [ ! -z "$UBOOT_VERSION" ]
 then
     git checkout $UBOOT_VERSION $CHKOUT_OPTIONS
@@ -66,16 +91,27 @@ fi
 cd ..
 }
 
+install_sretch_armhf_crosstoolchain() {
+sudo dpkg --add-architecture armhf
+sudo apt-get update
+
+#sudo apt-get install crossbuild-essential-armhf
+#sudo apt-get install gcc-arm-linux-gnueabihf
+
+sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf libc6-dev debconf dpkg-dev libconfig-auto-perl file libfile-homedir-perl libfile-temp-perl liblocale-gettext-perl perl binutils-multiarch fakeroot
+
+}
+
 function build_uboot {
 # compile u-boot + spl
 export ARCH=arm
-export PATH=$CC_DIR/bin/:$PATH
+#export PATH=$CC_DIR/bin/:$PATH
 export CROSS_COMPILE=$CC
 
 echo "compiling u-boot"
 make mrproper
-make $BOARD_CONFIG
-make $MAKE_CONFIG -j$NCORES
+make -j$NCORES $BOARD_CONFIG
+make -j$NCORES $MAKE_CONFIG
 }
 
 # run functions
@@ -83,9 +119,11 @@ echo "#-------------------------------------------------------------------------
 echo "#-------------+++      build_uboot.sh Start      +++------------------------------- "
 echo "#---------------------------------------------------------------------------------- "
 
+set -ex
+
 if [ ! -z "$WORK_DIR" ]; then
     cd $WORK_DIR
-    get_toolchain
+#    get_toolchain
     fetch_uboot
     cd $UBOOT_DIR
     build_uboot
