@@ -18,25 +18,30 @@ WORK_DIR=$1
 ROOTFS_DIR=${CURRENT_DIR}/rootfs
 distro=jessie
 
+CHROOT_DIR=$HOME/stretch
+
 #-------------------------------------------
 # u-boot, toolchain, imagegen vars
 #-------------------------------------------
 set -e      #halt on all errors
 
 # cross toolchain
-CC_DIR="${CURRENT_DIR}/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux"
-CC_URL="https://releases.linaro.org/14.09/components/toolchain/binaries/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux.tar.bz2"
-CC_FILE="${CC_DIR}.tar.bz2"
-CC="${CC_DIR}/bin/arm-linux-gnueabihf-"
+#CC_DIR="${CURRENT_DIR}/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux"
+#CC_URL="https://releases.linaro.org/14.09/components/toolchain/binaries/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux.tar.bz2"
+#CC_FILE="${CC_DIR}.tar.bz2"
+#CC="${CC_DIR}/bin/arm-linux-gnueabihf-"
+
+CC="arm-linux-gnueabihf-"
 
 #UBOOT_VERSION=''
-UBOOT_VERSION='v2015.10'
-UBOOT_SPLFILE=${CURRENT_DIR}/uboot/u-boot-with-spl-dtb.sfp
+#UBOOT_VERSION='v2015.10'
+UBOOT_SPLFILE=${CHROOT_DIR}/home/uboot/u-boot-with-spl-dtb.sfp
 
 IMG_FILE=${CURRENT_DIR}/mksoc_sdcard.img
-DRIVE=/dev/loop0
+#LOOP_MNT=/dev/loop0
 
-KERNEL_DIR=${CURRENT_DIR}/arm-linux-gnueabifh-kernel
+KERNEL_FOLDER_NAME="linux-4.1.15"
+KERNEL_DIR=${CHROOT_DIR}/home/$KERNEL_FOLDER_NAME
 
 NCORES=`nproc`
 
@@ -49,15 +54,23 @@ ROOTFS_FILE=$ROOTFS_NAME'.tar.xz'
 
 
 #-----------------------------------------------------------------------------------
+# install dependencies
+#-----------------------------------------------------------------------------------
+
+#install_deps() {
+#    sudo apt-get install
+#}
+
+#-----------------------------------------------------------------------------------
 # build files
 #-----------------------------------------------------------------------------------
 
 function build_uboot {
-$SCRIPT_ROOT_DIR/build_uboot.sh $CURRENT_DIR
+$SCRIPT_ROOT_DIR/build_uboot.sh $CHROOT_DIR
 }
 
 function build_kernel {
-$SCRIPT_ROOT_DIR/build_kernel.sh $CURRENT_DIR
+$SCRIPT_ROOT_DIR/build_kernel.sh $CHROOT_DIR
 }
 
 function build_rcn_kernel {
@@ -72,11 +85,11 @@ cd ..
 }
 
 
-function build_chroot_into_image {
+function build_qemu_chroot_into_image {
 $SCRIPT_ROOT_DIR/gen_rootfs.sh $CURRENT_DIR /mnt
 }
 
-function build_chroot_into_folder {
+function build_qemu_chroot {
 $SCRIPT_ROOT_DIR/gen_rootfs.sh $CURRENT_DIR
 }
 
@@ -157,31 +170,32 @@ echo "#-----------------------------          ----------------------------------
 echo "#-------------------------------------------------------------------------------#"
 echo "#-------------------------------------------------------------------------------#"
 
-sudo losetup --show -f $IMG_FILE
+#sudo losetup --show -f $IMG_FILE
+LOOP_MNT=`bash -c 'sudo losetup --show -f '$IMG_FILE''`
 
 echo "# --------- installing boot partition files (kernel, dts, dtb) ---------"
 sudo mkdir -p $BOOT_MNT
-sudo mount -o uid=1000,gid=1000 ${DRIVE}p1 $BOOT_MNT
+sudo mount -o uid=1000,gid=1000 ${LOOP_MNT}p1 $BOOT_MNT
 
 echo "copying boot sector files"
-sudo cp $KERNEL_DIR/linux/arch/arm/boot/zImage $BOOT_MNT
-sudo cp $KERNEL_DIR/linux/arch/arm/boot/dts/socfpga_cyclone5.dts $BOOT_MNT/socfpga.dts
-#sudo cp $KERNEL_DIR/linux/arch/arm/boot/dts/socfpga_cyclone5_de0_sockit.dts $BOOT_MNT/socfpga.dts
-sudo cp $KERNEL_DIR/linux/arch/arm/boot/dts/socfpga_cyclone5.dtb $BOOT_MNT/socfpga.dtb
+sudo cp $KERNEL_DIR/arch/arm/boot/zImage $BOOT_MNT
+sudo cp $KERNEL_DIR/arch/arm/boot/dts/socfpga_cyclone5_sockit.dts $BOOT_MNT/socfpga.dts
+#sudo cp $KERNEL_DIR/arch/arm/boot/dts/socfpga_cyclone5_de0_sockit.dts $BOOT_MNT/socfpga.dts
+sudo cp $KERNEL_DIR/arch/arm/boot/dts/socfpga_cyclone5_sockit.dtb $BOOT_MNT/socfpga.dtb
 sudo umount $BOOT_MNT
 
 echo "# --------- installing rootfs partition files (chroot, kernel modules) ---------"
 sudo mkdir -p $ROOTFS_MNT
-sudo mount ${DRIVE}p2 $ROOTFS_MNT
+sudo mount ${LOOP_MNT}p2 $ROOTFS_MNT
 
 # Rootfs -------#
 cd $ROOTFS_DIR
 sudo tar cf - . | (sudo tar xvf - -C $ROOTFS_MNT)
 
 # kernel modules -------#
-cd $KERNEL_DIR/linux
-export PATH=$CC_DIR/bin/:$PATH
-#export CROSS_COMPILE=$CC
+cd $KERNEL_DIR
+#export PATH=$CC_DIR/bin/:$PATH
+export CROSS_COMPILE=$CC
 sudo make ARCH=arm INSTALL_MOD_PATH=$ROOTFS_MNT modules_install
 #sudo make -j$NCORES LOADADDR=0x8000 modules_install INSTALL_MOD_PATH=$ROOTFS_MNT
 
@@ -203,18 +217,19 @@ echo "#-------------------------------------------------------------------------
 echo "#-----------+++     Full Image building process start       +++-------------------- "
 echo "#---------------------------------------------------------------------------------- "
 
-build_uboot
-build_kernel
+#build_uboot
+#build_kernel
 
 ##build_rcn_kernel
 
-##build_chroot_into_image
-build_chroot_into_folder
+##build_qemu_chroot_into_image
+
+#build_qemu_chroot
 
 ##fetch_rcn_rootfs
 
-gen_initial_sh
-run_initial_sh
+##gen_initial_sh
+##run_initial_sh
 
 
 create_image
