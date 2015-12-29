@@ -27,7 +27,7 @@ function install_dep {
 }
 
 function run_bootstrap {
-sudo qemu-debootstrap --arch=armhf --variant=buildd  --keyring /usr/share/keyrings/debian-archive-keyring.gpg --include=adduser,apt-utils,systemd,dbus,dbus-x11,autofs,lvm2,login,ssh,sudo,ntpdate,openssl,vim,nano,cryptsetup,build-essential,gcc,g++,gdb,make,subversion,curl,zip,unzip,pbzip2,pigz,dialog,git,openssh-server,ntpdate,less,cpufrequtils,isc-dhcp-client,ntp,console-setup,ca-certificates,xserver-xorg,xserver-xorg-video-dummy,debian-archive-keyring,debian-keyring,debian-ports-archive-keyring,netbase,iproute2,iputils-ping,iputils-arping,iputils-tracepath,wget,haveged $DISTRO $ROOTFS_DIR http://ftp.debian.org/debian/
+sudo qemu-debootstrap --arch=armhf --variant=buildd  --keyring /usr/share/keyrings/debian-archive-keyring.gpg --include=adduser,apt-utils,systemd,dbus,dbus-x11,autofs,rpcbind,lvm2,login,ssh,sudo,ntpdate,openssl,vim,nano,cryptsetup,build-essential,gcc,g++,gdb,make,subversion,curl,zip,unzip,pbzip2,pigz,dialog,git,openssh-server,ntpdate,less,cpufrequtils,isc-dhcp-client,ntp,console-setup,ca-certificates,xserver-xorg,xserver-xorg-video-dummy,debian-archive-keyring,debian-keyring,debian-ports-archive-keyring,netbase,iproute2,iputils-ping,iputils-arping,iputils-tracepath,wget,haveged $DISTRO $ROOTFS_DIR http://ftp.debian.org/debian/
 }
 
 function setup_configfiles {
@@ -51,13 +51,13 @@ deb-src http://security.debian.org/ '$DISTRO'/updates main contrib non-free
 EOT'
 
 
-sudo sh -c 'cat <<EOT > '$ROOTFS_DIR'/etc/fstab
-# /etc/fstab: static file system information.
-#
-# <file system> <mount point>   <type>  <options>       <dump>  <pass>
-/dev/root      /               ext3    noatime,errors=remount-ro 0 1
-tmpfs          /tmp            tmpfs   defaults          0       0
-EOT'
+#sudo sh -c 'cat <<EOT > '$ROOTFS_DIR'/etc/fstab
+## /etc/fstab: static file system information.
+##
+## <file system> <mount point>   <type>  <options>       <dump>  <pass>
+#/dev/root      /               ext3    noatime,errors=remount-ro 0 1
+#tmpfs          /tmp            tmpfs   defaults          0       0
+#EOT'
 
 
 sudo sh -c 'echo mksoc > '$ROOTFS_DIR'/etc/hostname'
@@ -66,15 +66,16 @@ sudo sh -c 'cat <<EOT > '$ROOTFS_DIR'/etc/hosts
 
 127.0.0.1       localhost
 127.0.1.1       mksoc.local      mksoc
-#::1             localhost ip6-localhost ip6-loopback
 EOT'
 
+#sudo mkdir $ROOTFS_DIR/etc/systemd/network
  
-sudo sh -c 'cat <<EOT >> '$ROOTFS_DIR'/etc/network/interfaces
-auto lo eth0
-iface lo inet loopback
-allow-hotplug eth0
-    iface eth0 inet dhcp
+sudo sh -c 'cat <<EOT >> '$ROOTFS_DIR'/etc/systemd/network/20-dhcp.network
+[Match]
+Name=eth*
+
+[Network]
+DHCP=yes
 EOT'
 
 sudo sh -c 'echo T0:2345:respawn:rootfs/sbin/getty -L ttyS0 115200 vt100 >> '$ROOTFS_DIR'/etc/inittab'
@@ -641,7 +642,7 @@ run_initial_sh
 function run_func {
 ##    install_dep  #install qemu 2.5 from sid instead --> migrated to stretch(testing)
 
-    run_bootstrap
+#    run_bootstrap
     setup_configfiles
     run_chroot
 }
