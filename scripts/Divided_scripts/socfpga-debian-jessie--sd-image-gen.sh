@@ -89,7 +89,7 @@ function build_qemu_chroot_into_image {
 $SCRIPT_ROOT_DIR/gen_rootfs.sh $CURRENT_DIR /mnt
 }
 
-function build_qemu_chroot {
+function make_rootfs {
 $SCRIPT_ROOT_DIR/gen_rootfs.sh $CURRENT_DIR
 }
 
@@ -224,7 +224,7 @@ echo "#-------------------------------------------------------------------------
 
 ##build_qemu_chroot_into_image
 
-#build_qemu_chroot
+make_rootfs
 
 ##fetch_rcn_rootfs
 

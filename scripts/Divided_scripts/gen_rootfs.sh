@@ -27,7 +27,7 @@ function install_dep {
 }
 
 function run_bootstrap {
-sudo qemu-debootstrap --arch=armhf --variant=buildd  --keyring /usr/share/keyrings/debian-archive-keyring.gpg --include=adduser,resolvconf,apt-utils,ssh,sudo,ntpdate,openssl,vim,nano,cryptsetup,lvm2,locales,login,build-essential,gcc,g++,gdb,make,subversion,git,curl,zip,unzip,pbzip2,pigz,dialog,openssh-server,ntpdate,less,cpufrequtils,isc-dhcp-client,ntp,console-setup,ca-certificates,xserver-xorg,xserver-xorg-video-dummy,debian-archive-keyring,debian-keyring,debian-ports-archive-keyring,netbase,iproute2,iputils-ping,iputils-arping,iputils-tracepath,wget,haveged $DISTRO $ROOTFS_DIR http://ftp.debian.org/debian/
+sudo qemu-debootstrap --arch=armhf --variant=buildd  --keyring /usr/share/keyrings/debian-archive-keyring.gpg --include=adduser,apt-utils,systemd,dbus,dbus-x11,autofs,lvm2,login,ssh,sudo,ntpdate,openssl,vim,nano,cryptsetup,build-essential,gcc,g++,gdb,make,subversion,curl,zip,unzip,pbzip2,pigz,dialog,git,openssh-server,ntpdate,less,cpufrequtils,isc-dhcp-client,ntp,console-setup,ca-certificates,xserver-xorg,xserver-xorg-video-dummy,debian-archive-keyring,debian-keyring,debian-ports-archive-keyring,netbase,iproute2,iputils-ping,iputils-arping,iputils-tracepath,wget,haveged $DISTRO $ROOTFS_DIR http://ftp.debian.org/debian/
 }
 
 function setup_configfiles {
@@ -62,16 +62,11 @@ EOT'
 
 sudo sh -c 'echo mksoc > '$ROOTFS_DIR'/etc/hostname'
 
-#127.0.1.1       mksoc.local      mksoc
 sudo sh -c 'cat <<EOT > '$ROOTFS_DIR'/etc/hosts
 
 127.0.0.1       localhost
 127.0.1.1       mksoc.local      mksoc
-::1             localhost ip6-localhost ip6-loopback
-fe00::0         ip6-localnet
-ff00::0         ip6-mcastprefix
-ff02::1         ip6-allnodes
-ff02::2         ip6-allrouters
+#::1             localhost ip6-localhost ip6-loopback
 EOT'
 
  
@@ -638,6 +633,7 @@ sudo chroot $ROOTFS_DIR rm /usr/sbin/policy-rc.d
 }
 
 function run_chroot {
+
 gen_initial_sh
 run_initial_sh
 }
