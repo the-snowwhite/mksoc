@@ -5,14 +5,17 @@
 set -e
 CURRENT_DIR=`pwd`
 WORK_DIR=$1
-MOUNT_DIR=$2
+ROOTFS_FILE_NAME=$2
+
+MOUNT_DIR=/mnt/rootfs
 
 SD_IMG=${WORK_DIR}/mksoc_sdcard.img
-ROOTFS_IMG=${WORK_DIR}/rootfs.img
+ROOTFS_IMG=${WORK_DIR}/$ROOTFS_FILE_NAME
 DRIVE=/dev/loop0
 ROOTFS_DIR=${WORK_DIR}/rootfs
 
-DISTRO=jessie
+#DISTRO=jessie
+DISTRO=stretch
 
 DEFGROUPS="sudo,kmem,adm,dialout,machinekit,video,plugdev"
 
@@ -51,14 +54,15 @@ deb-src http://security.debian.org/ '$DISTRO'/updates main contrib non-free
 EOT'
 
 
-#sudo sh -c 'cat <<EOT > '$ROOTFS_DIR'/etc/fstab
-## /etc/fstab: static file system information.
-##
-## <file system> <mount point>   <type>  <options>       <dump>  <pass>
-#/dev/root      /               ext3    noatime,errors=remount-ro 0 1
-#tmpfs          /tmp            tmpfs   defaults          0       0
-#EOT'
+sudo sh -c 'cat <<EOT > '$ROOTFS_DIR'/etc/fstab
+# /etc/fstab: static file system information.
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+/dev/root      /               ext3    noatime,errors=remount-ro 0 1
+tmpfs          /tmp            tmpfs   defaults          0       0
+EOT'
 
+sudo sh -c 'ln -s ../proc/self/mounts '$ROOTFS_DIR'/etc/mtab'
 
 sudo sh -c 'echo mksoc > '$ROOTFS_DIR'/etc/hostname'
 
@@ -391,7 +395,7 @@ en_US.UTF-8 UTF-8
 # lt_LT.UTF-8 UTF-8
 # lv_LV ISO-8859-13
 # lv_LV.UTF-8 UTF-8
-# lzh_TW UTF-8
+# lzh_TW UTF-8To be able to set up network interfaces for each container, you want to run it with “-n” option.
 # mag_IN UTF-8
 # mai_IN UTF-8
 # mg_MG ISO-8859-15
@@ -642,14 +646,14 @@ run_initial_sh
 function run_func {
 ##    install_dep  #install qemu 2.5 from sid instead --> migrated to stretch(testing)
 
-#    run_bootstrap
+    run_bootstrap
     setup_configfiles
     run_chroot
 }
 
-function sd_card_img_install {
-if [ ! -z "$MOUNT_DIR" ]; then
-    ROOTFS_DIR=${MOUNT_DIR}/rootfs
+function install_in_sd_img {
+if [ ! -z "$ROOTFS_FILE_NAME" ]; then
+    ROOTFS_DIR=${WORK_DIR}/rootfs
     sudo losetup --show -f $SD_IMG
     sudo partprobe $DRIVE
     sudo mkdir -p $ROOTFS_DIR
@@ -670,15 +674,18 @@ else
 fi
 }
 
-function rootfs_img_install {
-if [ ! -z "$MOUNT_DIR" ]; then
-    ROOTFS_DIR=${MOUNT_DIR}/rootfs
+function install_rootfs {
+if [ ! -z "$ROOTFS_FILE_NAME" ]; then
+    ROOTFS_DIR=${MOUNT_DIR}
+    LOOP_MNT=`bash -c 'sudo losetup --show -f '$ROOTFS_IMG''`
+    sudo partprobe $LOOP_MNT
     sudo mkdir -p ${ROOTFS_DIR}
-    sudo mount ${ROOTFS_IMG} ${ROOTFS_DIR}
+    sudo mount ${LOOP_MNT}p1 ${ROOTFS_DIR}
     echo "NOTE: ""rootfs "$ROOTFS_IMG" is mounted in:"
     echo "NOTE: "'rootfs_dir ='$ROOTFS_DIR
     run_func
     sudo umount ${ROOTFS_DIR}
+    sudo losetup -D
     echo "NOTE: ""rootfs was unounted "
     echo "NOTE: ""rootfs is now in imagefile:"$ROOTFS_IMG
     sync
@@ -690,14 +697,24 @@ else
 fi
 
 }
-
+set -x
 #----------------------- Run functions ----------------------------#
 echo "#---------------------------------------------------------------------------------- "
 echo "#--------------------+++       gen-rootfs.sh Start   +++--------------------------- "
 echo "#---------------------------------------------------------------------------------- "
+if [ ! -z "$WORK_DIR" ]; then
+    install_rootfs
 
-rootfs_img_install
-#sd_card_img_install
+    #install_in_img
+    echo "#---------------------------------------------------------------------------------- "
+    echo "#-------------  gen-rootfs.sh Finished with Success  ------------------------------ "
+    echo "#---------------------------------------------------------------------------------- "
+else
+    echo "#---------------------------------------------------------------------------------- "
+    echo "#----------------  gen-rootfs.sh Ended Unsuccessfully    -------------------------- "
+    echo "#-------------  workdir parameter missing     ------------------------------------- "
+    echo "#---------------------------------------------------------------------------------- "
+fi
 
 echo "#---------------------------------------------------------------------------------- "
 echo "#--------------------+++       gen-rootfs.sh End     +++--------------------------- "
