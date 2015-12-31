@@ -59,6 +59,8 @@ BRANCH=master
 #CONFIG_ARGS=" --with-rt-preempt --with-posix --with-extra-kernel-sources=/home/mib/Documents/Altera/WS2/test/rocketboards"
 CONFIG_ARGS=" --with-rt-preempt --with-posix"
 
+CC="arm-linux-gnueabihf-"
+
 # echo commands during execution - very verbose
 # comment out once you trust this
 set -x
@@ -79,41 +81,6 @@ set -x
 
 function install_cloning_prerequisits {
 echo machinekit | sudo -S apt-get -y install git-core git-gui dpkg-dev
-}
-# ----------- end configurable options --------
-
-function clone_machinekit {
-# refuse to clone into an existing directory.
-if [ -d "$SCRATCH" ]; then
-    echo the target directory $SCRATCH already exists.
-    echo cleaning repo
-    cd $SCRATCH 
-    git clean -d -f -x
-    cd ..    
-#    echo please remove or rename this directory and run again.
-#    exit 1
-else
-# $SCRATCH does not exist. Make a shallow git clone into it.
-# make sure you have around 200MB free space.
-
-    git clone -b "$BRANCH" -o "$ORIGIN" --depth 1 "$REPO" "$SCRATCH"
-fi 
-
-}
-
-function reset_repo_to_remote_state {
-cd "$SCRATCH"
-git fetch origin
-git reset --hard origin/master
-# make sure some files are in place to finish the build without errors
-cd "$SCRATCH/src"
-#sudo cp ./rtapi/rsyslogd-linuxcnc.conf /etc/rsyslog.d/linuxcnc.conf
-#sudo touch  /var/log/linuxcnc.log
-#sudo chmod 644 /var/log/linuxcnc.log
-#sudo service rsyslog restart
-sudo service rsyslog start
-#sudo cp ./rtapi/shmdrv/limits.d-machinekit.conf /etc/security/limits.d/linuxcnc.conf
-#sudo cp ./rtapi/shmdrv/shmdrv.rules /etc/udev/rules.d/50-LINUXCNC-shmdrv.rules
 }
 
 function install_fresh_distro_prerequisits {
@@ -145,6 +112,26 @@ sudo dpkg -i libczmq3_3.0.2-2_armhf.deb libczmq-dev_3.0.2-2_armhf.deb
 sudo apt-get -y -f install
 
 }
+# ----------- end configurable options --------
+
+function clone_machinekit {
+# refuse to clone into an existing directory.
+if [ -d "$SCRATCH" ]; then
+    echo the target directory $SCRATCH already exists.
+    echo cleaning repo
+    cd $SCRATCH 
+    git clean -d -f -x
+    cd ..    
+#    echo please remove or rename this directory and run again.
+#    exit 1
+else
+# $SCRATCH does not exist. Make a shallow git clone into it.
+# make sure you have around 200MB free space.
+
+    git clone -b "$BRANCH" -o "$ORIGIN" --depth 1 "$REPO" "$SCRATCH"
+fi 
+
+}
 
 function install_dependencies {
 
@@ -155,6 +142,7 @@ set -e
 #env CC="ccache gcc" CXX="ccache"
 
 CORES=`nproc`
+CC="arm-linux-gnueabihf-"
 
 # make sure some files are in place to finish the build without errors
 cd "$SCRATCH/src"
@@ -191,8 +179,24 @@ echo now in directory: `pwd`
 
 }
 
+function reset_repo_to_remote_state {
+cd "$SCRATCH"
+git fetch "$ORIGIN" 
+git reset --hard "$ORIGIN"/master
+# make sure some files are in place to finish the build without errors
+cd "$SCRATCH/src"
+sudo cp ./rtapi/rsyslogd-linuxcnc.conf /etc/rsyslog.d/linuxcnc.conf
+sudo touch  /var/log/linuxcnc.log
+sudo chmod 644 /var/log/linuxcnc.log
+sudo cp ./rtapi/shmdrv/limits.d-machinekit.conf /etc/security/limits.d/linuxcnc.conf
+sudo cp ./rtapi/shmdrv/shmdrv.rules /etc/udev/rules.d/50-LINUXCNC-shmdrv.rules
+}
+
 function configure_mk {
 # configure
+#export ARCH=arm
+#export CROSS_COMPILE=$CC
+
 cd "$SCRATCH/src"
 
 # fail the script on any error
@@ -211,6 +215,9 @@ sh autogen.sh
 
 
 function build_mk {
+#export ARCH=arm
+#export CROSS_COMPILE=$CC
+
 # build
 cd "$SCRATCH/src"
 
@@ -253,7 +260,7 @@ cd "$SCRATCH/src"
 }
 
 function end_func {
-
+sudo service rsyslog stop
 # no more echo commands during
 set +x
 
@@ -270,13 +277,17 @@ echo "git config --global user.email \"youremail\""
 
 #----------- run functions start ---------------#
 #--------- decomment functions to run --/-- comment out functions not to run   # 
+set -x -e
+# run 1.st time:
+install_cloning_prerequisits
+install_fresh_distro_prerequisits
+clone_machinekit
 
-#install_cloning_prerequisits
-#clone_machinekit
-#install_fresh_distro_prerequisits
-#install_dependencies
+# run on fresh rebuild from origin
+#reset_repo_to_remote_state    # !...comment out if you are testing code changes ...!
+install_dependencies
 
-reset_repo_to_remote_state    # !...comment out if you are testing code changes ...!
+# run on rebuild
 configure_mk
 build_mk
 check_sys_config
