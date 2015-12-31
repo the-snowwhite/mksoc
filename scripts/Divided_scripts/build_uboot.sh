@@ -34,36 +34,60 @@ UBOOT_SPLFILE=${UBOOT_DIR}/u-boot-with-spl-dtb.sfp
 
 NCORES=`nproc`
 
+extract_toolchain() {
+    if hash lbzip2 2>/dev/null; then
+        echo "lbzip2 found"
+        tar --use=lbzip2 -xf ${CC_FILE}
+    else
+        echo "lbzip2 not found using tar simglecore extract"
+        tar xf ${CC_FILE}
+    fi
+}
+
 
 function get_toolchain {
 # download linaro cross compiler toolchain
-# uses multicore extract (lbzip2)
 
-# extract linaro cross compiler toolchain
 if [ ! -d ${CC_DIR} ]; then
     if [ ! -f ${CC_FILE} ]; then
         echo "downloading toolchain"
     	wget -c ${CC_URL}
     fi
+# extract linaro cross compiler toolchain
+# uses multicore extract (lbzip2) if available
 
     echo "extracting toolchain" 
-#	tar xf ${CC_FILE}
-	tar --use=lbzip2 -xf ${CC_FILE}
+    extract_toolchain
+#	
+	
 fi
 }
 
 function fetch_uboot {
 # Fetch uboot
 
-echo "cloning u-boot"
-git clone git://git.denx.de/u-boot.git uboot
+if [ ! -f ${UBOOT_DIR} ]; then
+    echo "cloning u-boot"
+    git clone git://git.denx.de/u-boot.git uboot
+fi
 
-cd uboot
+cd $UBOOT_DIR
 if [ ! -z "$UBOOT_VERSION" ]
 then
     git checkout $UBOOT_VERSION $CHKOUT_OPTIONS
 fi
 cd ..
+}
+
+install_sid_armhf_crosstoolchain() {
+sudo dpkg --add-architecture armhf
+sudo apt-get update
+
+#sudo apt-get install crossbuild-essential-armhf
+#sudo apt-get install gcc-arm-linux-gnueabihf
+
+sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf libc6-dev debconf dpkg-dev libconfig-auto-perl file libfile-homedir-perl libfile-temp-perl liblocale-gettext-perl perl binutils-multiarch fakeroot
+
 }
 
 function build_uboot {
@@ -82,6 +106,8 @@ make $MAKE_CONFIG -j$NCORES
 echo "#---------------------------------------------------------------------------------- "
 echo "#-------------+++      build_uboot.sh Start      +++------------------------------- "
 echo "#---------------------------------------------------------------------------------- "
+
+set -e
 
 if [ ! -z "$WORK_DIR" ]; then
     cd $WORK_DIR
