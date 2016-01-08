@@ -7,7 +7,7 @@ set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEMA4U23C6
 set_global_assignment -name TOP_LEVEL_ENTITY "ghrd"
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 14.0
-set_global_assignment -name LAST_QUARTUS_VERSION 15.0.0
+set_global_assignment -name LAST_QUARTUS_VERSION 15.1.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "TUE DEC  2 09:28:38 2014"
 set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
 
@@ -603,10 +603,41 @@ set_instance_assignment -name GLOBAL_SIGNAL OFF -to u0|hps_0|hps_io|border|hps_s
 set_instance_assignment -name GLOBAL_SIGNAL OFF -to u0|hps_0|hps_io|border|hps_sdram_inst|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[3] -tag __hps_sdram_p0
 set_instance_assignment -name ENABLE_BENEFICIAL_SKEW_OPTIMIZATION_FOR_NON_GLOBAL_CLOCKS ON -to u0|hps_0|hps_io|border|hps_sdram_inst -tag __hps_sdram_p0
 set_instance_assignment -name PLL_COMPENSATION_MODE DIRECT -to u0|hps_0|hps_io|border|hps_sdram_inst|pll0|fbout -tag __hps_sdram_p0
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+
+set_global_assignment -name VHDL_INPUT_VERSION VHDL_2008
+set_global_assignment -name VHDL_SHOW_LMF_MAPPING_MESSAGES OFF
+set_global_assignment -name SEARCH_PATH /home/mib/Development/HM2/pins
+set_global_assignment -name SEARCH_PATH "/home/mib/Development/mksoc-iotest/QuartusProjects/hm2"
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name VERILOG_FILE ip/intr_capturer/intr_capturer.v
 set_global_assignment -name VERILOG_FILE ip/edge_detect/altera_edge_detector.v
 set_global_assignment -name VERILOG_FILE ip/debounce/debounce.v
 set_global_assignment -name QIP_FILE ip/altsource_probe/hps_reset.qip
 set_global_assignment -name QIP_FILE soc_system/synthesis/soc_system.qip
-set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name VHDL_FILE ../hm2/hostmot2.vhd
+set_global_assignment -name VHDL_FILE ../hm2/pwmpdmgenh.vhd
+set_global_assignment -name VHDL_FILE ../../../HM2/log2.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/decodedstrobe.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/oneofndecode.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/IDROMConst.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/NumberOfModules.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/MaxPinsPerModule.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/MaxInputPinsPerModule.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/InputPinsPerModule.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/MaxOutputPinsPerModule.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/MaxIOPinsPerModule.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/CountPinsInRange.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/PinExists.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/ModuleExists.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/hostmotid.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/wordpr.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/wordrb.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/watchdog.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/drqlogic.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/irqlogics.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/hmtimers.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/pwmrefh.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/boutreg.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/pins/PIN_SV8NA.vhd -library work
+set_global_assignment -name VHDL_FILE ../../../HM2/i25_x9card.vhd -library work
