@@ -610,34 +610,35 @@ set_global_assignment -name VHDL_SHOW_LMF_MAPPING_MESSAGES OFF
 set_global_assignment -name SEARCH_PATH /home/mib/Development/HM2/pins
 set_global_assignment -name SEARCH_PATH "/home/mib/Development/mksoc-iotest/QuartusProjects/hm2"
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
-set_global_assignment -name VERILOG_FILE ip/intr_capturer/intr_capturer.v
-set_global_assignment -name VERILOG_FILE ip/edge_detect/altera_edge_detector.v
-set_global_assignment -name VERILOG_FILE ip/debounce/debounce.v
-set_global_assignment -name QIP_FILE ip/altsource_probe/hps_reset.qip
 set_global_assignment -name QIP_FILE soc_system/synthesis/soc_system.qip
+set_global_assignment -name QIP_FILE ip/altsource_probe/hps_reset.qip
+set_global_assignment -name VERILOG_FILE ip/edge_detect/altera_edge_detector.v
+set_global_assignment -name VERILOG_FILE ip/intr_capturer/intr_capturer.v
+set_global_assignment -name VERILOG_FILE ip/debounce/debounce.v
 set_global_assignment -name VHDL_FILE ../hm2/hostmot2.vhd
-set_global_assignment -name VHDL_FILE ../hm2/pwmpdmgenh.vhd
-set_global_assignment -name VHDL_FILE ../../../HM2/log2.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/decodedstrobe.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/oneofndecode.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/IDROMConst.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/NumberOfModules.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/MaxPinsPerModule.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/MaxInputPinsPerModule.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/InputPinsPerModule.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/MaxOutputPinsPerModule.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/MaxIOPinsPerModule.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/CountPinsInRange.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/PinExists.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/ModuleExists.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/hostmotid.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/wordpr.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/wordrb.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/watchdog.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/drqlogic.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/irqlogics.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/hmtimers.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/pwmrefh.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/boutreg.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/pins/PIN_SV8NA.vhd -library work
-set_global_assignment -name VHDL_FILE ../../../HM2/i25_x9card.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/pins/i25_x9card.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/pins/PIN_SV8NA.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/wordrb.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/wordpr.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/watchdog.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/pwmrefh.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/pwmpdmgenh.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/PinExists.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/oneofndecode.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/NumberOfModules.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/ModuleExists.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/MaxPinsPerModule.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/MaxOutputPinsPerModule.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/MaxIOPinsPerModule.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/MaxInputPinsPerModule.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/log2.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/irqlogics.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/InputPinsPerModule.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/IDROMConst.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/hostmotid.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/hmtimers.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/hm2pwm.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/drqlogic.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/decodedstrobe.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/CountPinsInRange.vhd -library work
+set_global_assignment -name VHDL_FILE ../hm2/boutreg.vhd -library work
