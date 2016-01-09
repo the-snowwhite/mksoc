@@ -111,6 +111,9 @@ module ghrd(
       input              HPS_USB_DIR,
       input              HPS_USB_NXT,
       output             HPS_USB_STP,
+
+      ///////// HM2 /////////
+
 `endif /*ENABLE_HPS*/
 
       ///////// KEY /////////
@@ -140,7 +143,13 @@ module ghrd(
   assign LED[7:1] = fpga_led_internal;
   assign fpga_clk_50=FPGA_CLK1_50;
   assign stm_hw_events    = {{15{1'b0}}, SW, fpga_led_internal, fpga_debounced_buttons};
-
+// hm2
+  wire [15:0] 	hm2_address;
+  wire [31:0] 	hm2_dataout;
+  wire [31:0] 	hm2_datain;
+  wire       	hm2_read;
+  wire 			hm2_write;
+  wire 			hm2_chipsel;
 
 //=======================================================
 //  Structural coding
@@ -225,14 +234,21 @@ module ghrd(
 	  .hps_0_hps_io_hps_io_gpio_inst_GPIO54  ( HPS_KEY   ),  //                               .hps_io_gpio_inst_GPIO54
 	  .hps_0_hps_io_hps_io_gpio_inst_GPIO61  ( HPS_GSENSOR_INT ),  //                               .hps_io_gpio_inst_GPIO61
 		//FPGA Partion
-	  .led_pio_external_connection_export    ( fpga_led_internal 	),    //    led_pio_external_connection.export
-	  .dipsw_pio_external_connection_export  ( SW	),  //  dipsw_pio_external_connection.export
-	  .button_pio_external_connection_export ( fpga_debounced_buttons	), // button_pio_external_connection.export
+	  .led_pio_export                        ( fpga_led_internal 	),    //    led_pio_external_connection.export
+	  .dipsw_pio_export                      ( SW	),  //  dipsw_pio_external_connection.export
+	  .button_pio_export                     ( fpga_debounced_buttons	), // button_pio_external_connection.export
 	  .hps_0_h2f_reset_reset_n               ( hps_fpga_reset_n ),                //                hps_0_h2f_reset.reset_n
 	  .hps_0_f2h_cold_reset_req_reset_n      (~hps_cold_reset ),      //       hps_0_f2h_cold_reset_req.reset_n
      .hps_0_f2h_debug_reset_req_reset_n     (~hps_debug_reset ),     //      hps_0_f2h_debug_reset_req.reset_n
      .hps_0_f2h_stm_hw_events_stm_hwevents  (stm_hw_events ),  //        hps_0_f2h_stm_hw_events.stm_hwevents
      .hps_0_f2h_warm_reset_req_reset_n      (~hps_warm_reset ),      //       hps_0_f2h_warm_reset_req.reset_n
+		// hm2reg_io_0_conduit
+     .hm2reg_hm2_dataout                    (hm2_dataout),                    //                    hm2reg.hm2_dataout
+     .hm2reg_hm2_address                    (hm2_address),                    //                          .hm2_address
+     .hm2reg_hm2_read                       (hm2_read),                       //                          .hm2_read
+     .hm2reg_hm2_chipsel                    (hm2_chipsel),                    //                          .hm2_chipsel
+     .hm2reg_hm2_datain                     (hm2_datain),                     //                          .hm2_datain
+     .hm2reg_hm2_write                      (hm2_write)                       //                          .hm2_write
 
  );
 
@@ -305,9 +321,39 @@ end
 
 assign LED[0]=led_level;
 
+assign clklow_sig = fpga_clk_50;
+assign clkhigh_sig = fpga_clk_50;
+
 // Mesa code ------------------------------------------------------//
 
-//import PIN_SV8NA.vhd::*;
+import work::*;
+
+parameter IOWIDTH = 34;
+parameter IOPORTS = 1;
+
+wire [IOWIDTH-1:0] iobits_sig;
+assign iobits_sig[IOWIDTH-1:0] = GPIO_0[IOWIDTH-1:0];
+
+HostMot2 #(.IOWidth(IOWIDTH),.IOPorts(IOPORTS)) HostMot2_inst
+(
+	.ibus(hm2_dataout) ,	// input [buswidth-1:0] ibus_sig
+	.obus(hm2_datain) ,	// output [buswidth-1:0] obus_sig
+	.addr(hm2_address) ,	// input [addrwidth-1:2] addr_sig	-- addr => A(AddrWidth-1 downto 2),
+	.readstb(hm2_read) ,	// input  readstb_sig
+	.writestb(hm2-write) ,	// input  writestb_sig
+
+	.clklow(clklow_sig) ,	// input  clklow_sig  				-- PCI clock --> all
+//	.clkmed(clkmed_sig) ,	// input  clkmed_sig  				-- Processor clock --> sserialwa, twiddle
+	.clkhigh(clkhigh_sig) ,	// input  clkhigh_sig				-- High speed clock --> most
+//	.int(int_sig) ,	// output  int_sig							--int => LINT, ---> PCI ?
+//	.dreq(dreq_sig) ,	// output  dreq_sig							
+//	.demandmode(demandmode_sig) ,	// output  demandmode_sig
+	.iobits(iobits_sig) ,	// inout [iowidth-1:0] 				--iobits => IOBITS,-- external I/O bits	
+//	.liobits(liobits_sig) ,	// inout [liowidth-1:0] 			--liobits_sig
+//	.rates(rates_sig) ,	// output [4:0] rates_sig
+//	.leds(leds_sig) 	// output [ledcount-1:0] leds_sig		--leds => LEDS
+	.leds() 	// output [ledcount-1:0] leds_sig		--leds => LEDS
+);
 
 
 endmodule
