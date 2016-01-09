@@ -40,7 +40,7 @@ add_fileset QUARTUS_SYNTH QUARTUS_SYNTH "" ""
 set_fileset_property QUARTUS_SYNTH TOP_LEVEL hm2reg_io
 set_fileset_property QUARTUS_SYNTH ENABLE_RELATIVE_INCLUDE_PATHS false
 set_fileset_property QUARTUS_SYNTH ENABLE_FILE_OVERWRITE_MODE false
-add_fileset_file hm2reg_io.v VERILOG PATH ip/hm2reg_io/hm2reg_io.v TOP_LEVEL_FILE
+add_fileset_file hm2reg_io.v VERILOG PATH hm2reg_io.v TOP_LEVEL_FILE
 
 
 # 
