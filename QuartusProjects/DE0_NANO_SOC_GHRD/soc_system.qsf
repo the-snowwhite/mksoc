@@ -9,7 +9,6 @@ set_global_assignment -name TOP_LEVEL_ENTITY "ghrd"
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 14.0
 set_global_assignment -name LAST_QUARTUS_VERSION 15.1.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "TUE DEC  2 09:28:38 2014"
-set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
 
 
 #============================================================
@@ -692,4 +691,17 @@ set_global_assignment -name VHDL_FILE ../hm2/sine16.vhd
 set_global_assignment -name VHDL_FILE ../hm2/resrom.vhd
 set_global_assignment -name VHDL_FILE ../hm2/syncwavegen.vhd
 set_global_assignment -name VHDL_FILE ../hm2/b32qcondmac2ws.vhd
+set_global_assignment -name DEVICE_FILTER_PIN_COUNT 672
+set_global_assignment -name DEVICE_FILTER_SPEED_GRADE 6
+set_global_assignment -name ENABLE_OCT_DONE OFF
+set_global_assignment -name ENABLE_CONFIGURATION_PINS OFF
+set_global_assignment -name ENABLE_BOOT_SEL_PIN OFF
+set_global_assignment -name USE_CONFIGURATION_DEVICE ON
+set_global_assignment -name GENERATE_RBF_FILE ON
+set_global_assignment -name CRC_ERROR_OPEN_DRAIN ON
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
+set_global_assignment -name ACTIVE_SERIAL_CLOCK FREQ_100MHZ
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
