@@ -112,8 +112,6 @@ module ghrd(
       input              HPS_USB_NXT,
       output             HPS_USB_STP,
 
-      ///////// HM2 /////////
-
 `endif /*ENABLE_HPS*/
 
       ///////// KEY /////////
@@ -144,13 +142,16 @@ module ghrd(
   assign fpga_clk_50=FPGA_CLK1_50;
   assign stm_hw_events    = {{15{1'b0}}, SW, fpga_led_internal, fpga_debounced_buttons};
 // hm2
-  wire [15:0] 	hm2_address;
-  wire [31:0] 	hm2_dataout;
-  wire [31:0] 	hm2_datain;
-  wire       	hm2_read;
-  wire 			hm2_write;
-  wire 			hm2_chipsel;
+  wire [15:0] 	hm_address;
+  wire [31:0] 	hm_dataout;
+  wire [31:0] 	hm_datain;
+  wire       	hm_read;
+  wire 			hm_write;
+  wire 			hm_chipsel;
 
+  wire clklow_sig;
+  wire clkhigh_sig;
+  
 //=======================================================
 //  Structural coding
 //=======================================================
@@ -243,12 +244,12 @@ module ghrd(
      .hps_0_f2h_stm_hw_events_stm_hwevents  (stm_hw_events ),  //        hps_0_f2h_stm_hw_events.stm_hwevents
      .hps_0_f2h_warm_reset_req_reset_n      (~hps_warm_reset ),      //       hps_0_f2h_warm_reset_req.reset_n
 		// hm2reg_io_0_conduit
-     .hm2reg_hm2_dataout                    (hm2_dataout),                    //                    hm2reg.hm2_dataout
-     .hm2reg_hm2_address                    (hm2_address),                    //                          .hm2_address
-     .hm2reg_hm2_read                       (hm2_read),                       //                          .hm2_read
-     .hm2reg_hm2_chipsel                    (hm2_chipsel),                    //                          .hm2_chipsel
-     .hm2reg_hm2_datain                     (hm2_datain),                     //                          .hm2_datain
-     .hm2reg_hm2_write                      (hm2_write)                       //                          .hm2_write
+     .hm2reg_hm2_dataout                    (hm_dataout),                    //                    hm2reg.hm2_dataout
+     .hm2reg_hm2_address                    (hm_address),                    //                          .hm2_address
+     .hm2reg_hm2_read                       (hm_read),                       //                          .hm2_read
+     .hm2reg_hm2_chipsel                    (hm_chipsel),                    //                          .hm2_chipsel
+     .hm2reg_hm2_datain                     (hm_datain),                     //                          .hm2_datain
+     .hm2reg_hm2_write                      (hm_write)                       //                          .hm2_write
 
  );
 
@@ -321,10 +322,10 @@ end
 
 assign LED[0]=led_level;
 
+// Mesa code ------------------------------------------------------//
+
 assign clklow_sig = fpga_clk_50;
 assign clkhigh_sig = fpga_clk_50;
-
-// Mesa code ------------------------------------------------------//
 
 //import work::*;
 
@@ -332,16 +333,16 @@ parameter IOWIDTH = 34;
 parameter IOPORTS = 1;
 
 wire [IOWIDTH-1:0] iobits_sig;
-assign iobits_sig[IOWIDTH-1:0] = GPIO_0[IOWIDTH-1:0];
+assign GPIO_0[IOWIDTH-1:0] = iobits_sig;
 
 //HostMot2 #(.IOWidth(IOWIDTH),.IOPorts(IOPORTS)) HostMot2_inst
 HostMot2 HostMot2_inst
 (
-	.ibus(hm2_dataout) ,	// input [buswidth-1:0] ibus_sig
-	.obus(hm2_datain) ,	// output [buswidth-1:0] obus_sig
-	.addr(hm2_address) ,	// input [addrwidth-1:2] addr_sig	-- addr => A(AddrWidth-1 downto 2),
-	.readstb(hm2_read) ,	// input  readstb_sig
-	.writestb(hm2-write) ,	// input  writestb_sig
+	.ibus(hm_dataout) ,	// input [buswidth-1:0] ibus_sig
+	.obus(hm_datain) ,	// output [buswidth-1:0] obus_sig
+	.addr(hm_address) ,	// input [addrwidth-1:2] addr_sig	-- addr => A(AddrWidth-1 downto 2),
+	.readstb(hm_read ) ,	// input  readstb_sig
+	.writestb(hm_write) ,	// input  writestb_sig
 
 	.clklow(clklow_sig) ,	// input  clklow_sig  				-- PCI clock --> all
 //	.clkmed(clkmed_sig) ,	// input  clkmed_sig  				-- Processor clock --> sserialwa, twiddle
