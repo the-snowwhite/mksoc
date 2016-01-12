@@ -330,10 +330,15 @@ assign clkhigh_sig = fpga_clk_50;
 //import work::*;
 
 parameter IOWIDTH = 34;
-parameter IOPORTS = 1;
+parameter LIOWidth = 6;
+parameter IOPORTS = 2;
 
 wire [IOWIDTH-1:0] iobits_sig;
 assign GPIO_0[IOWIDTH-1:0] = iobits_sig;
+
+wire [LIOWidth-1:0] liobits_sig;
+assign GPIO_1[LIOWidth-1:0] = liobits_sig;
+
 
 //HostMot2 #(.IOWidth(IOWIDTH),.IOPorts(IOPORTS)) HostMot2_inst
 HostMot2 HostMot2_inst
@@ -351,11 +356,40 @@ HostMot2 HostMot2_inst
 //	.dreq(dreq_sig) ,	// output  dreq_sig							
 //	.demandmode(demandmode_sig) ,	// output  demandmode_sig
 	.iobits(iobits_sig) ,	// inout [iowidth-1:0] 				--iobits => IOBITS,-- external I/O bits	
-//	.liobits(liobits_sig) ,	// inout [liowidth-1:0] 			--liobits_sig
+	.liobits(liobits_sig) ,	// inout [liowidth-1:0] 			--liobits_sig
 //	.rates(rates_sig) ,	// output [4:0] rates_sig
 //	.leds(leds_sig) 	// output [ledcount-1:0] leds_sig		--leds => LEDS
-	.leds() 	// output [ledcount-1:0] leds_sig		--leds => LEDS
+	.leds(GPIO_1[35:34]) 	// output [ledcount-1:0] leds_sig		--leds => LEDS
 );
-
+/*
+defparam HostMot2_inst.ThePinDesc = PinDesc;
+defparam HostMot2_inst.TheModuleID =  "ModuleID";
+defparam HostMot2_inst.IDROMType = 3;
+defparam HostMot2_inst.SepClocks = "true";
+defparam HostMot2_inst.OneWS = "true";
+defparam HostMot2_inst.UseIRQLogic = "true";
+defparam HostMot2_inst.PWMRefWidth = 13;
+defparam HostMot2_inst.UseWatchDog = "true";
+defparam HostMot2_inst.OffsetToModules = 64;
+defparam HostMot2_inst.OffsetToPinDesc = 448;
+defparam HostMot2_inst.ClockHigh = "ClockHigh25";
+defparam HostMot2_inst.ClockMed = "ClockMed25";
+defparam HostMot2_inst.ClockLow = "ClockLow25";
+defparam HostMot2_inst.BoardNameLow = BoardNameMESA;
+defparam HostMot2_inst.BoardNameHigh = "BoardName5i25";
+defparam HostMot2_inst.FPGASize = 9;
+defparam HostMot2_inst.FPGAPins = 144;
+defparam HostMot2_inst.IOPorts = 1;
+defparam HostMot2_inst.IOWidth = 34;
+defparam HostMot2_inst.LIOWidth = 6;
+defparam HostMot2_inst.PortWidth = 17;
+defparam HostMot2_inst.BusWidth = 32;
+defparam HostMot2_inst.AddrWidth = 16;
+defparam HostMot2_inst.InstStride0 = 4;
+defparam HostMot2_inst.InstStride1 = 64;
+defparam HostMot2_inst.RegStride0 = 256;
+defparam HostMot2_inst.RegStride1 = 256;
+defparam HostMot2_inst.LEDCount = 0;
+*/
 
 endmodule

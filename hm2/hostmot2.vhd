@@ -41,7 +41,7 @@ use IEEE.std_logic_UNSIGNED.ALL;
 --           notice, this list of conditions and the following disclaimer.
 -- 
 --         * Redistributions in binary form must reproduce the above
---           copyright notice, this list of conditions and the following
+--           copyright notice, this list of conditiBoardNameMESAons and the following
 --           disclaimer in the documentation and/or other materials
 --           provided with the distribution.
 -- 
@@ -66,7 +66,7 @@ use IEEE.std_logic_UNSIGNED.ALL;
 --     ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 --     POSSIBILITY OF SUCH DAMAGE.
 -- 
-use work.PIN_SV8NA.all; 
+use work.PIN_DRINGx2_34.all; 
 use work.IDROMConst.all;	
 --library UNISIM;
 --use UNISIM.VComponents.all;
@@ -92,7 +92,8 @@ entity HostMot2 is
 		IDROMType: integer := 3;		
 	   SepClocks: boolean := true;
 		OneWS: boolean := true;
-		UseIRQLogic: boolean := true;
+--		UseIRQLogic: boolean := true;
+		UseIRQLogic: boolean := false;
 		PWMRefWidth  : integer := 13;
 		UseWatchDog: boolean := true;
 		OffsetToModules: integer := 64;
@@ -104,7 +105,7 @@ entity HostMot2 is
 		BoardNameHigh : std_Logic_Vector(31 downto 0) := BoardName5i25;
 		FPGASize: integer := 9;
 		FPGAPins: integer := 144;
-		IOPorts: integer := 1;
+		IOPorts: integer := 2;
 		IOWidth: integer := 34;
 		LIOWidth: integer := 6;
 		PortWidth: integer := 17;
@@ -114,7 +115,7 @@ entity HostMot2 is
 		InstStride1: integer := 64;
 		RegStride0: integer := 256;
 		RegStride1: integer := 256;
-		LEDCount: integer := 0
+		LEDCount: integer := 2
 		);
 	port 
    (

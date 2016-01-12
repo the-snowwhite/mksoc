@@ -3,6 +3,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
+--LIBRARY work;
+--use work.lpm_components.all;
+
 
 --
 -- Copyright (C) 2007, Peter C. Wallace, Mesa Electronics
@@ -144,9 +147,9 @@ architecture Behavioral of stepgen is
 	signal tablemax: std_logic_vector(3 downto 0);
 	signal tabledata: std_logic_vector(tablewidth-1 downto 0);
 	
-	component SRL16E
+	component x2aSRL16
 --
-    generic (INIT : bit_vector);
+--    generic (INIT : bit_vector);
 
 
 --
@@ -164,7 +167,8 @@ architecture Behavioral of stepgen is
 begin
 
 	steptable: for i in 0 to tablewidth -1 generate
-		asr16e: SRL16E generic map (x"0000") port map(
+--		asr16e: x2aSRL16 generic map (x"0000") port map(
+		asr16e: x2aSRL16 port map(
  			 D	  => ibus(i),
           CE  => loadtable,
           CLK => clk,
