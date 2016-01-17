@@ -147,10 +147,10 @@ module ghrd(
   wire [31:0] 	hm_datain;
   wire       	hm_read;
   wire 			hm_write;
-  wire 			hm_chipsel;
-
-  wire clklow_sig;
-  wire clkhigh_sig;
+  wire [3:0]	hm_chipsel;
+  wire			hm_clk_high;	
+  wire 			clklow_sig;
+  wire 			clkhigh_sig;
   
 //=======================================================
 //  Structural coding
@@ -244,13 +244,16 @@ module ghrd(
      .hps_0_f2h_stm_hw_events_stm_hwevents  (stm_hw_events ),  //        hps_0_f2h_stm_hw_events.stm_hwevents
      .hps_0_f2h_warm_reset_req_reset_n      (~hps_warm_reset ),      //       hps_0_f2h_warm_reset_req.reset_n
 		// hm2reg_io_0_conduit
-     .hm2reg_hm2_dataout                    (hm_dataout),                    //                    hm2reg.hm2_dataout
-     .hm2reg_hm2_address                    (hm_address),                    //                          .hm2_address
-     .hm2reg_hm2_read                       (hm_read),                       //                          .hm2_read
-     .hm2reg_hm2_chipsel                    (hm_chipsel),                    //                          .hm2_chipsel
-     .hm2reg_hm2_datain                     (hm_datain),                     //                          .hm2_datain
-     .hm2reg_hm2_write                      (hm_write)                       //                          .hm2_write
-
+     .mk_io_hm2_datain                  		(hm_datao),                     //                          .hm2_datain
+     .mk_io_hm2_dataout                 	  	(hm_datai),                    //                    hm2reg.hm2_dataout
+     .mk_io_hm2_address                 	  	(hm_address),                    //                          .hm2_address
+//     .mk_io_hm2_addrout                 	  	(hm_addri),                    //                          .hm2_address
+//     .mk_io_hm2_addrin                 	  		(hm_addro),                    //                          .hm2_address
+     .mk_io_hm2_write                   		(hm_write),                       //                          .hm2_write
+     .mk_io_hm2_read                    		(hm_read),                       //                          .hm2_read
+     .mk_io_hm2_chipsel            				(hm_chipsel),                    //                          .hm2_chipsel
+//     .mk_io_hm2_we                 				(hm_chipsel),                    //                          .hm2_chipsel
+     .clk_100mhz_out_clk                    	(hm_clk_high)                    //            clk_100mhz_out.clk
  );
 
 // Debounce logic to clean out glitches within 1ms
@@ -325,7 +328,7 @@ assign LED[0]=led_level;
 // Mesa code ------------------------------------------------------//
 
 assign clklow_sig = fpga_clk_50;
-assign clkhigh_sig = fpga_clk_50;
+assign clkhigh_sig = hm_clk_high;
 
 //import work::*;
 
@@ -343,8 +346,8 @@ assign GPIO_1[LIOWidth-1:0] = liobits_sig;
 //HostMot2 #(.IOWidth(IOWIDTH),.IOPorts(IOPORTS)) HostMot2_inst
 HostMot2 HostMot2_inst
 (
-	.ibus(hm_dataout) ,	// input [buswidth-1:0] ibus_sig
-	.obus(hm_datain) ,	// output [buswidth-1:0] obus_sig
+	.ibus(hm_datai) ,	// input [buswidth-1:0] ibus_sig
+	.obus(hm_datao) ,	// output [buswidth-1:0] obus_sig
 	.addr(hm_address) ,	// input [addrwidth-1:2] addr_sig	-- addr => A(AddrWidth-1 downto 2),
 	.readstb(hm_read ) ,	// input  readstb_sig
 	.writestb(hm_write) ,	// input  writestb_sig
