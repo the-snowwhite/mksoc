@@ -15,9 +15,9 @@ KERNEL_CONF='socfpga_defconfig'
 
 distro=jessie
 
-#CC_DIR="${WORK_DIR}/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux"
-#CC="${CC_DIR}/bin/arm-linux-gnueabihf-"
-CC="arm-linux-gnueabihf-"
+CC_DIR="${WORK_DIR}/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux"
+CC="${CC_DIR}/bin/arm-linux-gnueabihf-"
+#CC="arm-linux-gnueabihf-"
 
 
 IMG_FILE=${WORK_DIR}/mksoc_sdcard.img

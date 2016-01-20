@@ -30,7 +30,7 @@ CC_FILE="${CC_DIR}.tar.bz2"
 CC="${CC_DIR}/bin/arm-linux-gnueabihf-"
 
 #UBOOT_VERSION=''
-UBOOT_VERSION='v2015.10'
+UBOOT_VERSION='v2016.01'
 UBOOT_SPLFILE=${CURRENT_DIR}/uboot/u-boot-with-spl-dtb.sfp
 
 IMG_FILE=${CURRENT_DIR}/mksoc_sdcard.img
@@ -203,6 +203,9 @@ echo "#-------------------------------------------------------------------------
 echo "#-----------+++     Full Image building process start       +++-------------------- "
 echo "#---------------------------------------------------------------------------------- "
 
+
+if [ ! -z "$WORK_DIR" ]; then
+
 build_uboot
 build_kernel
 
@@ -224,5 +227,11 @@ install_uboot
 echo "#---------------------------------------------------------------------------------- "
 echo "#-------             Image building process complete                       -------- "
 echo "#---------------------------------------------------------------------------------- "
+else
+    echo "#---------------------------------------------------------------------------------- "
+    echo "#-------------     Unsuccessfull script not run      ------------------------------ "
+    echo "#-------------  workdir parameter missing      ------------------------------------ "
+    echo "#---------------------------------------------------------------------------------- "
+fi
 
 
