@@ -20,7 +20,7 @@ module hm2reg_io (
 	output con_chip_sel
 );
 
-parameter ADDRESS_WIDTH = 16;          // address size width
+parameter ADDRESS_WIDTH = 14;          // address size width
 parameter DATA_WIDTH = 32;          // word size of each input and output register
 
 
