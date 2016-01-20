@@ -143,8 +143,8 @@ module ghrd(
   assign stm_hw_events    = {{15{1'b0}}, SW, fpga_led_internal, fpga_debounced_buttons};
 // hm2
   wire [15:0] 	hm_address;
-  wire [31:0] 	hm_dataout;
-  wire [31:0] 	hm_datain;
+  wire [31:0] 	hm_datao;
+  wire [31:0] 	hm_datai;
   wire       	hm_read;
   wire 			hm_write;
   wire [3:0]	hm_chipsel;
@@ -152,11 +152,22 @@ module ghrd(
   wire 			clklow_sig;
   wire 			clkhigh_sig;
   
+  
+  wire [8:0] 	out_oe;
+  wire [8:0]	out_data;
+  wire [1:0]	ar_out_oe;
+  wire [1:0]	ar_in_sig;
+
 //=======================================================
 //  Structural coding
 //=======================================================
 
+  assign ARDUINO_IO[8:0] = out_oe[8:0] ? out_data[8:0] : 1'bz;
+  assign ARDUINO_IO[10:9] = ar_out_oe ? ar_in_sig : 1'bz;
 
+  assign out_oe = 9'b1;
+  assign ar_out_oe = 2'b0;
+  
  soc_system u0 (
 		//Clock&Reset
 	  .clk_clk                               (FPGA_CLK1_50 ),                               //                            clk.clk
@@ -253,7 +264,17 @@ module ghrd(
      .mk_io_hm2_read                    		(hm_read),                       //                          .hm2_read
      .mk_io_hm2_chipsel            				(hm_chipsel),                    //                          .hm2_chipsel
 //     .mk_io_hm2_we                 				(hm_chipsel),                    //                          .hm2_chipsel
-     .clk_100mhz_out_clk                    	(hm_clk_high)                    //            clk_100mhz_out.clk
+     .clk_100mhz_out_clk                    	(hm_clk_high),                    //            clk_100mhz_out.clk
+      .axi_str_data                      (out_data[7:0]),                      //               stream_port.data
+      .axi_str_valid                     (out_data[8]),                     //                          .valid
+      .axi_str_ready                     (ar_in_sig[1])                      //                          .ready
+//		.stream_port_waitrequest               (ARDUINO_IO[0]),               //               stream_port.waitrequest
+//		.stream_port_readdata                  (16'b1000100010000001),                  //                          .readdata
+//		.stream_port_read                      (GPIO_1[33]),                      //                          .read
+//		.stream_port_write                     (GPIO_1[32]),                     //                          .write
+//		.stream_port_address                   (GPIO_1[31:16]),                   //                          .address
+//		.stream_port_writedata                 (GPIO_1[15:0]),                 //                          .writedata
+//		.stream_port_byteenable                (<connected-to-stream_port_byteenable>)                 //                          .byteenable
  );
 
 // Debounce logic to clean out glitches within 1ms
