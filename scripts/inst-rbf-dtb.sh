@@ -1,19 +1,20 @@
 #!/bin/sh
 
-projects=$(ls ../QuartusProjects)
+projdirname=QuartusProjects
+projects=$(ls ../$projdirname)
 
-mkdir -p output_files
+mkdir -p boot_files
 for folder in $projects
 do
 #        tar -zxvf ../QuartusProjects/$folder/sd_fat.tar.gz soc_system.dtb
 #        mv soc_system.dtb $folder.dtb
-#        tar -zxvf ../QuartusProjects/$folder/sd_fat.tar.gz output_files/*.rbf
-#        mv output_files/*.rbf output_files/$folder.rbf
-#        tar -zxvf ../QuartusProjects/$folder/sd_fat.tar.gz soc_system.dtb
-        cp -v ../QuartusProjects/$folder/*.dtb output_files/socfpga.dtb 
-#        tar -zxvf ../QuartusProjects/$folder/sd_fat.tar.gz output_files/*.rbf
-        cp -v ../QuartusProjects/$folder/output_files/*.rbf output_files/socfpga.rbf
+#        tar -zxvf ../QuartusProjects/$folder/sd_fat.tar.gz boot_files/*.rbf
+#        mv boot_files/*.rbf boot_files/$folder.rbf
+
+        cp -v ../$projdirname/$folder/soc_system.dtb boot_files/socfpga.dtb 
+        cp -v ../$projdirname/$folder/output_files/soc_system.rbf boot_files/socfpga.rbf
 done
+
 
 if [ "$1" != "" ]; then
         lsblk
@@ -23,7 +24,7 @@ if [ "$1" != "" ]; then
         sudo mkdir -p /mnt/boot
         sudo mount -o uid=1000,gid=1000 $1 /mnt/boot
 #        sudo cp *.dtb /mnt/boot
-        sudo cp -fv output_files/socfpga* /mnt/boot
+        sudo cp -fv boot_files/socfpga* /mnt/boot
 #        sudo cp u-boot.scr /mnt/boot
         sync
         sudo umount /mnt/boot
