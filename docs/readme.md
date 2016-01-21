@@ -10,7 +10,7 @@ So initially I have settled on using a basic Avalon interface as this is the mos
 
 ![Hostmot2 top instance](https://github.com/the-snowwhite/mksoc/blob/iotest/docs/pics/Hostmot2-vhd_inst.png) 
 
-(I will have to to try giving this image a re-try as it seems a bit flawed)
+(!!.. I will have to to try improving this quick screenshot as it seems a bit flawed)
 
 I would be an idea to build this hm2 top controller module into the qsys design as an ip core instead of having it hanging outside through a bus type interface port?
 (having all this as 1 single separate basic design partition).
