@@ -11,9 +11,7 @@ Quartus prime 15.1.1.  (on Debian.)
 Nano / Atlas Debian Jessie sd card image with 3.10-rt-ltsi kernel.
 (machinekit can be package installed from MK-repo, + rip or cross-compiled )
 
-
 Git clone and checkout branch:
-
 
     git clone https://github.com/the-snowwhite/mksoc.git mkhm2soc
 
@@ -66,4 +64,4 @@ then install:
     sudo ./inst-rbf-dtb.sh /dev/sdx1
     
 and boot .....
-
+BTW: remember to stop at u-boot on first boot and ad the environment variables, making it (u-boot) load the .rbf file so that the hps-fpga is configured before the kernel starts booting...! (else you will get very odd errors underway)
