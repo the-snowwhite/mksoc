@@ -12,8 +12,7 @@
 #define HW_REGS_SPAN ( 0x04000000 )
 #define HW_REGS_MASK ( HW_REGS_SPAN - 1 )
 
-//------------------   /dev/mem test ------------------//
-
+//------------------   UIO   driver module test ---------//
 
 int main ( void )
 {
@@ -24,15 +23,15 @@ int main ( void )
     uint32_t index;
     printf("Hello \n");
     
-    // Open /dev/mem
-    if ( ( fd = open ( "/dev/mem", ( O_RDWR | O_SYNC ) ) ) == -1 ) {
-        printf ( "ERROR: could not open \"/dev/mem\"...\n" );
+    // Open /dev/uio0
+    if ( ( fd = open ( "/dev/uio0", ( O_RDWR | O_SYNC ) ) ) == -1 ) {
+        printf ( "ERROR: could not open \"/dev/uio0\"...\n" );
         return ( 1 );
     }
-    printf("/dev/mem opened fine OK \n");
+    printf("/dev/uio0 opened fine OK \n");
     
     // get virtual addr that maps to physical
-    virtual_base = mmap( NULL, HW_REGS_SPAN, ( PROT_READ | PROT_WRITE ), MAP_SHARED, fd, HW_REGS_BASE);
+    virtual_base = mmap( NULL, HM2REG_IO_0_SPAN, ( PROT_READ | PROT_WRITE ), MAP_SHARED, fd, 0);
 
     if ( virtual_base == MAP_FAILED ) {
         printf ( "ERROR: mmap() failed...\n" ); 
@@ -43,8 +42,10 @@ int main ( void )
     printf("region mmap'ed  OK \n");
     
     // Get the address that maps to the LEDs
-    h2p_lw_axi_mem_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + HM2REG_IO_0_BASE ) & ( unsigned long)( HW_REGS_MASK ) );
-
+//    h2p_lw_axi_mem_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + HM2REG_IO_0_BASE ) & ( unsigned long)( HW_REGS_MASK ) );
+//    assign pointer
+    h2p_lw_axi_mem_addr=virtual_base;// + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + HM2REG_IO_0_BASE ) & ( unsigned long)( HW_REGS_MASK ) );
+    
     printf("mem pointer created OK\n");
     
     // print val:
