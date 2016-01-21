@@ -29,3 +29,7 @@ On the near future wish list is to implement partial re-configuration partions w
 Is done with a (mostly) solid unchanging interface structure giving "boxes / slots", block elements can be swapped in / out of....(think 4-8 partions at most) 
 
 As an cusiosity I have put a axi3 MM Interface based (8-bit serial)streaming port, including a 11-12-bit memory mapped or so 32 bit(internaly) onchip memory demo ip into the design. This has a separate 3-address control register 1--> start address in ip ram, 2 --> end address, 3 --> start. 
+
+[Both 2 pieces of device tree (in dtb) information needed to hook up an (uio style driver) link to mmap the I/O space](https://github.com/the-snowwhite/machinekit/blob/iotest/src/rtapi/socfpgadrv/hm2reg_uio-module.c#L275)
+
+(there seems to be much less overhead needed here than all that clutter due to the other pci-based-interfaces)........
