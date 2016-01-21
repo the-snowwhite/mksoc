@@ -1,12 +1,12 @@
+Just a small overview of the path from software --> cpu to fpga hostmot2 --> I/O pins
 
+Going straight for an axi Interface would mean redesigning the top hostmot2.vhd
+module splitting the (outside hps) address bus into 2(in / out).
 
+So initially I have settled on using a basic Avalon interface as this is the most straight forward way to implement an I/O path with 1 16-bit adressbus and 2 unidirectional 32-bit data buses.
 
 ![Hps/cpu to fpga pathways through bridges](https://github.com/the-snowwhite/mksoc/blob/iotest/docs/pics/Hps-fpga-bridges.png)
 
-Going straight for an axi Interface would mean redesigning the top hostmot2.vhd
-module splitting the address bus into 2(in / out).
-
-So initially I have settled on using a basic Avalon interface as this is the most straight forward way to implement an I/O path with 1 16-bit adressbus and 2 unidirectional 32-bit data buses.
 
 ![Hostmot2 top instance](https://github.com/the-snowwhite/mksoc/blob/iotest/docs/pics/Hostmot2-vhd_inst.png) 
 (I will have to to try giving this image a re-try as it seems a bit flawed)
@@ -26,3 +26,5 @@ The link between the hm2 avalon interface ip (in qsys), the devicetree (dts-->dt
 On the near future wish list is to implement partial re-configuration partions with the lower level hm2 modules, giving a more modular (hal like) approach to custom configuring.
 
 Is done with a (mostly) solid unchanging interface structure giving "boxes / slots", block elements can be swapped in / out of....(think 4-8 partions at most) 
+
+As an cusiosity I have put a axi3 MM Interface based (8-bit serial)streaming port, including a 11-12-bit memory mapped or so 32 bit(internaly) onchip memory demo ip into the design. This has a separate 3-address control register 1--> start address in ip ram, 2 --> end address, 3 --> start. 
