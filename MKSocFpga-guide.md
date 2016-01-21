@@ -64,4 +64,4 @@ then install:
     sudo ./inst-rbf-dtb.sh /dev/sdx1
     
 and boot .....
-BTW: remember to stop at u-boot on first boot and ad the environment variables, making it (u-boot) load the .rbf file so that the hps-fpga is configured before the kernel starts booting...! (else you will get very odd errors underway)
+BTW: remember to stop at u-boot on first boot and add the environment variables, making it (u-boot) load the .rbf file so that the hps-fpga is configured before the kernel starts booting...! (else you will get very odd errors underway)
