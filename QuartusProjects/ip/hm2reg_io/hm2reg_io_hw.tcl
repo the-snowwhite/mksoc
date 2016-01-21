@@ -73,7 +73,7 @@ set_parameter_property DATA_WIDTH HDL_PARAMETER true
 # 
 # module assignments
 # 
-set_module_assignment embeddedsw.dts.group interface
+set_module_assignment embeddedsw.dts.group hm2-socfpga
 set_module_assignment embeddedsw.dts.name hm2reg-io
 set_module_assignment embeddedsw.dts.params.address_width 14
 set_module_assignment embeddedsw.dts.params.data_width 32

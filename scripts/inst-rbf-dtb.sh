@@ -3,6 +3,7 @@
 projdirname=QuartusProjects
 projects=$(ls ../$projdirname)
 
+set -e  # exit on all errors
 mkdir -p boot_files
 for folder in $projects
 do
