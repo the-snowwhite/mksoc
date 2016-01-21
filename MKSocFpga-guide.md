@@ -1,12 +1,15 @@
+BETA:
 Right now an initial mesa 5i25 test design has been added in the mksoc-iotest branch.
 
+(Note: the mk --> socfpga driver development is under focus now, and last bit missing...)
 
 ----------
-
 
 Requirements:
 
 Quartus prime 15.1.1.  (on Debian.)
+Nano / Atlas Debian Jessie sd card image with 3.10-rt-ltsi kernel.
+(machinekit can be package installed from MK-repo, + rip or cross-compiled )
 
 
 Git clone and checkout branch:
@@ -17,8 +20,6 @@ Git clone and checkout branch:
     cd mkhm2soc
 
     git checkout iotest
-
-    
     
 copy lpm_components.vhd into <reporoot>/hm2/pins/
 ie:
