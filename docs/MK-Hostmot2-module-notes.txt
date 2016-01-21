@@ -1,0 +1,77 @@
+Loading HostMot2
+
+The Machinekit support for the HostMot2 firmware is split into a generic driver called 'hostmot2' and two low-level I/O drivers for the Anything I/O boards. The low-level I/O drivers are 'hm2_7i43' and 'hm2_pci' (for all the PCI- and PC-104/Plus-based Anything I/O boards). The hostmot2 driver must be loaded first, using a HAL command like this:
+
+
+
+loadrt hostmot2
+
+loadrt hm2_pci config="firmware=hm2/5i20/SVST8_4.BIT
+       num_encoders=3 num_pwmgens=3 num_stepgens=1"
+
+[HOSTMOT2]
+DRIVER=hm2_pci
+BOARD=5i20
+CONFIG="firmware=hm2/5i20/SVST8_4.BIT num_encoders=1 num_pwmgens=1 num_stepgens=3"
+
+
+//---------------------------------------------------------------//
+//  # 
+//  # module assignments (from hm2reg_io_hw.tcl)
+//  # 
+//  set_module_assignment embeddedsw.dts.group hm2-socfpga
+//  set_module_assignment embeddedsw.dts.name hm2reg-io
+//  set_module_assignment embeddedsw.dts.params.address_width 14
+//  set_module_assignment embeddedsw.dts.params.data_width 32
+//  set_module_assignment embeddedsw.dts.vendor machkt
+//---------------------------------------------------------------//
+// in device tree (sos_system.dts)
+//
+//  hm2reg_io_0: hm2-socfpga@0x100040000 {
+//      compatible = "machkt,hm2reg-io-1.0";
+//      reg = <0x00000001 0x00040000 0x00010000>;
+//      clocks = <&clk_0>;
+//      address_width = <14>;	/* embeddedsw.dts.params.address_width type NUMBER */
+//      data_width = <32>;	/* embeddedsw.dts.params.data_width type NUMBER */
+//  }; //end hm2-socfpga@0x100040000 (hm2reg_io_0)
+//---------------------------------------------------------------//
+// on commandline:
+//  machinekit@mksoc:~$ ls -R /proc/device-tree | grep hm2-socfpga
+//  hm2-socfpga@0x100040000
+//  /proc/device-tree/sopc@0/bridge@0xc0000000/hm2-socfpga@0x100040000:
+//---------------------------------------------------------------//
+
+
+/*
+ * Macros for device 'hm2reg_io_0', class 'hm2reg_io'
+ * The macros are prefixed with 'HM2REG_IO_0_'.
+ * The prefix is the slave descriptor.
+ */
+#define HM2REG_IO_0_COMPONENT_TYPE hm2reg_io
+#define HM2REG_IO_0_COMPONENT_NAME hm2reg_io_0
+#define HM2REG_IO_0_BASE 0x40000
+#define HM2REG_IO_0_SPAN 65536
+#define HM2REG_IO_0_END 0x4ffff
+
+/*
+ * Macros for device 'demo_axi_memory_0_RAM', class 'demo_axi_memory'
+ * The macros are prefixed with 'DEMO_AXI_MEMORY_0_RAM_'.
+ * The prefix is the slave descriptor.
+ */
+#define DEMO_AXI_MEMORY_0_RAM_COMPONENT_TYPE demo_axi_memory
+#define DEMO_AXI_MEMORY_0_RAM_COMPONENT_NAME demo_axi_memory_0
+#define DEMO_AXI_MEMORY_0_RAM_BASE 0x50000
+#define DEMO_AXI_MEMORY_0_RAM_SPAN 32768
+#define DEMO_AXI_MEMORY_0_RAM_END 0x57fff
+
+
+/*
+ * Macros for device 'demo_axi_memory_0_streaming_csr', class 'demo_axi_memory'
+ * The macros are prefixed with 'DEMO_AXI_MEMORY_0_STREAMING_CSR_'.
+ * The prefix is the slave descriptor.
+ */
+#define DEMO_AXI_MEMORY_0_STREAMING_CSR_COMPONENT_TYPE demo_axi_memory
+#define DEMO_AXI_MEMORY_0_STREAMING_CSR_COMPONENT_NAME demo_axi_memory_0
+#define DEMO_AXI_MEMORY_0_STREAMING_CSR_BASE 0x0
+#define DEMO_AXI_MEMORY_0_STREAMING_CSR_SPAN 8
+#define DEMO_AXI_MEMORY_0_STREAMING_CSR_END 0x7
