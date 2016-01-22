@@ -15,6 +15,7 @@ mkdir -p boot_files
 #        mv boot_files/*.rbf boot_files/$folder.rbf
     
         cp -v ../$projdirname/$folder/soc_system.dtb boot_files/socfpga.dtb 
+        cp -v ../$projdirname/$folder/soc_system.dts boot_files/socfpga.dts 
         cp -v ../$projdirname/$folder/output_files/soc_system.rbf boot_files/socfpga.rbf
 #done
 

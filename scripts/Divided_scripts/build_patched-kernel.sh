@@ -53,11 +53,11 @@ sudo apt -y install sudo bc
 function fetch_kernel {
     if [ -d ${KERNEL_DIR} ]; then
         echo the kernel target directory $KERNEL_DIR already exists.
-#        echo cleaning repo
-#        cd $KERNEL_DIR 
-#        git clean -d -f -x
+        echo cleaning repo
+        cd $KERNEL_DIR 
+        git clean -d -f -x
     else
-        cd $WORK_DIR
+        cd $KERNEL_DIR 
         wget $KERNEL_FILE_URL
         wget $PATCH_URL
 #        mkdir -p $KERNEL_DIR
@@ -104,9 +104,15 @@ if [ ! -z "$WORK_DIR" ]; then
         echo installing dependencies
         install_dep
         echo downloading kernel
+
         fetch_kernel
     else 
         echo onboard kernel found
+        cd $WORK_DIR
+        echo cleaning 
+        rm -Rf $KERNEL_DIR 
+        tar xf $KERNEL_FILE
+ #       git clean -d -f -x
     fi
     echo "Applying patch"
     patch_kernel
