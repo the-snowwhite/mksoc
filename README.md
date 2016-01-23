@@ -10,9 +10,11 @@ Scripts:
     
 [Generate sd card image](./scripts/Divided_scripts_and-notes/readme.md)
 
-[Install Quartus generated files to sd card](./Notes/install_Makefile-generated-files-to-sdcard.txt)
+~~[Install Quartus generated files to sd card](./Notes/install_Makefile-generated-files-to-sdcard.txt)~~
+
+[Install Quartus generated files to sd card](./scripts/inst-rbf-dtb.sh)
 
 ~~[Install and Compile Machinekit](./scripts/mksoc-jessie-mk_rip_build-instal-v2.sh)~~
 
-Just install the Machine postix Jessie packages, (minus the kernel), and you are good to go...
+Just install the Machinekit postix Jessie armhf packages, (minus the kernel), and you are good to go...(once the mk_socfpga uio driver is finished and merged)
   
