@@ -23,7 +23,7 @@ CC="${CC_DIR}/bin/arm-linux-gnueabihf-"
 
 #UBOOT_VERSION=''
 #UBOOT_VERSION='v2015.10'
-UBOOT_VERSION='v2016.01-rc2'
+UBOOT_VERSION='v2016.01'
 CHKOUT_OPTIONS=''
 #CHKOUT_OPTIONS='-b tmp'
 
@@ -66,7 +66,7 @@ fi
 function fetch_uboot {
 # Fetch uboot
 
-if [ ! -f ${UBOOT_DIR} ]; then
+if [ ! -d ${UBOOT_DIR} ]; then
     echo "cloning u-boot"
     git clone git://git.denx.de/u-boot.git uboot
 fi

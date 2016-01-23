@@ -1,0 +1,15 @@
+ 
+That list is the pre-conditions for having usleep defined. It's basically a C-like expression involving #define variables which has to be true before including the header file.
+
+The header file itself will only define usleep inside what is usually a massive nest of #ifdef statements and the developers have taken the time to tell you what you need to do so that you don't have to spend hours trying to figure it out yourself :-)
+
+Assuming you're using a glibc 2.12 or better, it means you either have to:
+
+declare _BSD_SOURCE; or
+declare a complicated combination of three other things, which I won't bother to decode.
+Probably the easiest fix is to simply compile with gc -D _BSD_SOURCE or put:
+
+#define _BSD_SOURCE
+in the code before you include the header file that gives you usleep.
+
+You'll probably want to define these before any includes in case there are dependencies between 

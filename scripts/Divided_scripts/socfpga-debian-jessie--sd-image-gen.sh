@@ -18,6 +18,8 @@ WORK_DIR=$1
 ROOTFS_DIR=${CURRENT_DIR}/rootfs
 distro=jessie
 
+CHROOT_DIR=$HOME/stretch
+
 #-------------------------------------------
 # u-boot, toolchain, imagegen vars
 #-------------------------------------------
@@ -30,13 +32,16 @@ CC_FILE="${CC_DIR}.tar.bz2"
 CC="${CC_DIR}/bin/arm-linux-gnueabihf-"
 
 #UBOOT_VERSION=''
-UBOOT_VERSION='v2015.10'
+UBOOT_VERSION='v2016.01'
 UBOOT_SPLFILE=${CURRENT_DIR}/uboot/u-boot-with-spl-dtb.sfp
 
 IMG_FILE=${CURRENT_DIR}/mksoc_sdcard.img
 DRIVE=/dev/loop0
 
-KERNEL_DIR=${CURRENT_DIR}/arm-linux-gnueabifh-kernel
+KERNEL_FOLDER_NAME="linux-4.1.15"
+KERNEL_DIR=${CHROOT_DIR}/$KERNEL_FOLDER_NAME
+
+#KERNEL_DIR=${CURRENT_DIR}/arm-linux-gnueabifh-kernel/linux
 
 NCORES=`nproc`
 
@@ -53,11 +58,15 @@ ROOTFS_FILE=$ROOTFS_NAME'.tar.xz'
 #-----------------------------------------------------------------------------------
 
 function build_uboot {
-$SCRIPT_ROOT_DIR/build_uboot.sh $CURRENT_DIR
+$SCRIPT_ROOT_DIR/build_uboot.sh $CRRENT_DIR ##//  $CHROOT_DIR
 }
 
 function build_kernel {
 $SCRIPT_ROOT_DIR/build_kernel.sh $CURRENT_DIR
+}
+
+function build_patched_kernel {
+$SCRIPT_ROOT_DIR/build_patched-kernel.sh $CHROOT_DIR
 }
 
 function build_rcn_kernel {
@@ -164,13 +173,13 @@ sudo mkdir -p $BOOT_MNT
 sudo mount -o uid=1000,gid=1000 ${DRIVE}p1 $BOOT_MNT
 
 echo "copying boot sector files"
-sudo cp $KERNEL_DIR/linux/arch/arm/boot/zImage $BOOT_MNT
-sudo cp $KERNEL_DIR/linux/arch/arm/boot/dts/socfpga_cyclone5.dts $BOOT_MNT/socfpga.dts
+sudo cp $KERNEL_DIR/arch/arm/boot/zImage $BOOT_MNT
+#sudo cp $KERNEL_DIR/arch/arm/boot/dts/socfpga_cyclone5.dts $BOOT_MNT/socfpga.dts
 #sudo cp $KERNEL_DIR/linux/arch/arm/boot/dts/socfpga_cyclone5_de0_sockit.dts $BOOT_MNT/socfpga.dts
-sudo cp $KERNEL_DIR/linux/arch/arm/boot/dts/socfpga_cyclone5.dtb $BOOT_MNT/socfpga.dtb
+#sudo cp $KERNEL_DIR/arch/arm/boot/dts/socfpga_cyclone5.dtb $BOOT_MNT/socfpga.dtb
 sudo umount $BOOT_MNT
 
-echo "# --------- installing rootfs partition files (chroot, kernel modules) ---------"
+echo "# --------- installing rootfs partition files (chroot, kernel modules) ---------"linux-4.1.15
 sudo mkdir -p $ROOTFS_MNT
 sudo mount ${DRIVE}p2 $ROOTFS_MNT
 
@@ -179,7 +188,7 @@ cd $ROOTFS_DIR
 sudo tar cf - . | (sudo tar xvf - -C $ROOTFS_MNT)
 
 # kernel modules -------#
-cd $KERNEL_DIR/linux
+cd $KERNEL_DIR
 export PATH=$CC_DIR/bin/:$PATH
 #export CROSS_COMPILE=$CC
 sudo make ARCH=arm INSTALL_MOD_PATH=$ROOTFS_MNT modules_install
@@ -203,18 +212,22 @@ echo "#-------------------------------------------------------------------------
 echo "#-----------+++     Full Image building process start       +++-------------------- "
 echo "#---------------------------------------------------------------------------------- "
 
-build_uboot
-build_kernel
+
+if [ ! -z "$WORK_DIR" ]; then
+
+#build_uboot
+#build_kernel
+#build_patched_kernel
 
 ##build_rcn_kernel
 
 ##build_chroot_into_image
-build_chroot_into_folder
+#build_chroot_into_folder
 
 ##fetch_rcn_rootfs
 
-gen_initial_sh
-run_initial_sh
+#gen_initial_sh
+#run_initial_sh
 
 
 create_image
@@ -224,5 +237,11 @@ install_uboot
 echo "#---------------------------------------------------------------------------------- "
 echo "#-------             Image building process complete                       -------- "
 echo "#---------------------------------------------------------------------------------- "
+else
+    echo "#---------------------------------------------------------------------------------- "
+    echo "#-------------     Unsuccessfull script not run      ------------------------------ "
+    echo "#-------------  workdir parameter missing      ------------------------------------ "
+    echo "#---------------------------------------------------------------------------------- "
+fi
 
 
