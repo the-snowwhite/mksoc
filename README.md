@@ -12,5 +12,7 @@ Scripts:
 
 [Install Quartus generated files to sd card](./Notes/install_Makefile-generated-files-to-sdcard.txt)
 
-[Install and Compile Machinekit](./scripts/mksoc-jessie-mk_rip_build-instal-v2.sh)
+~~[Install and Compile Machinekit](./scripts/mksoc-jessie-mk_rip_build-instal-v2.sh)~~
+
+Just install the Machine postix Jessie packages, (minus the kernel), adn you are good to go...
   
