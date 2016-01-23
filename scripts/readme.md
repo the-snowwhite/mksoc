@@ -45,4 +45,4 @@ on NaNo / Atlas board
 
 ~~[Latest version](https://github.com/the-snowwhite/mksoc/blob/master/scripts/generic-jessie-mk_rip_fresh-build-instal-beta.sh)~~
 
-tested and works in x84_64 chroot
+tested to be able to work in x84_64 cross chroot, but needs some more work...
