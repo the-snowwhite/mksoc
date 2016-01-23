@@ -8,7 +8,7 @@ Quartus makefile in mksoc/QuartusProjects/DE0_NANO_SOC_GHRD working
     
 Scripts:    
     
-[Generate sd card image](./scripts/Divided_scripts_and-notes/readme.md)
+[Generate sd card image](./scripts/Divided_scripts/readme.md)
 
 ~~[Install Quartus generated files to sd card](./Notes/install_Makefile-generated-files-to-sdcard.txt)~~
 
