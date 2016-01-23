@@ -25,7 +25,8 @@ It describes which functions/modules (pwm, steppers etc) are available, how many
 The hostmot2 core also contains a pin multiplexer that enables total rewiring of the I/O pins from hal.
 
 It took me 3 days (and nights) to port the mesa source code into the working mksoc template (once I saw how to do it)
-it took me a weeks time more to detect the problems I was having with the system freezing every tim i tried to read the memory location was due to overlooking reenabling autoload of the .rbf fpga config file in the newer u-boot 2016.x based sd-image I had developed meanwhile.....
+it took me a weeks time more to detect the problems I was having with the system freezing every time i tried to read the memory location was due to overlooking/forgetting to reenable the autoload of the .rbf fpga config file at boot.
+Due to using the newer u-boot 2016.x based sd-image I had developed meanwhile.....
 
 -----
 
