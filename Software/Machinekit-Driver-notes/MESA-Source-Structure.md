@@ -36,10 +36,10 @@ sysfs  --> a gateway to accessing all physical memory locations.(not safe and no
 
 uio generic_irq.c kernel driver --> can provide a memory port to only the devices memory. (cannot pass ( provide any info about the device).
 
-creating a custom version of uio_generic_irq.c (very easy to implement, can provide info via the device tree dtb file from boot time, info not limited to only uio driver use.)
+creating a custom version of uio_generic_irq.c (very easy to implement, can provide info via the device tree dtb file from boot time. 
+This device-tree info is also not limited to only uio driver use.)
 
 So this seemed like a good place to implement first base. So far so good.
-
 
 ----
 End of part 1.
