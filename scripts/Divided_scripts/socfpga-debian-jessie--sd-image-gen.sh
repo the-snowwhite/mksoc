@@ -215,19 +215,19 @@ echo "#-------------------------------------------------------------------------
 
 if [ ! -z "$WORK_DIR" ]; then
 
-#build_uboot
-#build_kernel
+build_uboot
+build_kernel
 #build_patched_kernel
 
 ##build_rcn_kernel
 
 ##build_chroot_into_image
-#build_chroot_into_folder
+build_chroot_into_folder
 
 ##fetch_rcn_rootfs
 
-#gen_initial_sh
-#run_initial_sh
+gen_initial_sh
+run_initial_sh
 
 
 create_image
