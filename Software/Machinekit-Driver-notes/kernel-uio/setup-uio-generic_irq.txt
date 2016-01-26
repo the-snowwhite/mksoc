@@ -1,0 +1,27 @@
+from:http://blog.idv-tech.com/wp-content/uploads/2014/09/drivers-session3-uio-4public.pdf 
+User Space Driver Flow
+1.
+ The kernel space UIO device driver(s) must be loaded before the
+user space driver is started (if using modules)
+.config (line 1816)(kernel 4.15)
+CONFIG_UIO=y
+CONFIG_UIO_PDRV_GENIRQ=m
+
+2.
+ The user space application is started and the UIO device file is
+opened (/dev/uioX where X is 0, 1, 2...)
+– From user space, the UIO device is a device node in the file system just like
+any other device
+3.
+ The device memory address information is found from the relevant
+sysfs directory, only the size is needed
+4.
+ The device memory is mapped into the process address space by
+calling the mmap() function of the UIO driver
+5.
+ The application accesses the device hardware to control the device
+6.
+ The device memory is unmapped by calling munmap()
+7.
+ The UIO device file is closed
+
