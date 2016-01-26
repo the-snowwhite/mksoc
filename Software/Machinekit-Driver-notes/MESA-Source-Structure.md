@@ -25,7 +25,8 @@ It describes which functions/modules (pwm, steppers etc) are available, how many
 The hostmot2 core also contains a pin multiplexer that enables total rewiring of the I/O pins from hal.
 
 It took me 3 days (and nights) to port the mesa source code into the working mksoc template (once I saw how to do it)
-it took me a weeks time more to detect the problems I was having with the system freezing every tim i tried to read the memory location was due to overlooking reenabling autoload of the .rbf fpga config file in the newer u-boot 2016.x based sd-image I had developed meanwhile.....
+it took me a weeks time more to detect the problems I was having with the system freezing every time i tried to read the memory location was due to overlooking/forgetting to reenable the autoload of the .rbf fpga config file at boot.
+Due to using the newer u-boot 2016.x based sd-image I had developed meanwhile.....
 
 -----
 
@@ -35,10 +36,10 @@ sysfs  --> a gateway to accessing all physical memory locations.(not safe and no
 
 uio generic_irq.c kernel driver --> can provide a memory port to only the devices memory. (cannot pass ( provide any info about the device).
 
-creating a custom version of uio_generic_irq.c (very easy to implement, can provide info via the device tree dtb file from boot time, info not limited to only uio driver use.)
+creating a custom version of uio_generic_irq.c (very easy to implement, can provide info via the device tree dtb file from boot time. 
+This device-tree info is also not limited to only uio driver use.)
 
 So this seemed like a good place to implement first base. So far so good.
-
 
 ----
 End of part 1.
