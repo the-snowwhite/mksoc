@@ -41,7 +41,7 @@ use IEEE.std_logic_UNSIGNED.ALL;
 --           notice, this list of conditions and the following disclaimer.
 -- 
 --         * Redistributions in binary form must reproduce the above
---           copyright notice, this list of conditiBoardNameMESAons and the following
+--           copyright notice, this list of conditions and the following
 --           disclaimer in the documentation and/or other materials
 --           provided with the distribution.
 -- 
@@ -92,7 +92,6 @@ entity HostMot2 is
 		IDROMType: integer := 3;		
 	   SepClocks: boolean := true;
 		OneWS: boolean := true;
---		UseIRQLogic: boolean := true;
 		UseIRQLogic: boolean := false;
 		PWMRefWidth  : integer := 13;
 		UseWatchDog: boolean := true;
