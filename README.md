@@ -1,6 +1,11 @@
 # mksoc
 Repository for Cyclone V Soc Machinekit port
 
+! for current quick setup testing goto:
+mksocfpga repo instead-->
+https://github.com/the-snowwhite/mksocfpga
+
+
 Quartus makefile in mksoc/QuartusProjects/DE0_NANO_SOC_GHRD working
 
     cd QuartusProjects/DE0_NANO_SOC_GHRD
