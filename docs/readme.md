@@ -16,7 +16,7 @@ I would be an idea to build this hm2 top controller module into the qsys design 
 (having all this as 1 single separate basic design partition).
 
 The link between the hm2 avalon interface ip (in qsys), the devicetree (dts-->dtb) entry, and link to getting memory mapped access in (linux) software is sketched out here:
-[Machinekit driver sketch](https://github.com/the-snowwhite/machinekit/blob/iotest/src/hal/drivers/mesa-hostmot2/drv/hm2_cvsoc.c#L23) 
+[Machinekit driver sketch](https://github.com/the-snowwhite/machinekit/blob/mksocfpga/src/hal/drivers/mesa-hostmot2/hm2_soc.c#L23) 
 
 [Avalon Interface IP config file](https://github.com/the-snowwhite/mksoc/blob/iotest/QuartusProjects/ip/hm2reg_io/hm2reg_io_hw.tcl#L76)
 
