@@ -4,25 +4,19 @@ It has an avalon sysfs interface, that hopefully shortly will be replaced with a
 
 REquirements:
 
-Quartus prime 15.1.1.  (on Debian.)
+From Altera --> Download --> (update version)
+
+Quartus prime 15.1.2  (on Debian.)
+
+Soc Eds
+
+Git clone:
 
 
-Git clone and checkout branch:
-
-
-    git clone https://github.com/the-snowwhite/mksoc.git mkhm2soc
+    git clone https://github.com/the-snowwhite/mksocfpga.git mkhm2soc
 
     cd mkhm2soc
 
-    git checkout iotest
-
-    
-    
-~~copy lpm_components.vhd into <reporoot>/hm2/pins/
-ie:
-
-    cp ~/altera/15.1/quartus/libraries/vhdl/lpm/lpm_pack.vhd ~/Development/the-snowwhite-git/mkhm2soc/hm2/pins/~~
-    
 
 Open Quartus shell in new konsole and run make all in project folder:
 
@@ -32,12 +26,12 @@ Open Quartus shell in new konsole and run make all in project folder:
     ------------------------------------------------
     Altera Embedded Command Shell
 
-    Version 15.1 [Build 185]
+    Version 15.1 [Build 193]
     ------------------------------------------------
     mib@debian9-ws:~$ cd /home/mib/Development/the-snowwhite-git/mkhm2soc/QuartusProjects/DE0_NANO_SOC_GHRD
-    mib@debian9-ws:~/Development/the-snowwhite-git/mkhm2soc/QuartusProjects/DE0_NANO_SOC_GHRD$ make all
+    mib@debian9-ws:~/Development/the-snowwhite-git/mkhm2soc/QuartusProjects/DE0_NANO_SOC_GHRD$ make dts dtb sof
     
-Build time around 10 or so .... ends with:
+Build time around 10 min or so .... ends with:
 
     Info: Quartus Prime Convert_programming_file was successful. 0 errors, 0 warnings
     Info: Peak virtual memory: 398 megabytes
@@ -48,19 +42,8 @@ Build time around 10 or so .... ends with:
 
 Output is collected in this archive.
 
-To install on sd boot folder Move to script folder:
+To install into sd boot folder:
 
-    cd ../../scripts
+look at this script:
 
-Insert your Mksoc os sd card and dry run script: 
-
-    ./make-sdboot.sh
-
-Look for the dev name of your sd-card (!! double check !!)
-
-then install:
-
-    sudo ./make-sdboot.sh /dev/sdf1
-    
-and boot .....
-
+https://github.com/the-snowwhite/soc-image-buildscripts/blob/master/inst-rbf-dtb.sh
