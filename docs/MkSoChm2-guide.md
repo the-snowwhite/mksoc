@@ -1,8 +1,8 @@
-Right now an initial mesa 5i25 test design has been added in the mksoc-iotest branch.
+Right now the quartus design projectfiles behind the initial mesa 5i25 test design in the first socfpga machinekit sd-images is residing in the mksocpga repo.
 
 It has an avalon --> uio driver interface, ~~that hopefully shortly will be replaced with an axi interfacce.~~
 
-REquirements:
+Requirements to re-build the required quartus binaries:
 
 From Altera --> Download --> (update version)
 
