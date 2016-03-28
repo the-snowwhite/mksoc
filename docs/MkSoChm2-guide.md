@@ -1,6 +1,6 @@
 Right now an initial mesa 5i25 test design has been added in the mksoc-iotest branch.
 
-It has an avalon sysfs interface, that hopefully shortly will be replaced with an axi interfacce.
+It has an avalon --> uio driver interface, ~~that hopefully shortly will be replaced with an axi interfacce.~~
 
 REquirements:
 
