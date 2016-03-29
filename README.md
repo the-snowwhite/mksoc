@@ -1,7 +1,11 @@
 # mksoc
 Repository for Soc Machinekit ports
 
-(Right now this repo only server as an container for future development and initial historic purposes)
+(Right now this repo only serves as an container for future development and initial historic purposes)
+
+[current development is here:](https://github.com/the-snowwhite/mksocfpga)  
+
+---
 
 The mksoc name contains the broad inclusive scope of running machinekit on any soc based platform,
 
